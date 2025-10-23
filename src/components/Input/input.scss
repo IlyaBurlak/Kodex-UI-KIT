@@ -1,22 +1,38 @@
 @use '../../styles/variables' as *;
 
 .ui-input {
-  font-family: $font-family;
-  padding: $space-md $space-lg;
-  border-radius: 0.375rem; // 6px
-  border: 1px solid rgba(0,0,0,0.12);
-  outline: none;
-  transition: box-shadow 0.12s ease, transform 0.08s ease;
   background: white;
+  border: 1px solid rgb(0 0 0 / 12%);
+  border-radius: 0.375rem;
+  font-family: $font-family;
+  outline: none;
+  padding: $space-md $space-lg;
+  transition:
+    box-shadow 0.12s ease,
+    transform 0.08s ease;
 }
 
 .ui-input:focus {
-  box-shadow: 0 0 0 0.25rem rgba(0,103,255,0.06);
   border-color: $color-primary;
+  box-shadow: 0 0 0 0.25rem rgb(0 103 255 / 6%);
 }
 
-.ui-input--small { padding: $space-xs $space-sm; font-size: 0.875rem; }
-.ui-input--medium { padding: $space-md $space-lg; font-size: 1rem; }
-.ui-input--large { padding: 0.75rem 1rem; font-size: 1.125rem; }
+.ui-input--small {
+  font-size: 0.875rem;
+  padding: $space-xs $space-sm;
+}
 
-.ui-input--disabled { opacity: 0.6; cursor: not-allowed; }
+.ui-input--medium {
+  font-size: 1rem;
+  padding: $space-md $space-lg;
+}
+
+.ui-input--large {
+  font-size: 1.125rem;
+  padding: 0.75rem 1rem;
+}
+
+.ui-input--disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}

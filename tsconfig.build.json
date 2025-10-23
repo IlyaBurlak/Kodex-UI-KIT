@@ -8,14 +8,6 @@
     "rootDir": "src",
     "stripInternal": false
   },
-  "include": [
-    "src/index.ts",
-    "src/components/**/*"
-  ],
-  "exclude": [
-    "**/*.stories.*",
-    "**/__tests__/**",
-    ".storybook",
-    "src/**/*.story.*"
-  ]
+  "include": ["src/index.ts", "src/components/**/*"],
+  "exclude": ["**/*.stories.*", "**/__tests__/**", ".storybook", "src/**/*.story.*"]
 }

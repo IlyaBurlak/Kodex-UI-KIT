@@ -1,6 +1,8 @@
+import tsPlugin from '@typescript-eslint/eslint-plugin';
+import tsParser from '@typescript-eslint/parser';
+import prettierPlugin from 'eslint-plugin-prettier';
 import reactPlugin from 'eslint-plugin-react';
 import reactHooks from 'eslint-plugin-react-hooks';
-import prettierPlugin from 'eslint-plugin-prettier';
 
 export default [
   {
@@ -10,8 +12,10 @@ export default [
       react: reactPlugin,
       'react-hooks': reactHooks,
       prettier: prettierPlugin,
+      '@typescript-eslint': tsPlugin,
     },
     languageOptions: {
+      parser: tsParser,
       parserOptions: {
         ecmaVersion: 'latest',
         sourceType: 'module',
@@ -19,6 +23,13 @@ export default [
       },
     },
     rules: {
+      '@typescript-eslint/no-unused-vars': [
+        'warn',
+        { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
+      ],
+      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/explicit-module-boundary-types': 'off',
+      '@typescript-eslint/no-unsafe-declaration-merging': 'off',
       'no-console': ['error', { allow: ['error', 'info', 'warn'] }],
       'react/prop-types': 'off',
       'react/react-in-jsx-scope': 'off',
