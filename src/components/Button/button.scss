@@ -1,0 +1,38 @@
+@use '../../styles/variables' as *;
+
+.ui-button {
+  font-family: $font-family;
+  border: none;
+  padding: $space-md $space-lg;
+  border-radius: 0.5rem; // 8px
+  cursor: pointer;
+  display: inline-block;
+  color: white;
+  background-color: $color-primary;
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
+}
+
+.ui-button--primary {
+  background-color: $color-primary;
+}
+
+.ui-button--secondary {
+  background-color: $color-gray;
+}
+
+.ui-button--small {
+  padding: $space-xs $space-sm;
+  font-size: 0.875rem; // 14px
+}
+.ui-button--medium {
+  padding: $space-md $space-lg;
+  font-size: 1rem; // 16px
+}
+.ui-button--large {
+  padding: 0.875rem 1.25rem; // 14px 20px
+  font-size: 1.125rem; // 18px
+}
+
+.ui-button:active {
+  transform: translateY(0.0625rem); // 1px
+}
