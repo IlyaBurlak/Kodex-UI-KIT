@@ -15,8 +15,6 @@ module.exports = {
     ],
     'order/properties-alphabetical-order': true,
     'declaration-block-single-line-max-declarations': 5,
-    // report unused private members (functions, mixins, variables, placeholders)
-    // stylelint-scss rule name:
     'scss/no-unused-private-members': true,
   },
 };
