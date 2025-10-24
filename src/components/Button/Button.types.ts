@@ -1,10 +1,8 @@
-import type { Size } from '../shared/types';
+import type { BaseProps } from '../shared/types';
 
-export interface ButtonProps {
+export interface ButtonProps extends BaseProps {
   primary?: boolean;
   backgroundColor?: string;
-  size?: Size;
   label: string;
-  className?: string;
   onClick?: () => void;
 }

@@ -1,6 +1,3 @@
-import type { Size } from '../shared/types';
+import type { BaseProps } from '../shared/types';
 
-export interface LoaderProps {
-  size?: Size;
-  className?: string;
-}
+export interface LoaderProps extends BaseProps {}
