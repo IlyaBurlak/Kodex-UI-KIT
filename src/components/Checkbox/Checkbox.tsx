@@ -26,15 +26,15 @@ export const Checkbox: FC<CheckboxProps> = ({
     <label className={[...classList, className].filter(Boolean).join(' ')}>
       <input
         checked={checked}
-        className="ui-checkbox__input"
+        className='ui-checkbox__input'
         defaultChecked={defaultChecked}
         disabled={disabled}
-        type="checkbox"
+        type='checkbox'
         onChange={(e) => onChange && onChange(e.target.checked)}
         {...props}
       />
-      <span aria-hidden="true" className="ui-checkbox__box" />
-      {label ? <span className="ui-checkbox__label">{label}</span> : null}
+      <span aria-hidden='true' className='ui-checkbox__box' />
+      {label ? <span className='ui-checkbox__label'>{label}</span> : null}
     </label>
   );
 };

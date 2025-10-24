@@ -1,5 +1,6 @@
-import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
+
+import type { Meta, StoryObj } from '@storybook/react';
 import { Radio } from './Radio';
 
 const meta: Meta<typeof Radio> = {
@@ -46,20 +47,20 @@ export const Group: Story = {
       return (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
           <Radio
-            name="group-1"
-            label="Option A"
+            name='group-1'
+            label='Option A'
             checked={value === 'a'}
             onChange={(c) => c && setValue('a')}
           />
           <Radio
-            name="group-1"
-            label="Option B"
+            name='group-1'
+            label='Option B'
             checked={value === 'b'}
             onChange={(c) => c && setValue('b')}
           />
           <Radio
-            name="group-1"
-            label="Option C"
+            name='group-1'
+            label='Option C'
             checked={value === 'c'}
             onChange={(c) => c && setValue('c')}
           />

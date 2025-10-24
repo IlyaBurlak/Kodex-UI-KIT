@@ -1,5 +1,7 @@
 import { FC, useState } from 'react';
+
 import type { RadioProps } from './Radio.types';
+
 import './radio.scss';
 
 export const Radio: FC<RadioProps> = ({
@@ -38,19 +40,19 @@ export const Radio: FC<RadioProps> = ({
     <label className={classList}>
       <input
         checked={currentChecked}
-        className="ui-radio__native"
+        className='ui-radio__native'
         defaultChecked={defaultChecked}
         disabled={disabled}
         name={name}
-        type="radio"
+        type='radio'
         onChange={handleChange}
       />
 
-      <span aria-hidden="true" className="ui-radio__box">
-        <span className="ui-radio__dot" />
+      <span aria-hidden='true' className='ui-radio__box'>
+        <span className='ui-radio__dot' />
       </span>
 
-      {label && <span className="ui-radio__label">{label}</span>}
+      {label && <span className='ui-radio__label'>{label}</span>}
     </label>
   );
 };

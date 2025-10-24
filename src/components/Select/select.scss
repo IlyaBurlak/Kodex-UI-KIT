@@ -7,7 +7,9 @@
   font-family: $font-family;
   outline: none;
   padding: $space-md 2.25rem $space-md $space-lg;
-  transition: box-shadow 0.12s ease, transform 0.08s ease;
+  transition:
+    box-shadow 0.12s ease,
+    transform 0.08s ease;
 }
 
 .ui-select:focus {

@@ -18,3 +18,9 @@ export type { LoaderProps } from './Loader/Loader.types';
 
 export { Radio } from './Radio/Radio';
 export type { RadioProps } from './Radio/Radio.types';
+
+export { Tabs } from './Tabs/Tabs';
+export type { TabsProps } from './Tabs/Tabs.types';
+
+export { Modal } from './Modal/Modal';
+export type { ModalProps } from './Modal/Modal.types';

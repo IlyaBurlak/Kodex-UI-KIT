@@ -26,18 +26,18 @@ export const Switch: FC<SwitchProps> = ({
     <label className={[...classList, className].filter(Boolean).join(' ')}>
       <input
         checked={checked}
-        className="ui-switch__input"
+        className='ui-switch__input'
         defaultChecked={defaultChecked}
         disabled={disabled}
-        role="switch"
-        type="checkbox"
+        role='switch'
+        type='checkbox'
         onChange={(e) => onChange && onChange(e.target.checked)}
         {...props}
       />
-      <span aria-hidden="true" className="ui-switch__track">
-        <span className="ui-switch__thumb" />
+      <span aria-hidden='true' className='ui-switch__track'>
+        <span className='ui-switch__thumb' />
       </span>
-      {label ? <span className="ui-switch__label">{label}</span> : null}
+      {label ? <span className='ui-switch__label'>{label}</span> : null}
     </label>
   );
 };

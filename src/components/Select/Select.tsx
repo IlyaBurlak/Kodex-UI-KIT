@@ -33,7 +33,7 @@ export const Select: FC<SelectProps> = ({
       {...props}
     >
       {placeholder ? (
-        <option disabled value="">
+        <option disabled value=''>
           {placeholder}
         </option>
       ) : null}
