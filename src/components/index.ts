@@ -24,3 +24,6 @@ export type { TabsProps } from './Tabs/Tabs.types';
 
 export { Modal } from './Modal/Modal';
 export type { ModalProps } from './Modal/Modal.types';
+
+export { Table } from './Table/Table';
+export type { TableProps } from './Table/Table.types';

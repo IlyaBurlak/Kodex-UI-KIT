@@ -1,0 +1,58 @@
+@use '../../styles/variables' as *;
+
+.ui-table {
+  background: white;
+  border-collapse: collapse;
+  font-family: $font-family;
+  width: 100%;
+}
+
+.ui-table th,
+.ui-table td {
+  border-bottom: 1px solid rgb(0 0 0 / 8%);
+  padding: $space-sm $space-md;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.ui-table thead th {
+  background: $color-off-white;
+  color: $color-gray-dark;
+  font-weight: 600;
+}
+
+.ui-table--small th,
+.ui-table--small td {
+  font-size: 0.875rem;
+  padding: $space-xs $space-sm;
+}
+
+.ui-table--medium th,
+.ui-table--medium td {
+  font-size: 1rem;
+}
+
+.ui-table--large th,
+.ui-table--large td {
+  font-size: 1.125rem;
+  padding: 0.75rem 1rem;
+}
+
+.ui-table--striped tbody tr:nth-child(odd) td {
+  background: rgb(0 0 0 / 3%);
+}
+
+.ui-table--bordered th,
+.ui-table--bordered td {
+  border: 1px solid rgb(0 0 0 / 8%);
+}
+
+.ui-table--hover tbody tr:hover td {
+  background: rgb(0 0 0 / 6%);
+}
+
+.ui-table__empty {
+  color: $color-gray;
+  padding: $space-md;
+  text-align: center;
+}

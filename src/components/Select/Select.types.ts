@@ -1,4 +1,5 @@
 import type { BaseProps } from '../shared/types';
+
 export interface SelectOption {
   label: string;
   value: string;

@@ -22,47 +22,46 @@ export const Tabs: FC<TabsProps> = ({
   });
 
   useEffect(() => {
-    if (isControlled) setInternalActive(activeKey);
-  }, [activeKey, isControlled]);
+    if (activeKey !== undefined) setInternalActive(activeKey);
+  }, [activeKey]);
 
-  const handleSelect = (key: string, disabled?: boolean) => {
-    if (disabled) return;
-    if (!isControlled) setInternalActive(key);
-    onChange?.(key);
-  };
+  const active = activeKey ?? internalActive;
 
-  const active = internalActive;
-
-  const baseClass = ['ui-tabs', `ui-tabs--${size}`].join(' ');
-  const className = [baseClass, userClassName].filter(Boolean).join(' ');
+  const className = ['ui-tabs', `ui-tabs--${size}`, userClassName].filter(Boolean).join(' ');
 
   const activeTab = tabs.find((t) => t.key === active);
 
+  const handleSelect = (key: string, disabled?: boolean) => {
+    if (disabled) return;
+    if (activeKey === undefined) setInternalActive(key);
+    onChange?.(key);
+  };
+
   return (
     <div className={className} {...props}>
-      <div className='ui-tabs__nav' role='tablist'>
-        {tabs.map((t) => (
-          <button
-            key={t.key}
-            aria-controls={`panel-${t.key}`}
-            aria-selected={t.key === active}
-            className={[
-              'ui-tabs__tab',
-              t.key === active ? 'ui-tabs__tab--active' : '',
-              t.disabled ? 'ui-tabs__tab--disabled' : '',
-            ]
-              .filter(Boolean)
-              .join(' ')}
-            disabled={t.disabled}
-            role='tab'
-            type='button'
-            onClick={() => handleSelect(t.key, t.disabled)}
-          >
-            {t.label}
-          </button>
-        ))}
+      <div className="ui-tabs__nav" role="tablist">
+        {tabs.map((t) => {
+          const tabClass = ['ui-tabs__tab', t.key === active && 'ui-tabs__tab--active', t.disabled && 'ui-tabs__tab--disabled']
+            .filter(Boolean)
+            .join(' ');
+
+          return (
+            <button
+              key={t.key}
+              aria-controls={`panel-${t.key}`}
+              aria-selected={t.key === active}
+              className={tabClass}
+              disabled={t.disabled}
+              role="tab"
+              type="button"
+              onClick={() => handleSelect(t.key, t.disabled)}
+            >
+              {t.label}
+            </button>
+          );
+        })}
       </div>
-      <div className='ui-tabs__panel' id={`panel-${activeTab?.key}`}>
+      <div className="ui-tabs__panel" id={`panel-${activeTab?.key}`}>
         {activeTab?.content ?? null}
       </div>
     </div>
