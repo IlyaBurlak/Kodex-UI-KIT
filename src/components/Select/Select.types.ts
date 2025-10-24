@@ -13,6 +13,7 @@ export interface SelectProps {
   onChange?: (value: string) => void;
   disabled?: boolean;
   size?: Size;
+  primary?: boolean;
   className?: string;
   placeholder?: string;
 }

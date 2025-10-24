@@ -12,16 +12,20 @@ export const Input: FC<InputProps> = ({
   onBlur,
   disabled = false,
   size = 'medium',
+  primary = false,
   className,
   ...props
 }) => {
-  const classNames = ['ui-input', `ui-input--${size}`, disabled ? 'ui-input--disabled' : '']
-    .join(' ')
-    .trim();
+  const classList = [
+    'ui-input',
+    `ui-input--${size}`,
+    primary ? 'ui-input--primary' : 'ui-input--secondary',
+    disabled ? 'ui-input--disabled' : '',
+  ].filter(Boolean);
 
   return (
     <input
-      className={[classNames, className].filter(Boolean).join(' ')}
+      className={[...classList, className].filter(Boolean).join(' ')}
       defaultValue={defaultValue}
       disabled={disabled}
       placeholder={placeholder}

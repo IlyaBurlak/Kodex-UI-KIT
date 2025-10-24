@@ -8,5 +8,6 @@ export interface InputProps {
   onBlur?: () => void;
   disabled?: boolean;
   size?: Size;
+  primary?: boolean;
   className?: string;
 }

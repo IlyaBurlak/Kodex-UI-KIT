@@ -11,17 +11,21 @@ export const Select: FC<SelectProps> = ({
   onChange,
   disabled = false,
   size = 'medium',
+  primary = false,
   className,
   placeholder,
   ...props
 }) => {
-  const classNames = ['ui-select', `ui-select--${size}`, disabled ? 'ui-select--disabled' : '']
-    .join(' ')
-    .trim();
+  const classList = [
+    'ui-select',
+    `ui-select--${size}`,
+    primary ? 'ui-select--primary' : 'ui-select--secondary',
+    disabled ? 'ui-select--disabled' : '',
+  ].filter(Boolean);
 
   return (
     <select
-      className={[classNames, className].filter(Boolean).join(' ')}
+      className={[...classList, className].filter(Boolean).join(' ')}
       defaultValue={defaultValue}
       disabled={disabled}
       value={value}
