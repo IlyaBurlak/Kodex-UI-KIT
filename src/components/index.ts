@@ -12,3 +12,6 @@ export type { CheckboxProps } from './Checkbox/Checkbox.types';
 
 export { Switch } from './Switch/Switch';
 export type { SwitchProps } from './Switch/Switch.types';
+
+export { Loader } from './Loader/Loader';
+export type { LoaderProps } from './Loader/Loader.types';

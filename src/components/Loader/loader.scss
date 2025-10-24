@@ -1,0 +1,29 @@
+@use '../../styles/variables' as *;
+
+@keyframes ui-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.ui-loader {
+  animation: ui-spin 0.9s linear infinite;
+  border: 3px solid rgba($color-dark, 0.12);
+  border-radius: 50%;
+  border-top-color: $color-primary;
+  display: inline-block;
+  height: 2rem;
+  width: 2rem;
+}
+
+.ui-loader--small {
+  border-width: 2px;
+  height: 1rem;
+  width: 1rem;
+}
+
+.ui-loader--large {
+  border-width: 4px;
+  height: 2.5rem;
+  width: 2.5rem;
+}
