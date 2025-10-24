@@ -1,10 +1,12 @@
 import type { Preview } from '@storybook/react';
 
 try {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  require('../dist/ui-kit.css');
+  if (process.env.NODE_ENV === 'production') {
+    require('../dist/ui-kit.css');
+  } else {
+    require('../src/styles/index.scss');
+  }
 } catch (e) {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
   require('../src/styles/index.scss');
 }
 
