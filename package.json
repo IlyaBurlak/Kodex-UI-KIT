@@ -1,6 +1,6 @@
 {
   "name": "@ilya_burlak/kodex-ui-kit",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "A small React + TypeScript UI Kit with SCSS components",
   "type": "module",
   "scripts": {
