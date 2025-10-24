@@ -15,3 +15,6 @@ export type { SwitchProps } from './Switch/Switch.types';
 
 export { Loader } from './Loader/Loader';
 export type { LoaderProps } from './Loader/Loader.types';
+
+export { Radio } from './Radio/Radio';
+export type { RadioProps } from './Radio/Radio.types';
