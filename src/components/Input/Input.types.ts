@@ -1,3 +1,5 @@
+import type { Size } from '../shared/types';
+
 export interface InputProps {
   value?: string;
   defaultValue?: string;
@@ -5,6 +7,6 @@ export interface InputProps {
   onChange?: (value: string) => void;
   onBlur?: () => void;
   disabled?: boolean;
-  size?: 'small' | 'medium' | 'large';
+  size?: Size;
   className?: string;
 }

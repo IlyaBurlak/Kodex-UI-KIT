@@ -1,7 +1,10 @@
+import type { Size } from '../shared/types';
+
 export interface ButtonProps {
   primary?: boolean;
   backgroundColor?: string;
-  size?: 'small' | 'medium' | 'large';
+  size?: Size;
   label: string;
+  className?: string;
   onClick?: () => void;
 }

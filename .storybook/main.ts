@@ -13,13 +13,23 @@ const config: StorybookConfig = {
       },
       {
         test: /\.scss$/,
-        use: [require.resolve('style-loader'), require.resolve('css-loader'), require.resolve('sass-loader')],
+        use: [
+          require.resolve('style-loader'),
+          require.resolve('css-loader'),
+          require.resolve('sass-loader'),
+        ],
         exclude: /node_modules/,
       },
     ];
 
-    baseConfig.module = { ...(baseConfig.module || {}), rules: [...(baseConfig.module?.rules || []), ...rules] };
-    baseConfig.resolve = { ...(baseConfig.resolve || {}), extensions: Array.from(new Set([...(baseConfig.resolve?.extensions || []), '.ts', '.tsx'])) };
+    baseConfig.module = {
+      ...(baseConfig.module || {}),
+      rules: [...(baseConfig.module?.rules || []), ...rules],
+    };
+    baseConfig.resolve = {
+      ...(baseConfig.resolve || {}),
+      extensions: Array.from(new Set([...(baseConfig.resolve?.extensions || []), '.ts', '.tsx'])),
+    };
     return baseConfig;
   },
 };

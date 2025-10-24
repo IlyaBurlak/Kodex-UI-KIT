@@ -9,13 +9,16 @@ export const Button: FC<ButtonProps> = ({
   size = 'medium',
   backgroundColor,
   label,
+  className: userClassName,
   ...props
 }) => {
-  const className = [
+  const baseClass = [
     'ui-button',
     `ui-button--${size}`,
     primary ? 'ui-button--primary' : 'ui-button--secondary',
   ].join(' ');
+
+  const className = [baseClass, userClassName].filter(Boolean).join(' ');
 
   const style = backgroundColor ? ({ backgroundColor } as CSSProperties) : undefined;
 
