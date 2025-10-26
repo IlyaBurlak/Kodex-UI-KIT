@@ -4,6 +4,8 @@ import { createRoot } from 'react-dom/client';
 import { App } from './App';
 import { ThemeProvider } from './Theme/ThemeContext';
 
+import './styles/theme.scss';
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ThemeProvider>
