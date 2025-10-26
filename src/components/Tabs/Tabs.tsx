@@ -39,9 +39,13 @@ export const Tabs: FC<TabsProps> = ({
 
   return (
     <div className={className} {...props}>
-      <div className="ui-tabs__nav" role="tablist">
+      <div className='ui-tabs__nav' role='tablist'>
         {tabs.map((t) => {
-          const tabClass = ['ui-tabs__tab', t.key === active && 'ui-tabs__tab--active', t.disabled && 'ui-tabs__tab--disabled']
+          const tabClass = [
+            'ui-tabs__tab',
+            t.key === active && 'ui-tabs__tab--active',
+            t.disabled && 'ui-tabs__tab--disabled',
+          ]
             .filter(Boolean)
             .join(' ');
 
@@ -52,8 +56,8 @@ export const Tabs: FC<TabsProps> = ({
               aria-selected={t.key === active}
               className={tabClass}
               disabled={t.disabled}
-              role="tab"
-              type="button"
+              role='tab'
+              type='button'
               onClick={() => handleSelect(t.key, t.disabled)}
             >
               {t.label}
@@ -61,7 +65,7 @@ export const Tabs: FC<TabsProps> = ({
           );
         })}
       </div>
-      <div className="ui-tabs__panel" id={`panel-${activeTab?.key}`}>
+      <div className='ui-tabs__panel' id={`panel-${activeTab?.key}`}>
         {activeTab?.content ?? null}
       </div>
     </div>

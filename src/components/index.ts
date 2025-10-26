@@ -27,3 +27,6 @@ export type { ModalProps } from './Modal/Modal.types';
 
 export { Table } from './Table/Table';
 export type { TableProps } from './Table/Table.types';
+
+export { Sidebar } from './Sidebar/Sidebar';
+export type { SidebarProps } from './Sidebar/Sidebar.types';
