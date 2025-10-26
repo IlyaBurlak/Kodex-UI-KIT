@@ -5,7 +5,6 @@
   "type": "module",
   "scripts": {
     "dev": "webpack serve --config webpack.config.cjs --mode development",
-    "build:css": "sass src/styles/index.scss dist/ui-kit.css --no-source-map --style=expanded",
     "build": "webpack --config webpack.config.cjs --mode production && tsc -p tsconfig.build.json && npm run build:css",
     "lint": "eslint . --fix",
     "stylelint": "stylelint \"src/**/*.scss\" --fix",
@@ -13,8 +12,7 @@
     "format": "prettier --write .",
     "type-check": "tsc --noEmit",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build",
-    "prepare": "npm run build"
+    "build-storybook": "storybook build"
   },
   "peerDependencies": {
     "react": ">=18.0.0",
@@ -41,8 +39,8 @@
     "globals": "^16.4.0",
     "mini-css-extract-plugin": "^2.8.2",
     "prettier": "^3.0.0",
-    "sass": "^1.72.0",
-    "sass-loader": "^13.3.1",
+    "sass": "^1.93.2",
+    "sass-loader": "^16.0.6",
     "storybook": "^9.1.13",
     "stylelint": "^16.25.0",
     "stylelint-config-standard-scss": "^16.0.0",
@@ -54,12 +52,7 @@
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^4.15.0"
   },
-  "files": [
-    "dist"
-  ],
-  "sideEffects": [
-    "dist/ui-kit.css"
-  ],
+  
   "repository": {
     "type": "git",
     "url": "https://github.com/IlyaBurlak/Kodex-UI-KIT.git"

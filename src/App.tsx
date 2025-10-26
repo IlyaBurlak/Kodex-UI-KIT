@@ -1,3 +1,5 @@
+import { HomePage } from './pages/HomePage.tsx';
+
 export const App = () => {
-  return <>Hello, Storybook with Vite and React!</>;
+  return <HomePage />;
 };
