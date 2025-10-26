@@ -1,32 +1,32 @@
-export { Button } from './Button/Button';
-export type { ButtonProps } from './Button/Button.types';
+export { Button } from './Button';
+export type { ButtonProps } from './Button';
 
-export { Input } from './Input/Input';
-export type { InputProps } from './Input/Input.types';
+export { Checkbox } from './Checkbox';
+export type { CheckboxProps } from './Checkbox';
 
-export { Select } from './Select/Select';
-export type { SelectProps } from './Select/Select.types';
+export { Input } from './Input';
+export type { InputProps } from './Input';
 
-export { Checkbox } from './Checkbox/Checkbox';
-export type { CheckboxProps } from './Checkbox/Checkbox.types';
+export { Loader } from './Loader';
+export type { LoaderProps } from './Loader';
 
-export { Switch } from './Switch/Switch';
-export type { SwitchProps } from './Switch/Switch.types';
+export { Modal } from './Modal';
+export type { ModalProps } from './Modal';
 
-export { Loader } from './Loader/Loader';
-export type { LoaderProps } from './Loader/Loader.types';
+export { Radio } from './Radio';
+export type { RadioProps } from './Radio';
 
-export { Radio } from './Radio/Radio';
-export type { RadioProps } from './Radio/Radio.types';
+export { Select } from './Select';
+export type { SelectProps } from './Select';
 
-export { Tabs } from './Tabs/Tabs';
-export type { TabsProps } from './Tabs/Tabs.types';
+export { Sidebar } from './Sidebar';
+export type { SidebarProps } from './Sidebar';
 
-export { Modal } from './Modal/Modal';
-export type { ModalProps } from './Modal/Modal.types';
+export { Switch } from './Switch';
+export type { SwitchProps } from './Switch';
 
-export { Table } from './Table/Table';
-export type { TableProps } from './Table/Table.types';
+export { Table } from './Table';
+export type { TableProps } from './Table';
 
-export { Sidebar } from './Sidebar/Sidebar';
-export type { SidebarProps } from './Sidebar/Sidebar.types';
+export { Tabs } from './Tabs';
+export type { TabsProps } from './Tabs';

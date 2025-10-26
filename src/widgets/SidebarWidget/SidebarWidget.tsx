@@ -4,9 +4,9 @@ import './sidebarWidget.scss';
 
 import { FiHome, FiMenu, FiSettings, FiUser } from 'react-icons/fi';
 
-import type { SidebarOption } from '../../components/Sidebar/Sidebar.types';
 import type { SidebarWidgetProps } from './SidebarWidget.types';
 import { Sidebar, Switch } from '../../components';
+import {SidebarOption} from "../../components/Sidebar";
 
 export const SidebarWidget: FC<SidebarWidgetProps> = ({
   title,
