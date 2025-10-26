@@ -30,3 +30,6 @@ export type { TableProps } from './Table';
 
 export { Tabs } from './Tabs';
 export type { TabsProps } from './Tabs';
+
+export { ThemeProvider, useTheme } from '../Theme/ThemeContext';
+export type { Theme } from '../Theme/ThemeContext';

@@ -4,27 +4,34 @@ import './sidebarWidget.scss';
 
 import { FiHome, FiMenu, FiSettings, FiUser } from 'react-icons/fi';
 
+import type { SidebarOption } from '../../components/Sidebar';
 import type { SidebarWidgetProps } from './SidebarWidget.types';
-import { Sidebar, Switch } from '../../components';
-import {SidebarOption} from "../../components/Sidebar";
+import { Sidebar, Switch, useTheme } from '../../components';
 
 export const SidebarWidget: FC<SidebarWidgetProps> = ({
   title,
   titleIcon,
   options = [],
   switchId = 'sidebar-widget-switch',
-  switchLabel = 'Toggle',
+  switchLabel = 'Dark Mode',
   switchProps,
   className = '',
 }) => {
+  const { theme, toggleTheme } = useTheme();
+
+  const effectiveSwitchProps = switchProps ?? {
+    checked: theme === 'dark',
+    onChange: (checked: boolean) => toggleTheme(checked),
+  };
+
   const switchOption: SidebarOption = useMemo(
     () => ({
       id: switchId,
       label: switchLabel,
-      icon: <Switch {...switchProps} />,
-      disabled: !!switchProps?.disabled,
+      icon: <Switch {...effectiveSwitchProps} />,
+      disabled: !!effectiveSwitchProps?.disabled,
     }),
-    [switchId, switchLabel, switchProps],
+    [switchId, switchLabel, effectiveSwitchProps, theme],
   );
 
   const defaultOptions: SidebarOption[] = [
