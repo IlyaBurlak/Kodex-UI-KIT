@@ -1,4 +1,5 @@
 @use '../../styles/variables' as *;
+@use 'sass:math';
 
 $rad-duration: 180ms;
 $rad-ease: cubic-bezier(0.2, 0.9, 0.2, 1);
@@ -46,7 +47,7 @@ $rad-ease: cubic-bezier(0.2, 0.9, 0.2, 1);
   transform: scale(0);
   transition:
     background-color $rad-duration $rad-ease,
-    transform ($rad-duration / 1.6) $rad-ease;
+    transform math.div($rad-duration, 1.6) $rad-ease;
   width: 0.5rem;
 }
 

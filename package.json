@@ -52,7 +52,6 @@
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^4.15.0"
   },
-  
   "repository": {
     "type": "git",
     "url": "https://github.com/IlyaBurlak/Kodex-UI-KIT.git"
