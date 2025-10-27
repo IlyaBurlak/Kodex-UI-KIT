@@ -1,3 +1,15 @@
+import {
+  FiBook,
+  FiHome,
+  FiMail,
+  FiMenu,
+  FiSearch,
+  FiSettings,
+  FiShoppingBag,
+  FiTrendingUp,
+  FiUser,
+} from 'react-icons/fi';
+
 import type { Meta, StoryObj } from '@storybook/react';
 import { Sidebar } from './Sidebar';
 
@@ -13,16 +25,16 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     title: 'The App',
-    titleIcon: '📱',
+    titleIcon: <FiMenu />,
     options: [
-      { id: 'dashboard', label: 'Dashboard', icon: '🏠' },
-      { id: 'search', label: 'Search', icon: '🎬' },
-      { id: 'insights', label: 'Insights', icon: '💠' },
-      { id: 'docs', label: 'Docs', icon: '📚' },
-      { id: 'products', label: 'Products', icon: '🛍️', checked: true },
-      { id: 'settings', label: 'Settings', icon: '⚙️' },
-      { id: 'messages', label: 'Messages', icon: '✉️' },
-      { id: 'account', label: 'Account', icon: '👤' },
+      { id: 'dashboard', label: 'Dashboard', icon: <FiHome /> },
+      { id: 'search', label: 'Search', icon: <FiSearch /> },
+      { id: 'insights', label: 'Insights', icon: <FiTrendingUp /> },
+      { id: 'docs', label: 'Docs', icon: <FiBook /> },
+      { id: 'products', label: 'Products', icon: <FiShoppingBag />, checked: true },
+      { id: 'settings', label: 'Settings', icon: <FiSettings /> },
+      { id: 'messages', label: 'Messages', icon: <FiMail /> },
+      { id: 'account', label: 'Account', icon: <FiUser /> },
     ],
   },
 };
@@ -30,12 +42,12 @@ export const Default: Story = {
 export const CollapsedByDefault: Story = {
   args: {
     title: 'The App',
-    titleIcon: '📱',
+    titleIcon: <FiMenu />,
     defaultCollapsed: true,
     options: [
-      { id: 'dashboard', label: 'Dashboard', icon: '🏠' },
-      { id: 'products', label: 'Products', icon: '🛍️', checked: true },
-      { id: 'settings', label: 'Settings', icon: '⚙️' },
+      { id: 'dashboard', label: 'Dashboard', icon: <FiHome /> },
+      { id: 'products', label: 'Products', icon: <FiShoppingBag />, checked: true },
+      { id: 'settings', label: 'Settings', icon: <FiSettings /> },
     ],
   },
 };
