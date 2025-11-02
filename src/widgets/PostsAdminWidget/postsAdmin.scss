@@ -1,0 +1,34 @@
+.w-posts-admin {
+  display: block;
+}
+
+.w-posts-admin__toolbar {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.w-posts-admin__pager {
+  margin-top: 1rem;
+}
+
+.w-posts-admin__form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.w-posts-admin__form-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.posts-actions {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.w-posts-admin__confirm {
+  padding: 1rem;
+}

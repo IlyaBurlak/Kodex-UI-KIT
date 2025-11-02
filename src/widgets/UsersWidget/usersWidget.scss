@@ -1,0 +1,34 @@
+.w-users-widget {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.w-users-widget__header {
+  align-items: center;
+  display: flex;
+}
+
+.w-users-widget__body {
+  position: relative;
+}
+
+.w-users-widget__panel {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 8px 24px rgb(0 0 0 / 12%);
+  padding: 12px;
+  position: fixed;
+  right: 24px;
+  top: 80px;
+  width: 320px;
+}
+
+.w-users-widget__panel-close {
+  display: inline-block;
+  margin-bottom: 8px;
+}
+
+.w-users-widget__toolbar {
+  margin-top: 12px;
+}

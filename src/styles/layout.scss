@@ -1,0 +1,19 @@
+.app-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.app-layout__sidebar {
+  transition: width 200ms ease;
+  width: 280px;
+}
+
+.app-layout__content {
+  flex: 1;
+}
+
+.app-layout--sidebar-collapsed {
+  .app-layout__sidebar {
+    width: 72px;
+  }
+}
