@@ -10,4 +10,6 @@ export type SidebarWidgetProps = {
   switchLabel?: string;
   switchProps?: SwitchProps;
   className?: string;
+  onNavigate?: (route: string) => void;
+  onToggle?: (collapsed: boolean) => void;
 };

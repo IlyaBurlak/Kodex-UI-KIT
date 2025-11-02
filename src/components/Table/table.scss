@@ -1,23 +1,24 @@
 @use '../../styles/variables' as *;
 
 .ui-table {
-  background: white;
+  background: var(--color-surface);
   border-collapse: collapse;
-  font-family: $font-family;
+  color: var(--color-text);
+  font-family: var(--font-family, #{$font-family});
   width: 100%;
 }
 
 .ui-table th,
 .ui-table td {
-  border-bottom: 1px solid rgb(0 0 0 / 8%);
+  border-bottom: 1px solid var(--color-border);
   padding: $space-sm $space-md;
   text-align: left;
   vertical-align: middle;
 }
 
 .ui-table thead th {
-  background: $color-off-white;
-  color: $color-gray-dark;
+  background: var(--ui-checked-bg);
+  color: var(--color-text);
   font-weight: 600;
 }
 
@@ -39,20 +40,21 @@
 }
 
 .ui-table--striped tbody tr:nth-child(odd) td {
-  background: rgb(0 0 0 / 3%);
+  background: var(--ui-hover);
 }
 
 .ui-table--bordered th,
 .ui-table--bordered td {
-  border: 1px solid rgb(0 0 0 / 8%);
+  border: 1px solid var(--color-border);
 }
 
 .ui-table--hover tbody tr:hover td {
-  background: rgb(0 0 0 / 6%);
+  background: var(--ui-hover);
 }
 
 .ui-table__empty {
-  color: $color-gray;
+  color: var(--color-text);
+  opacity: 0.8;
   padding: $space-md;
   text-align: center;
 }

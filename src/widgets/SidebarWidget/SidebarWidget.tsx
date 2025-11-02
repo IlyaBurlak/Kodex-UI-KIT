@@ -2,7 +2,8 @@ import { FC, useMemo } from 'react';
 
 import './sidebarWidget.scss';
 
-import { FiHome, FiMenu, FiSettings, FiUser } from 'react-icons/fi';
+import { FiMenu, FiSettings, FiUser } from 'react-icons/fi';
+import { useNavigate } from 'react-router-dom';
 
 import type { SidebarOption } from '../../components/Sidebar';
 import type { SidebarWidgetProps } from './SidebarWidget.types';
@@ -16,6 +17,8 @@ export const SidebarWidget: FC<SidebarWidgetProps> = ({
   switchLabel = 'Dark Mode',
   switchProps,
   className = '',
+  onNavigate,
+  onToggle,
 }) => {
   const { theme, toggleTheme } = useTheme();
 
@@ -35,9 +38,8 @@ export const SidebarWidget: FC<SidebarWidgetProps> = ({
   );
 
   const defaultOptions: SidebarOption[] = [
-    { id: 'home', label: 'Home', icon: <FiHome /> },
-    { id: 'profile', label: 'Profile', icon: <FiUser /> },
-    { id: 'settings', label: 'Settings', icon: <FiSettings /> },
+    { id: 'users', label: 'Users', icon: <FiUser /> },
+    { id: 'posts', label: 'Posts', icon: <FiSettings /> },
   ];
 
   const baseOptions = options && options.length > 0 ? options : defaultOptions;
@@ -46,9 +48,30 @@ export const SidebarWidget: FC<SidebarWidgetProps> = ({
   const headerTitle = title ?? 'Navigation';
   const headerIcon = titleIcon ?? <FiMenu />;
 
+  const handleOptionClick = (opt: SidebarOption) => {
+    if (opt.id === switchId) return;
+    if (onNavigate) {
+      onNavigate(opt.id);
+    } else {
+      try {
+        navigate(`/${opt.id}`);
+      } catch {
+        // игнор
+      }
+    }
+  };
+
+  const navigate = useNavigate();
+
   return (
     <div className={`w-sidebar-widget ${className}`.trim()}>
-      <Sidebar options={mergedOptions} title={headerTitle} titleIcon={headerIcon} />
+      <Sidebar
+        options={mergedOptions}
+        title={headerTitle}
+        titleIcon={headerIcon}
+        onOptionClick={handleOptionClick}
+        onToggle={onToggle}
+      />
     </div>
   );
 };
