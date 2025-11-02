@@ -7,18 +7,20 @@ import { ButtonProps } from './Button.types.ts';
 export const Button: FC<ButtonProps> = ({
   primary = false,
   size = 'medium',
+  variant = 'default',
   backgroundColor,
   label,
   className: userClassName,
   ...props
 }) => {
-  const baseClass = [
-    'ui-button',
-    `ui-button--${size}`,
-    primary ? 'ui-button--primary' : 'ui-button--secondary',
-  ].join(' ');
+  const classes: string[] = ['ui-button', `ui-button--${size}`];
+  if (variant && variant !== 'default') {
+    classes.push(`ui-button--${variant}`);
+  } else {
+    classes.push(primary ? 'ui-button--primary' : 'ui-button--secondary');
+  }
 
-  const className = [baseClass, userClassName].filter(Boolean).join(' ');
+  const className = [classes.join(' '), userClassName].filter(Boolean).join(' ');
 
   const style = backgroundColor ? ({ backgroundColor } as CSSProperties) : undefined;
 

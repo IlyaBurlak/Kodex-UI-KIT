@@ -41,3 +41,10 @@ export const Small: Story = {
     label: 'Small Button',
   },
 };
+
+export const Delete: Story = {
+  args: {
+    label: 'Delete',
+    variant: 'delete',
+  },
+};

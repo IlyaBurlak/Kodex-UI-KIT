@@ -22,6 +22,19 @@
   background-color: $color-gray;
 }
 
+.ui-button--delete {
+  background-color: $color-danger;
+}
+
+.ui-button--delete:hover {
+  filter: brightness(0.92);
+}
+
+.ui-button--delete:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
 .ui-button--small {
   font-size: 0.875rem;
   padding: $space-xs $space-sm;
@@ -39,4 +52,8 @@
 
 .ui-button:active {
   transform: translateY(0.0625rem);
+}
+
+.ui-button + .ui-button {
+  margin-left: $space-sm;
 }
