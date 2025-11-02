@@ -160,7 +160,9 @@ export const PostsAdminWidget: FC<{ initialAuthorId?: number }> = ({ initialAuth
         <Button label='New post' primary onClick={openCreate} />
       </div>
 
-      {postsLoading || loading ? <Loader /> : <Table columns={columns} data={posts} hover />}
+      <div className='w-posts-admin__content'>
+        {postsLoading || loading ? <Loader /> : <Table columns={columns} data={posts} hover />}
+      </div>
 
       {hasMore && (
         <div className='w-posts-admin__pager'>

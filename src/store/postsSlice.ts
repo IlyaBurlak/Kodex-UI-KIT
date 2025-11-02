@@ -91,7 +91,13 @@ const postsSlice = createSlice({
   extraReducers: (builder) => {
     builder
         .addCase(fetchPosts.fulfilled, (state, action) => {
-          state.items = action.payload;
+          const params = action.meta.arg as Record<string, unknown> | undefined;
+          const start = params && params._start != null ? Number(params._start) : 0;
+          if (start && start > 0) {
+            state.items = [...state.items, ...action.payload];
+          } else {
+            state.items = action.payload;
+          }
         })
 
         .addCase(fetchPost.fulfilled, (state, action) => {

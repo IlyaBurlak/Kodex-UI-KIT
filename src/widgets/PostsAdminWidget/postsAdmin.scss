@@ -12,6 +12,12 @@
   margin-top: 1rem;
 }
 
+.w-posts-admin__content {
+  max-height: 75vh;
+  overflow-y: auto;
+  width: 100%;
+}
+
 .w-posts-admin__form {
   display: flex;
   flex-direction: column;
