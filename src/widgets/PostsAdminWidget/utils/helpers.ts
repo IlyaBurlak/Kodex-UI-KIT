@@ -1,4 +1,4 @@
-import {User} from "../../../store/usersSlice.ts";
+import { User } from '../../../store/usersSlice.ts';
 
 export const buildFetchParams = (opts: {
   limit: number;
@@ -14,12 +14,12 @@ export const buildFetchParams = (opts: {
 };
 
 export const getInitialAuthorFilter = (initialAuthorId?: number): string | undefined =>
-    initialAuthorId ? String(initialAuthorId) : undefined;
+  initialAuthorId ? String(initialAuthorId) : undefined;
 
 export const getModalTitle = (editingId: number): string =>
-    editingId ? 'Edit post' : 'Create post';
+  editingId ? 'Edit post' : 'Create post';
 
 export const getUserOptions = (users: User[]) => [
   { label: 'All', value: '' },
-  ...users.map((u) => ({ label: u.name, value: String(u.id) }))
+  ...users.map((u) => ({ label: u.name, value: String(u.id) })),
 ];

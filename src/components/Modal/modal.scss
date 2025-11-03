@@ -1,4 +1,4 @@
-@use '../../styles/variables' as *;
+/* Use runtime theme CSS variables where possible so modal adapts to light/dark themes */
 
 .ui-modal {
   align-items: center;
@@ -19,9 +19,11 @@
 }
 
 .ui-modal__content {
-  background: $color-off-white;
+  background: var(--color-surface, #f9f9f9);
   border-radius: 0.5rem;
   box-shadow: 0 8px 24px rgb(0 0 0 / 12%);
+  color: var(--color-text, #232323);
+  font-family: var(--font-family, 'Outfit', sans-serif);
   max-width: 90%;
   padding: 1rem;
   width: 36rem;
@@ -30,25 +32,26 @@
 .ui-modal__header {
   align-items: center;
   display: flex;
-  gap: $space-md;
+  gap: 1rem;
   justify-content: space-between;
 }
 
 .ui-modal__title {
-  color: $color-dark;
-  font-family: $font-family;
-  font-weight: $font-weight-medium;
+  color: var(--color-text, #232323);
+  font-family: var(--font-family, 'Outfit', sans-serif);
+  font-weight: 500;
 }
 
 .ui-modal__close {
   background: transparent;
   border: none;
+  color: var(--color-text, #232323);
   cursor: pointer;
   font-size: 1.25rem;
 }
 
 .ui-modal__body {
-  margin-top: $space-md;
+  margin-top: 1rem;
 }
 
 .ui-modal--small .ui-modal__content {

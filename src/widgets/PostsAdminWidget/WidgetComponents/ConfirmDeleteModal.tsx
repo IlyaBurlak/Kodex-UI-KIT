@@ -1,6 +1,7 @@
 import { FC } from 'react';
-import { Button, Modal } from '../../../components';
+
 import type { Post } from '../types.ts';
+import { Button, Modal } from '../../../components';
 
 export const ConfirmDeleteModal: FC<{
   confirmDelete: Post | null;
@@ -12,7 +13,11 @@ export const ConfirmDeleteModal: FC<{
       <div className='w-posts-admin__confirm'>
         <p>Delete post #{confirmDelete?.id}?</p>
         <div>
-          <Button label='Delete' variant='delete' onClick={() => confirmDelete && onConfirm(confirmDelete)} />
+          <Button
+            label='Delete'
+            variant='delete'
+            onClick={() => confirmDelete && onConfirm(confirmDelete)}
+          />
           <Button label='Cancel' onClick={onCancel} />
         </div>
       </div>

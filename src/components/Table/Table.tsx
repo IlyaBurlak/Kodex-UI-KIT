@@ -46,9 +46,7 @@ export function Table<T = Record<string, unknown>>(
       <thead>
         <tr>
           {columns.map((col, colIdx) => (
-            <th key={col.key ?? `${String(col.dataIndex ?? '')}-${colIdx}`}>
-              {col.title}
-            </th>
+            <th key={col.key ?? `${String(col.dataIndex ?? '')}-${colIdx}`}>{col.title}</th>
           ))}
         </tr>
       </thead>

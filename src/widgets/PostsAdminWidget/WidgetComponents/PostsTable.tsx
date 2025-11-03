@@ -1,9 +1,10 @@
 import { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
+
 import type { User } from '../../../store/usersSlice.ts';
 import type { Post } from '../types.ts';
 import { Button, Table } from '../../../components';
-import {TableActions} from "../utils/TableActions.tsx";
+import { TableActions } from '../utils/TableActions.tsx';
 
 export const PostsTable: FC<{
   posts: Post[];
@@ -30,24 +31,24 @@ export const PostsTable: FC<{
       dataIndex: 'id',
       key: 'actions',
       render: (_: unknown, record: Post) => (
-          <TableActions
-              record={record}
-              onView={() => navigate(`/posts/${record.id}`)}
-              onEdit={onEdit}
-              onDelete={onDelete}
-          />
+        <TableActions
+          record={record}
+          onDelete={onDelete}
+          onEdit={onEdit}
+          onView={() => navigate(`/posts/${record.id}`)}
+        />
       ),
     },
   ];
 
   return (
-      <>
-        <Table columns={columns} data={posts} hover />
-        {hasMore && (
-            <div className='w-posts-admin__pager'>
-              <Button label='Load more' onClick={loadMore} />
-            </div>
-        )}
-      </>
+    <>
+      <Table columns={columns} data={posts} hover />
+      {hasMore && (
+        <div className='w-posts-admin__pager'>
+          <Button label='Load more' onClick={loadMore} />
+        </div>
+      )}
+    </>
   );
 };

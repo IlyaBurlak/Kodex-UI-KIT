@@ -176,7 +176,7 @@ const postsSlice = createSlice({
               localStorage.setItem(LOCAL_KEY, JSON.stringify(existing));
             }
           }
-  } catch {}
+        } catch {}
       })
       .addCase(removePost.fulfilled, (state, action) => {
         state.items = state.items.filter((post) => post.id !== action.payload);
@@ -188,7 +188,7 @@ const postsSlice = createSlice({
             const updated = existing.filter((p) => p.id !== action.payload);
             localStorage.setItem(LOCAL_KEY, JSON.stringify(updated));
           }
-  } catch {}
+        } catch {}
       })
       .addMatcher(isPending, (state) => {
         state.loading = true;

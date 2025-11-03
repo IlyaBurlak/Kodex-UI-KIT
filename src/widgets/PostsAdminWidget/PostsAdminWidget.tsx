@@ -1,13 +1,16 @@
 import { FC } from 'react';
+
 import { Loader } from '../../components';
-import { Toolbar } from './WidgetComponents/Toolbar.tsx';
-import { PostsTable } from './WidgetComponents/PostsTable.tsx';
-import { PostFormModal } from './WidgetComponents/PostFormModal.tsx';
-import { ConfirmDeleteModal } from './WidgetComponents/ConfirmDeleteModal.tsx';
-import { usePostsManagement } from './hooks/usePostsManagement';
 import { usePostModals } from './hooks/usePostModals';
+import { usePostsManagement } from './hooks/usePostsManagement';
+import { ConfirmDeleteModal } from './WidgetComponents/ConfirmDeleteModal.tsx';
+import { PostFormModal } from './WidgetComponents/PostFormModal.tsx';
+import { PostsTable } from './WidgetComponents/PostsTable.tsx';
+import { Toolbar } from './WidgetComponents/Toolbar.tsx';
+
 import './postsAdmin.scss';
-import {Post} from "./types.ts";
+
+import { Post } from './types.ts';
 
 export const PostsAdminWidget: FC<{ initialAuthorId?: number }> = ({ initialAuthorId }) => {
   const {
@@ -47,45 +50,45 @@ export const PostsAdminWidget: FC<{ initialAuthorId?: number }> = ({ initialAuth
   };
 
   return (
-      <div className='w-posts-admin'>
-        <Toolbar
-            authorFilter={authorFilter}
-            titleFilter={titleFilter}
+    <div className='w-posts-admin'>
+      <Toolbar
+        authorFilter={authorFilter}
+        titleFilter={titleFilter}
+        users={users}
+        onAuthorChange={setAuthorFilter}
+        onNew={openCreateModal}
+        onTitleChange={setTitleFilter}
+      />
+
+      <div className='w-posts-admin__content'>
+        {loading ? (
+          <Loader />
+        ) : (
+          <PostsTable
+            hasMore={hasMore}
+            loadMore={loadMorePosts}
+            posts={posts}
             users={users}
-            onAuthorChange={setAuthorFilter}
-            onNew={openCreateModal}
-            onTitleChange={setTitleFilter}
-        />
-
-        <div className='w-posts-admin__content'>
-          {loading ? (
-              <Loader />
-          ) : (
-              <PostsTable
-                  hasMore={hasMore}
-                  posts={posts}
-                  users={users}
-                  loadMore={loadMorePosts}
-                  onDelete={openDeleteModal}
-                  onEdit={openEditModal}
-              />
-          )}
-        </div>
-
-        <PostFormModal
-            editing={editing}
-            isOpen={isModalOpen}
-            users={users}
-            onClose={closeModal}
-            onSave={handleSave}
-            setEditing={setEditing}
-        />
-
-        <ConfirmDeleteModal
-            confirmDelete={confirmDelete}
-            onCancel={closeDeleteModal}
-            onConfirm={handleDelete}
-        />
+            onDelete={openDeleteModal}
+            onEdit={openEditModal}
+          />
+        )}
       </div>
+
+      <PostFormModal
+        editing={editing}
+        isOpen={isModalOpen}
+        setEditing={setEditing}
+        users={users}
+        onClose={closeModal}
+        onSave={handleSave}
+      />
+
+      <ConfirmDeleteModal
+        confirmDelete={confirmDelete}
+        onCancel={closeDeleteModal}
+        onConfirm={handleDelete}
+      />
+    </div>
   );
 };
