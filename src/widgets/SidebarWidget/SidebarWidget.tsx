@@ -55,8 +55,8 @@ export const SidebarWidget: FC<SidebarWidgetProps> = ({
     } else {
       try {
         navigate(`/${opt.id}`);
-      } catch {
-        // игнор
+      } catch (err) {
+        console.error('Navigation error', err);
       }
     }
   };

@@ -1,4 +1,4 @@
-import { FC, useEffect, useMemo, useState } from 'react';
+import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import type { User } from '../../store/usersSlice';
@@ -39,48 +39,53 @@ export const PostsAdminWidget: FC<{ initialAuthorId?: number }> = ({ initialAuth
   const navigate = useNavigate();
 
   useEffect(() => {
-    let mounted = true;
     const loadUsers = async () => {
       try {
         await dispatch(fetchUsers()).unwrap();
-      } catch {
-        // ignore
-      } finally {
-        if (!mounted) return;
+      } catch (err) {
+        console.error('Failed to load users', err);
       }
     };
+
     loadUsers();
-    return () => {
-      mounted = false;
-    };
   }, [dispatch]);
 
   useEffect(() => {
     if (initialAuthorId) setAuthorFilter(String(initialAuthorId));
   }, [initialAuthorId]);
 
-  const load = async (reset = false) => {
-    setLoading(true);
-    try {
-      const params: Record<string, unknown> = { _limit: LIMIT, _start: reset ? 0 : page * LIMIT };
-      if (authorFilter) params.userId = authorFilter;
-      if (titleFilter) params.title_like = titleFilter;
-      const data = (await dispatch(fetchPosts(params)).unwrap()) as Post[];
-      setHasMore(data.length === LIMIT);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const load = useCallback(
+    async (reset = false) => {
+      setLoading(true);
+      try {
+        const params: Record<string, unknown> = { _limit: LIMIT, _start: reset ? 0 : page * LIMIT };
+        if (authorFilter) params.userId = authorFilter;
+        if (titleFilter) params.title_like = titleFilter;
+        const data = (await dispatch(fetchPosts(params)).unwrap()) as Post[];
+        setHasMore(data.length === LIMIT);
+      } catch (err) {
+        console.error('Failed to load posts', err);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [dispatch, page, authorFilter, titleFilter],
+  );
 
   useEffect(() => {
     setPage(0);
+    const isFilterEmpty = !titleFilter && !authorFilter;
+    if (isFilterEmpty && posts.length > 0) {
+      setHasMore(posts.length >= LIMIT);
+      return;
+    }
     load(true);
-  }, [titleFilter, authorFilter]);
+  }, [titleFilter, authorFilter, posts.length, load]);
 
   useEffect(() => {
     if (page === 0) return;
     load(false);
-  }, [page]);
+  }, [page, load]);
 
   const columns = useMemo(
     () => [
@@ -111,7 +116,7 @@ export const PostsAdminWidget: FC<{ initialAuthorId?: number }> = ({ initialAuth
         ),
       },
     ],
-    [users],
+    [users, navigate],
   );
 
   const openCreate = () => {
@@ -128,6 +133,8 @@ export const PostsAdminWidget: FC<{ initialAuthorId?: number }> = ({ initialAuth
       } else {
         await dispatch(addPost(payload)).unwrap();
       }
+    } catch (err) {
+      console.error('Failed to save post', err);
     } finally {
       setLoading(false);
       setModalOpen(false);
@@ -139,6 +146,8 @@ export const PostsAdminWidget: FC<{ initialAuthorId?: number }> = ({ initialAuth
     setLoading(true);
     try {
       await dispatch(removePost(post.id)).unwrap();
+    } catch (err) {
+      console.error('Failed to delete post', err);
     } finally {
       setLoading(false);
       setConfirmDelete(null);

@@ -25,8 +25,8 @@ export const UsersWidget: FC<{ onViewPosts?: (userId: number) => void }> = ({ on
       setLoading(true);
       try {
         await dispatch(fetchUsers()).unwrap();
-      } catch {
-        // ignore
+      } catch (err) {
+        console.error('Failed to load users', err);
       } finally {
         if (mounted) setLoading(false);
       }

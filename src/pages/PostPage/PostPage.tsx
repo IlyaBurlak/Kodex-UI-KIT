@@ -2,6 +2,7 @@ import { FC } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { PostWidget } from '../../widgets/PostWidget/PostWidget';
+
 import '../pages.scss';
 
 export const PostPage: FC = () => {

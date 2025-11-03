@@ -30,8 +30,10 @@ export const PostWidget: FC<{ postId: number }> = ({ postId }) => {
 
   useEffect(() => {
     if (!postId) return;
-    dispatch(fetchPost(postId));
-    dispatch(fetchComments(postId));
+    if (!post || post.id !== postId) dispatch(fetchPost(postId));
+    const hasCommentsForThisPost =
+      comments && comments.length > 0 && comments.every((c) => c.postId === postId);
+    if (!hasCommentsForThisPost) dispatch(fetchComments(postId));
   }, [dispatch, postId]);
 
   const onAdd = async () => {
@@ -41,7 +43,7 @@ export const PostWidget: FC<{ postId: number }> = ({ postId }) => {
         postId,
         body: newComment,
         name: 'You',
-        email: ''
+        email: '',
       }),
     );
     setNewComment('');

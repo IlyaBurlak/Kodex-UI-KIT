@@ -1,4 +1,4 @@
-import {FC, useState} from 'react';
+import { FC, useState } from 'react';
 import { BrowserRouter, Navigate, Outlet, Route, Routes } from 'react-router-dom';
 
 import { SidebarWidget } from './widgets/SidebarWidget/SidebarWidget';

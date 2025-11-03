@@ -15,7 +15,8 @@ export const ThemeProvider: React.FC<{ children?: React.ReactNode }> = ({ childr
     try {
       const saved = localStorage.getItem('app-theme');
       return (saved as Theme) ?? 'light';
-    } catch {
+    } catch (err) {
+      console.error('Failed to read app-theme from localStorage', err);
       return 'light';
     }
   });
@@ -23,7 +24,9 @@ export const ThemeProvider: React.FC<{ children?: React.ReactNode }> = ({ childr
   useEffect(() => {
     try {
       localStorage.setItem('app-theme', theme);
-    } catch {}
+    } catch (err) {
+      console.error('Failed to save app-theme to localStorage', err);
+    }
     const root = document.documentElement;
     if (theme === 'dark') {
       root.classList.add('theme-dark');
