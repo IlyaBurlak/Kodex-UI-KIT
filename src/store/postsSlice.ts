@@ -78,21 +78,27 @@ const applyLocalUpdates = (posts: Post[]): Post[] => {
 
 export const fetchPosts = createAsyncThunk(
   'posts/fetch',
-  async (params: Record<string, unknown> | undefined, { rejectWithValue }) => {
+  async (
+    args: {
+      params?: Record<string, unknown>;
+      append?: boolean;
+    },
+    { rejectWithValue },
+  ) => {
     try {
-      const response = await getPosts(params);
+      const response = await getPosts(args.params);
       let posts = response.data as Post[];
 
       posts = applyLocalUpdates(posts);
 
       const localPosts = loadLocalPosts();
       const localPostsFiltered = localPosts.filter((localPost) => {
-        if (!params) return true;
-        if (params.userId != null && String(params.userId) !== '') {
-          if (localPost.userId !== Number(params.userId)) return false;
+        if (!args.params) return true;
+        if (args.params.userId != null && String(args.params.userId) !== '') {
+          if (localPost.userId !== Number(args.params.userId)) return false;
         }
-        if (params.title_like != null && String(params.title_like) !== '') {
-          if (!localPost.title.includes(String(params.title_like))) return false;
+        if (args.params.title_like != null && String(args.params.title_like) !== '') {
+          if (!localPost.title.includes(String(args.params.title_like))) return false;
         }
         return true;
       });
@@ -201,7 +207,11 @@ const postsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchPosts.fulfilled, (state, action) => {
-        state.items = action.payload;
+        if (action.meta.arg.append) {
+          state.items.push(...action.payload);
+        } else {
+          state.items = action.payload;
+        }
       })
       .addCase(fetchPost.fulfilled, (state, action) => {
         state.selected = action.payload;

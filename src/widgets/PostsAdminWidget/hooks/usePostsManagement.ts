@@ -22,7 +22,6 @@ export const usePostsManagement = (initialAuthorId?: number) => {
   const users = useAppSelector(selectUsers);
 
   const [loading, setLoading] = useState(false);
-  const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
   const [titleFilter, setTitleFilter] = useState('');
   const [authorFilter, setAuthorFilter] = useState(getInitialAuthorFilter(initialAuthorId));
@@ -33,11 +32,11 @@ export const usePostsManagement = (initialAuthorId?: number) => {
       try {
         const params = buildFetchParams({
           limit: LIMIT,
-          start: reset ? 0 : page * LIMIT,
+          start: reset ? 0 : posts.length,
           authorFilter,
           titleFilter,
         });
-        const data = (await dispatch(fetchPosts(params)).unwrap()) as Post[];
+        const data = (await dispatch(fetchPosts({ params, append: !reset })).unwrap()) as Post[];
         setHasMore(data.length === LIMIT);
       } catch (err) {
         console.error('Failed to load posts', err);
@@ -45,7 +44,7 @@ export const usePostsManagement = (initialAuthorId?: number) => {
         setLoading(false);
       }
     },
-    [dispatch, page, authorFilter, titleFilter],
+    [dispatch, posts.length, authorFilter, titleFilter],
   );
 
   const loadMorePosts = async () => {
@@ -57,7 +56,7 @@ export const usePostsManagement = (initialAuthorId?: number) => {
         authorFilter,
         titleFilter,
       });
-      const data = (await dispatch(fetchPosts(params)).unwrap()) as Post[];
+      const data = (await dispatch(fetchPosts({ params, append: true })).unwrap()) as Post[];
       setHasMore(data.length === LIMIT);
     } catch (err) {
       console.error('Failed to load more posts', err);
@@ -109,14 +108,8 @@ export const usePostsManagement = (initialAuthorId?: number) => {
   }, [initialAuthorId]);
 
   useEffect(() => {
-    setPage(0);
     loadPosts(true);
   }, [titleFilter, authorFilter]);
-
-  useEffect(() => {
-    if (page === 0) return;
-    loadPosts(false);
-  }, [page]);
 
   return {
     posts,
@@ -127,7 +120,6 @@ export const usePostsManagement = (initialAuthorId?: number) => {
     authorFilter,
     setTitleFilter,
     setAuthorFilter,
-    setPage,
     loadMorePosts,
     savePost,
     deletePost,
