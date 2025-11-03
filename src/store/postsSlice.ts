@@ -7,7 +7,7 @@ import {
 } from '@reduxjs/toolkit';
 
 import type { RootState } from './index';
-import { createPost, deletePost, getPost, getPosts, updatePost } from '../api';
+import { getPost, getPosts } from '../api';
 import { getErrorMessage } from './utils';
 
 export type Post = {
@@ -35,12 +35,72 @@ const handleAsyncError = (error: unknown, rejectWithValue: Function) => {
   return rejectWithValue(getErrorMessage(error));
 };
 
+const LOCAL_POSTS_KEY = 'kodex_posts_local';
+const LOCAL_POSTS_UPDATES_KEY = 'kodex_posts_updates';
+
+const loadLocalPosts = (): Post[] => {
+  try {
+    const raw = localStorage.getItem(LOCAL_POSTS_KEY);
+    return raw ? (JSON.parse(raw) as Post[]) : [];
+  } catch {
+    return [];
+  }
+};
+
+const saveLocalPosts = (posts: Post[]) => {
+  try {
+    localStorage.setItem(LOCAL_POSTS_KEY, JSON.stringify(posts));
+  } catch {}
+};
+
+const loadPostUpdates = (): Record<number, Partial<Post>> => {
+  try {
+    const raw = localStorage.getItem(LOCAL_POSTS_UPDATES_KEY);
+    return raw ? (JSON.parse(raw) as Record<number, Partial<Post>>) : {};
+  } catch {
+    return {};
+  }
+};
+
+const savePostUpdates = (updates: Record<number, Partial<Post>>) => {
+  try {
+    localStorage.setItem(LOCAL_POSTS_UPDATES_KEY, JSON.stringify(updates));
+  } catch {}
+};
+
+const applyLocalUpdates = (posts: Post[]): Post[] => {
+  const updates = loadPostUpdates();
+  return posts.map((post) => {
+    const update = updates[post.id];
+    return update ? { ...post, ...update } : post;
+  });
+};
+
 export const fetchPosts = createAsyncThunk(
   'posts/fetch',
   async (params: Record<string, unknown> | undefined, { rejectWithValue }) => {
     try {
       const response = await getPosts(params);
-      return response.data;
+      let posts = response.data as Post[];
+
+      posts = applyLocalUpdates(posts);
+
+      const localPosts = loadLocalPosts();
+      const localPostsFiltered = localPosts.filter((localPost) => {
+        if (!params) return true;
+        if (params.userId != null && String(params.userId) !== '') {
+          if (localPost.userId !== Number(params.userId)) return false;
+        }
+        if (params.title_like != null && String(params.title_like) !== '') {
+          if (!localPost.title.includes(String(params.title_like))) return false;
+        }
+        return true;
+      });
+
+      const serverIds = new Set(posts.map((p) => p.id));
+      const uniqueLocalPosts = localPostsFiltered.filter((p) => !serverIds.has(p.id));
+
+      return [...uniqueLocalPosts, ...posts];
     } catch (error) {
       return handleAsyncError(error, rejectWithValue);
     }
@@ -52,7 +112,21 @@ export const fetchPost = createAsyncThunk(
   async (id: number, { rejectWithValue }) => {
     try {
       const response = await getPost(id);
-      return response.data;
+      let post = response.data as Post;
+
+      const updates = loadPostUpdates();
+      const update = updates[id];
+      if (update) {
+        post = { ...post, ...update };
+      }
+
+      const localPosts = loadLocalPosts();
+      const localPost = localPosts.find((p) => p.id === id);
+      if (localPost) {
+        post = { ...post, ...localPost };
+      }
+
+      return post;
     } catch (error) {
       return handleAsyncError(error, rejectWithValue);
     }
@@ -63,8 +137,16 @@ export const addPost = createAsyncThunk(
   'posts/add',
   async (post: Partial<Omit<Post, 'id'>>, { rejectWithValue }) => {
     try {
-      const response = await createPost(post);
-      return response.data;
+      const newPost: Post = {
+        ...(post as Omit<Post, 'id'>),
+        id: -Date.now(),
+      };
+
+      const localPosts = loadLocalPosts();
+      localPosts.unshift(newPost);
+      saveLocalPosts(localPosts);
+
+      return newPost;
     } catch (error) {
       return handleAsyncError(error, rejectWithValue);
     }
@@ -75,8 +157,18 @@ export const editPost = createAsyncThunk(
   'posts/edit',
   async ({ id, payload }: { id: number; payload: Partial<Post> }, { rejectWithValue }) => {
     try {
-      const response = await updatePost(id, payload);
-      return response.data;
+      const updates = loadPostUpdates();
+      updates[id] = { ...updates[id], ...payload };
+      savePostUpdates(updates);
+
+      const localPosts = loadLocalPosts();
+      const localPostIndex = localPosts.findIndex((p) => p.id === id);
+      if (localPostIndex !== -1) {
+        localPosts[localPostIndex] = { ...localPosts[localPostIndex], ...payload };
+        saveLocalPosts(localPosts);
+      }
+
+      return { id, ...payload } as Post;
     } catch (error) {
       return handleAsyncError(error, rejectWithValue);
     }
@@ -87,7 +179,14 @@ export const removePost = createAsyncThunk(
   'posts/remove',
   async (id: number, { rejectWithValue }) => {
     try {
-      await deletePost(id);
+      const localPosts = loadLocalPosts();
+      const updatedLocalPosts = localPosts.filter((post) => post.id !== id);
+      saveLocalPosts(updatedLocalPosts);
+
+      const updates = loadPostUpdates();
+      delete updates[id];
+      savePostUpdates(updates);
+
       return id;
     } catch (error) {
       return handleAsyncError(error, rejectWithValue);
@@ -102,93 +201,28 @@ const postsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchPosts.fulfilled, (state, action) => {
-        const params = action.meta.arg as Record<string, unknown> | undefined;
-        const start = params && params._start != null ? Number(params._start) : 0;
-
-        // Local persistence: merge local-created posts so they survive reloads
-        const LOCAL_KEY = 'kodex_posts_local';
-        const loadLocal = (): Post[] => {
-          try {
-            const raw = localStorage.getItem(LOCAL_KEY);
-            return raw ? (JSON.parse(raw) as Post[]) : [];
-          } catch {
-            return [];
-          }
-        };
-
-        const filterLocal = (p: Post) => {
-          if (!params) return true;
-          if (params.userId != null && String(params.userId) !== '') {
-            // params.userId may be number or string
-            if (p.userId !== Number(params.userId)) return false;
-          }
-          if (params.title_like != null && String(params.title_like) !== '') {
-            if (!p.title.includes(String(params.title_like))) return false;
-          }
-          return true;
-        };
-
-        const local = loadLocal().filter(filterLocal);
-
-        if (start && start > 0) {
-          state.items = [...state.items, ...action.payload];
-        } else {
-          // Prepend local created posts to the fetched list (avoid duplicates by id)
-          const payloadById = new Set((action.payload as Post[]).map((x) => x.id));
-          const uniqueLocal = local.filter((lp) => !payloadById.has(lp.id));
-          state.items = [...uniqueLocal, ...action.payload];
-        }
+        state.items = action.payload;
       })
       .addCase(fetchPost.fulfilled, (state, action) => {
         state.selected = action.payload;
       })
       .addCase(addPost.fulfilled, (state, action) => {
         state.items.unshift(action.payload);
-        // persist created posts locally so they survive reloads
-        try {
-          const LOCAL_KEY = 'kodex_posts_local';
-          const raw = localStorage.getItem(LOCAL_KEY);
-          const existing: Post[] = raw ? JSON.parse(raw) : [];
-          // avoid duplicate ids
-          const exists = existing.find((p) => p.id === action.payload.id);
-          if (!exists) {
-            existing.unshift(action.payload);
-            localStorage.setItem(LOCAL_KEY, JSON.stringify(existing));
-          }
-        } catch {
-          // ignore localStorage errors
-        }
       })
       .addCase(editPost.fulfilled, (state, action) => {
         const index = state.items.findIndex((post) => post.id === action.payload.id);
         if (index !== -1) {
           state.items[index] = action.payload;
         }
-        // update local storage if post was stored locally
-        try {
-          const LOCAL_KEY = 'kodex_posts_local';
-          const raw = localStorage.getItem(LOCAL_KEY);
-          if (raw) {
-            const existing: Post[] = JSON.parse(raw);
-            const idx = existing.findIndex((p) => p.id === action.payload.id);
-            if (idx !== -1) {
-              existing[idx] = action.payload;
-              localStorage.setItem(LOCAL_KEY, JSON.stringify(existing));
-            }
-          }
-        } catch {}
+        if (state.selected && state.selected.id === action.payload.id) {
+          state.selected = action.payload;
+        }
       })
       .addCase(removePost.fulfilled, (state, action) => {
         state.items = state.items.filter((post) => post.id !== action.payload);
-        try {
-          const LOCAL_KEY = 'kodex_posts_local';
-          const raw = localStorage.getItem(LOCAL_KEY);
-          if (raw) {
-            const existing: Post[] = JSON.parse(raw);
-            const updated = existing.filter((p) => p.id !== action.payload);
-            localStorage.setItem(LOCAL_KEY, JSON.stringify(updated));
-          }
-        } catch {}
+        if (state.selected && state.selected.id === action.payload) {
+          state.selected = null;
+        }
       })
       .addMatcher(isPending, (state) => {
         state.loading = true;
