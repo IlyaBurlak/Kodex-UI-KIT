@@ -5,7 +5,7 @@ import { SidebarWidget } from './widgets/SidebarWidget/SidebarWidget';
 
 import './styles/layout.scss';
 
-import { PostPage } from './pages/PostPage/PostPage.tsx';
+import { PostPage } from './pages/PostPage.tsx';
 import { PostsPage } from './pages/PostsPage';
 import { UsersPage } from './pages/UsersPage';
 

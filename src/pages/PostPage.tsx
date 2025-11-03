@@ -1,9 +1,9 @@
 import { FC } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { PostWidget } from '../../widgets/PostWidget/PostWidget';
+import { PostWidget } from '../widgets/PostWidget/PostWidget.tsx';
 
-import '../pages.scss';
+import './pages.scss';
 
 export const PostPage: FC = () => {
   const { id } = useParams<{ id: string }>();
