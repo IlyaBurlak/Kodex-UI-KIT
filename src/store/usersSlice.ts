@@ -32,12 +32,16 @@ const initialState: UsersState = {
   error: null,
 };
 
+const handleAsyncError = (error: unknown, rejectWithValue: Function) => {
+  return rejectWithValue(getErrorMessage(error));
+};
+
 export const fetchUsers = createAsyncThunk('users/fetch', async (_, { rejectWithValue }) => {
   try {
     const response = await getUsers();
     return response.data;
-  } catch (err) {
-    return rejectWithValue(getErrorMessage(err));
+  } catch (error) {
+    return handleAsyncError(error, rejectWithValue);
   }
 });
 
@@ -56,8 +60,7 @@ const usersSlice = createSlice({
       })
       .addMatcher(isRejected, (state, action) => {
         state.loading = false;
-        // @ts-ignore
-        state.error = action.payload ?? action.error?.message ?? 'Failed to load users';
+        state.error = (action.payload as string) || action.error.message || 'Failed to load users';
       })
       .addMatcher(isFulfilled, (state) => {
         state.loading = false;

@@ -31,64 +31,66 @@ const initialState: PostsState = {
   selected: null,
 };
 
-export const fetchPosts = createAsyncThunk<
-  Post[],
-  Record<string, unknown> | undefined,
-  { rejectValue: string }
->('posts/fetch', async (params, { rejectWithValue }) => {
-  try {
-    const response = await getPosts(params);
-    return response.data as Post[];
-  } catch (err) {
-    return rejectWithValue(getErrorMessage(err));
-  }
-});
+const handleAsyncError = (error: unknown, rejectWithValue: Function) => {
+  return rejectWithValue(getErrorMessage(error));
+};
 
-export const fetchPost = createAsyncThunk<Post, number, { rejectValue: string }>(
+export const fetchPosts = createAsyncThunk(
+  'posts/fetch',
+  async (params: Record<string, unknown> | undefined, { rejectWithValue }) => {
+    try {
+      const response = await getPosts(params);
+      return response.data;
+    } catch (error) {
+      return handleAsyncError(error, rejectWithValue);
+    }
+  },
+);
+
+export const fetchPost = createAsyncThunk(
   'posts/fetchOne',
-  async (id, { rejectWithValue }) => {
+  async (id: number, { rejectWithValue }) => {
     try {
       const response = await getPost(id);
-      return response.data as Post;
-    } catch (err) {
-      return rejectWithValue(getErrorMessage(err));
+      return response.data;
+    } catch (error) {
+      return handleAsyncError(error, rejectWithValue);
     }
   },
 );
 
-export const addPost = createAsyncThunk<Post, Partial<Omit<Post, 'id'>>, { rejectValue: string }>(
+export const addPost = createAsyncThunk(
   'posts/add',
-  async (post, { rejectWithValue }) => {
+  async (post: Partial<Omit<Post, 'id'>>, { rejectWithValue }) => {
     try {
       const response = await createPost(post);
-      return response.data as Post;
-    } catch (err) {
-      return rejectWithValue(getErrorMessage(err));
+      return response.data;
+    } catch (error) {
+      return handleAsyncError(error, rejectWithValue);
     }
   },
 );
 
-export const editPost = createAsyncThunk<
-  Post,
-  { id: number; payload: Partial<Post> },
-  { rejectValue: string }
->('posts/edit', async ({ id, payload }, { rejectWithValue }) => {
-  try {
-    const response = await updatePost(id, payload);
-    return response.data as Post;
-  } catch (err) {
-    return rejectWithValue(getErrorMessage(err));
-  }
-});
+export const editPost = createAsyncThunk(
+  'posts/edit',
+  async ({ id, payload }: { id: number; payload: Partial<Post> }, { rejectWithValue }) => {
+    try {
+      const response = await updatePost(id, payload);
+      return response.data;
+    } catch (error) {
+      return handleAsyncError(error, rejectWithValue);
+    }
+  },
+);
 
-export const removePost = createAsyncThunk<number, number, { rejectValue: string }>(
+export const removePost = createAsyncThunk(
   'posts/remove',
-  async (id, { rejectWithValue }) => {
+  async (id: number, { rejectWithValue }) => {
     try {
       await deletePost(id);
       return id;
-    } catch (err) {
-      return rejectWithValue(getErrorMessage(err));
+    } catch (error) {
+      return handleAsyncError(error, rejectWithValue);
     }
   },
 );
@@ -102,44 +104,100 @@ const postsSlice = createSlice({
       .addCase(fetchPosts.fulfilled, (state, action) => {
         const params = action.meta.arg as Record<string, unknown> | undefined;
         const start = params && params._start != null ? Number(params._start) : 0;
+
+        // Local persistence: merge local-created posts so they survive reloads
+        const LOCAL_KEY = 'kodex_posts_local';
+        const loadLocal = (): Post[] => {
+          try {
+            const raw = localStorage.getItem(LOCAL_KEY);
+            return raw ? (JSON.parse(raw) as Post[]) : [];
+          } catch {
+            return [];
+          }
+        };
+
+        const filterLocal = (p: Post) => {
+          if (!params) return true;
+          if (params.userId != null && String(params.userId) !== '') {
+            // params.userId may be number or string
+            if (p.userId !== Number(params.userId)) return false;
+          }
+          if (params.title_like != null && String(params.title_like) !== '') {
+            if (!p.title.includes(String(params.title_like))) return false;
+          }
+          return true;
+        };
+
+        const local = loadLocal().filter(filterLocal);
+
         if (start && start > 0) {
           state.items = [...state.items, ...action.payload];
         } else {
-          state.items = action.payload;
+          // Prepend local created posts to the fetched list (avoid duplicates by id)
+          const payloadById = new Set((action.payload as Post[]).map((x) => x.id));
+          const uniqueLocal = local.filter((lp) => !payloadById.has(lp.id));
+          state.items = [...uniqueLocal, ...action.payload];
         }
       })
-
       .addCase(fetchPost.fulfilled, (state, action) => {
         state.selected = action.payload;
       })
-
       .addCase(addPost.fulfilled, (state, action) => {
         state.items.unshift(action.payload);
+        // persist created posts locally so they survive reloads
+        try {
+          const LOCAL_KEY = 'kodex_posts_local';
+          const raw = localStorage.getItem(LOCAL_KEY);
+          const existing: Post[] = raw ? JSON.parse(raw) : [];
+          // avoid duplicate ids
+          const exists = existing.find((p) => p.id === action.payload.id);
+          if (!exists) {
+            existing.unshift(action.payload);
+            localStorage.setItem(LOCAL_KEY, JSON.stringify(existing));
+          }
+        } catch {
+          // ignore localStorage errors
+        }
       })
-
       .addCase(editPost.fulfilled, (state, action) => {
         const index = state.items.findIndex((post) => post.id === action.payload.id);
         if (index !== -1) {
           state.items[index] = action.payload;
         }
+        // update local storage if post was stored locally
+        try {
+          const LOCAL_KEY = 'kodex_posts_local';
+          const raw = localStorage.getItem(LOCAL_KEY);
+          if (raw) {
+            const existing: Post[] = JSON.parse(raw);
+            const idx = existing.findIndex((p) => p.id === action.payload.id);
+            if (idx !== -1) {
+              existing[idx] = action.payload;
+              localStorage.setItem(LOCAL_KEY, JSON.stringify(existing));
+            }
+          }
+  } catch {}
       })
-
       .addCase(removePost.fulfilled, (state, action) => {
         state.items = state.items.filter((post) => post.id !== action.payload);
+        try {
+          const LOCAL_KEY = 'kodex_posts_local';
+          const raw = localStorage.getItem(LOCAL_KEY);
+          if (raw) {
+            const existing: Post[] = JSON.parse(raw);
+            const updated = existing.filter((p) => p.id !== action.payload);
+            localStorage.setItem(LOCAL_KEY, JSON.stringify(updated));
+          }
+  } catch {}
       })
-
       .addMatcher(isPending, (state) => {
         state.loading = true;
         state.error = null;
       })
-
       .addMatcher(isRejected, (state, action) => {
         state.loading = false;
-
-        // @ts-ignore
-        state.error = action.payload ?? action.error?.message ?? 'Operation failed';
+        state.error = (action.payload as string) || action.error.message || 'Operation failed';
       })
-
       .addMatcher(isFulfilled, (state) => {
         state.loading = false;
       });
