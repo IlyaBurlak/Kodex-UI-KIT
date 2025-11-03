@@ -5,11 +5,11 @@ import type { Post } from '../../store/postsSlice';
 import { Button, Input, Loader, Modal } from '../../components';
 import {
   addComment,
-  editComment,
   fetchComments,
   removeComment,
   selectComments,
   selectCommentsLoading,
+  updateLocalComment,
 } from '../../store/commentsSlice';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { fetchPost, selectPostsLoading, selectSelectedPost } from '../../store/postsSlice';
@@ -50,7 +50,7 @@ export const PostWidget: FC<{ postId: number }> = ({ postId }) => {
   };
 
   const onSave = async (c: CommentType) => {
-    await dispatch(editComment({ id: c.id, payload: c }));
+    dispatch(updateLocalComment({ id: c.id, payload: c }));
     setEditingComment(null);
   };
 
