@@ -45,8 +45,10 @@ export function Table<T = Record<string, unknown>>(
     <table className={classList} {...rest}>
       <thead>
         <tr>
-          {columns.map((col) => (
-            <th key={col.key ?? String(col.dataIndex)}>{col.title}</th>
+          {columns.map((col, colIdx) => (
+            <th key={col.key ?? `${String(col.dataIndex ?? '')}-${colIdx}`}>
+              {col.title}
+            </th>
           ))}
         </tr>
       </thead>
@@ -57,12 +59,15 @@ export function Table<T = Record<string, unknown>>(
               key={String(getRowKey(row, idx))}
               onClick={() => onRowClick && onRowClick(row, idx)}
             >
-              {columns.map((col) => {
+              {columns.map((col, colIdx) => {
                 const val = col.dataIndex
                   ? (row as unknown as Record<string, unknown>)[String(col.dataIndex)]
                   : undefined;
                 return (
-                  <td key={col.key ?? String(col.dataIndex)} style={{ textAlign: col.align }}>
+                  <td
+                    key={col.key ?? `${String(col.dataIndex ?? '')}-${colIdx}`}
+                    style={{ textAlign: col.align }}
+                  >
                     {col.render ? col.render(val, row, idx) : (val as unknown as ReactNode)}
                   </td>
                 );
