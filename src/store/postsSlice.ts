@@ -91,6 +91,12 @@ export const fetchPosts = createAsyncThunk(
 
       posts = applyLocalUpdates(posts);
 
+      const append = Boolean(args.append);
+
+      if (append) {
+        return posts;
+      }
+
       const localPosts = loadLocalPosts();
       const localPostsFiltered = localPosts.filter((localPost) => {
         if (!args.params) return true;
@@ -207,8 +213,14 @@ const postsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchPosts.fulfilled, (state, action) => {
-        if (action.meta.arg.append) {
-          state.items.push(...action.payload);
+        const metaArg = action.meta.arg as
+          | { params?: Record<string, unknown>; append?: boolean }
+          | undefined;
+        const append = Boolean(metaArg && metaArg.append);
+        if (append) {
+          const existingIds = new Set(state.items.map((i) => i.id));
+          const toAdd = (action.payload as Post[]).filter((p) => !existingIds.has(p.id));
+          state.items.push(...toAdd);
         } else {
           state.items = action.payload;
         }

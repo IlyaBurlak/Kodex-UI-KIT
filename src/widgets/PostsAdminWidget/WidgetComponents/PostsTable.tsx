@@ -44,7 +44,7 @@ export const PostsTable: FC<{
   return (
     <>
       <Table columns={columns} data={posts} hover />
-      {hasMore && (
+      {(hasMore || posts.length >= 20) && (
         <div className='w-posts-admin__pager'>
           <Button label='Load more' onClick={loadMore} />
         </div>
