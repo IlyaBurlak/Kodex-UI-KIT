@@ -10,38 +10,38 @@
   transition:
     box-shadow 0.12s ease,
     transform 0.08s ease;
-}
 
-.ui-select:focus {
-  border-color: $color-primary;
-  box-shadow: 0 0 0 0.25rem rgba($color-primary, 0.06);
-}
+  &:focus {
+    border-color: $color-primary;
+    box-shadow: 0 0 0 0.25rem rgba($color-primary, 0.06);
+  }
 
-.ui-select--small {
-  font-size: 0.875rem;
-  padding: $space-xs 1.75rem;
-}
+  &--small {
+    font-size: 0.875rem;
+    padding: $space-xs 1.75rem;
+  }
 
-.ui-select--medium {
-  font-size: 1rem;
-  padding: $space-md 2.25rem $space-md $space-lg;
-}
+  &--medium {
+    font-size: 1rem;
+    padding: $space-md 2.25rem $space-md $space-lg;
+  }
 
-.ui-select--large {
-  font-size: 1.125rem;
-  padding: 0.75rem 1.5rem;
-}
+  &--large {
+    font-size: 1.125rem;
+    padding: 0.75rem 1.5rem;
+  }
 
-.ui-select--disabled {
-  cursor: not-allowed;
-  opacity: 0.6;
-}
+  &--disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
 
-.ui-select--primary {
-  background: $color-primary;
-  color: $color-off-white;
-}
+  &--primary {
+    background: $color-primary;
+    color: $color-off-white;
+  }
 
-.ui-select--secondary {
-  border-color: $color-gray;
+  &--secondary {
+    border-color: $color-gray;
+  }
 }

@@ -1,3 +1,5 @@
+@use '../../styles/variables' as *;
+
 .ui-sidebar {
   --ui-sidebar-width: 240px;
   --ui-sidebar-collapsed-width: 64px;

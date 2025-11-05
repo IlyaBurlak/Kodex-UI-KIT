@@ -14,16 +14,16 @@
   display: inline-block;
   height: 2rem;
   width: 2rem;
-}
 
-.ui-loader--small {
-  border-width: 2px;
-  height: 1rem;
-  width: 1rem;
-}
+  &--small {
+    border-width: 2px;
+    height: 1rem;
+    width: 1rem;
+  }
 
-.ui-loader--large {
-  border-width: 4px;
-  height: 2.5rem;
-  width: 2.5rem;
+  &--large {
+    border-width: 4px;
+    height: 2.5rem;
+    width: 2.5rem;
+  }
 }

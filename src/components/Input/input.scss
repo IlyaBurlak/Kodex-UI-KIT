@@ -10,38 +10,38 @@
   transition:
     box-shadow 0.12s ease,
     transform 0.08s ease;
-}
 
-.ui-input:focus {
-  border-color: $color-primary;
-  box-shadow: 0 0 0 0.25rem rgb(0 103 255 / 6%);
-}
+  &:focus {
+    border-color: $color-primary;
+    box-shadow: 0 0 0 0.25rem rgb(0 103 255 / 6%);
+  }
 
-.ui-input--small {
-  font-size: 0.875rem;
-  padding: $space-xs $space-sm;
-}
+  &--small {
+    font-size: 0.875rem;
+    padding: $space-xs $space-sm;
+  }
 
-.ui-input--medium {
-  font-size: 1rem;
-  padding: $space-md $space-lg;
-}
+  &--medium {
+    font-size: 1rem;
+    padding: $space-md $space-lg;
+  }
 
-.ui-input--large {
-  font-size: 1.125rem;
-  padding: 0.75rem 1rem;
-}
+  &--large {
+    font-size: 1.125rem;
+    padding: 0.75rem 1rem;
+  }
 
-.ui-input--disabled {
-  cursor: not-allowed;
-  opacity: 0.6;
-}
+  &--disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
 
-.ui-input--primary {
-  background: $color-off-white;
-  color: $color-primary;
-}
+  &--primary {
+    background: $color-off-white;
+    color: $color-primary;
+  }
 
-.ui-input--secondary {
-  border-color: $color-gray;
+  &--secondary {
+    border-color: $color-gray;
+  }
 }

@@ -3,48 +3,54 @@
 .ui-tabs {
   color: $color-dark;
   font-family: $font-family;
-}
 
-.ui-tabs__nav {
-  border-bottom: 1px solid $color-light-gray;
-  display: flex;
-  gap: $space-sm;
-  margin-bottom: 0.75rem;
-  padding-bottom: 0.5rem;
-}
+  &__nav {
+    border-bottom: 1px solid $color-light-gray;
+    display: flex;
+    gap: $space-sm;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.5rem;
+  }
 
-.ui-tabs__tab {
-  background: transparent;
-  border: none;
-  border-radius: 0.3125rem;
-  color: $color-gray;
-  cursor: pointer;
-  font-weight: $font-weight-medium;
-  padding: 0.5rem 0.75rem;
-}
+  &__tab {
+    background: transparent;
+    border: none;
+    border-radius: 0.3125rem;
+    color: $color-gray;
+    cursor: pointer;
+    font-weight: $font-weight-medium;
+    padding: 0.5rem 0.75rem;
+  }
 
-.ui-tabs__tab--active {
-  border-bottom: 2px solid $color-primary;
-  color: $color-dark;
-}
+  &__tab--active {
+    border-bottom: 2px solid $color-primary;
+    color: $color-dark;
+  }
 
-.ui-tabs__tab--disabled {
-  cursor: not-allowed;
-  opacity: 0.5;
-}
+  &__tab--disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
 
-.ui-tabs__panel {
-  padding: 0.5rem 0;
-}
+  &__panel {
+    padding: 0.5rem 0;
+  }
 
-.ui-tabs--small .ui-tabs__tab {
-  font-size: 0.875rem;
-}
+  &--small {
+    &__tab {
+      font-size: 0.875rem;
+    }
+  }
 
-.ui-tabs--medium .ui-tabs__tab {
-  font-size: 1rem;
-}
+  &--medium {
+    &__tab {
+      font-size: 1rem;
+    }
+  }
 
-.ui-tabs--large .ui-tabs__tab {
-  font-size: 1.125rem;
+  &--large {
+    &__tab {
+      font-size: 1.125rem;
+    }
+  }
 }

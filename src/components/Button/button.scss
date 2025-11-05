@@ -12,48 +12,48 @@
   transition:
     transform 0.08s ease,
     box-shadow 0.08s ease;
-}
 
-.ui-button--primary {
-  background-color: $color-primary;
-}
+  &--primary {
+    background-color: $color-primary;
+  }
 
-.ui-button--secondary {
-  background-color: $color-gray;
-}
+  &--secondary {
+    background-color: $color-gray;
+  }
 
-.ui-button--delete {
-  background-color: $color-danger;
-}
+  &--delete {
+    background-color: $color-danger;
 
-.ui-button--delete:hover {
-  filter: brightness(0.92);
-}
+    &:hover {
+      filter: brightness(0.92);
+    }
 
-.ui-button--delete:disabled {
-  cursor: not-allowed;
-  opacity: 0.6;
-}
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+  }
 
-.ui-button--small {
-  font-size: 0.875rem;
-  padding: $space-xs $space-sm;
-}
+  &--small {
+    font-size: 0.875rem;
+    padding: $space-xs $space-sm;
+  }
 
-.ui-button--medium {
-  font-size: 1rem;
-  padding: $space-md $space-lg;
-}
+  &--medium {
+    font-size: 1rem;
+    padding: $space-md $space-lg;
+  }
 
-.ui-button--large {
-  font-size: 1.125rem;
-  padding: 0.875rem 1.25rem;
-}
+  &--large {
+    font-size: 1.125rem;
+    padding: 0.875rem 1.25rem;
+  }
 
-.ui-button:active {
-  transform: translateY(0.0625rem);
-}
+  &:active {
+    transform: translateY(0.0625rem);
+  }
 
-.ui-button + .ui-button {
-  margin-left: $space-sm;
+  & + & {
+    margin-left: $space-sm;
+  }
 }
