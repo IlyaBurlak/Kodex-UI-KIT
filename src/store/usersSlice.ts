@@ -60,7 +60,10 @@ const usersSlice = createSlice({
       })
       .addMatcher(isRejected, (state, action) => {
         state.loading = false;
-        state.error = (action.payload as string) || action.error.message || 'Failed to load users';
+        state.error =
+          typeof action.payload === 'string'
+            ? action.payload
+            : action.error.message || 'Failed to load users';
       })
       .addMatcher(isFulfilled, (state) => {
         state.loading = false;

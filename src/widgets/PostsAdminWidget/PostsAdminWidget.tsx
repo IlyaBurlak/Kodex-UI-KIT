@@ -12,7 +12,9 @@ import './postsAdmin.scss';
 
 import { Post } from './types.ts';
 
-export const PostsAdminWidget: FC<{ initialAuthorId?: number }> = ({ initialAuthorId }) => {
+export type PostsAdminWidgetProps = { initialAuthorId?: number };
+
+export const PostsAdminWidget: FC<PostsAdminWidgetProps> = ({ initialAuthorId }) => {
   const {
     posts,
     users,

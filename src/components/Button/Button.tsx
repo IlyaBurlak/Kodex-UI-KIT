@@ -22,7 +22,7 @@ export const Button: FC<ButtonProps> = ({
 
   const className = [classes.join(' '), userClassName].filter(Boolean).join(' ');
 
-  const style = backgroundColor ? ({ backgroundColor } as CSSProperties) : undefined;
+  const style: CSSProperties | undefined = backgroundColor ? { backgroundColor } : undefined;
 
   return (
     <button className={className} style={style} type='button' {...props}>

@@ -50,19 +50,19 @@ export const Group: Story = {
             name='group-1'
             label='Option A'
             checked={value === 'a'}
-            onChange={(c) => c && setValue('a')}
+            onChange={(checked) => checked && setValue('a')}
           />
           <Radio
             name='group-1'
             label='Option B'
             checked={value === 'b'}
-            onChange={(c) => c && setValue('b')}
+            onChange={(checked) => checked && setValue('b')}
           />
           <Radio
             name='group-1'
             label='Option C'
             checked={value === 'c'}
-            onChange={(c) => c && setValue('c')}
+            onChange={(checked) => checked && setValue('c')}
           />
         </div>
       );

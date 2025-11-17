@@ -3,24 +3,37 @@ import { FC } from 'react';
 import type { User } from '../../../store/usersSlice.ts';
 import { Button, Input, Select } from '../../../components';
 
-export const Toolbar: FC<{
+export type ToolbarProps = {
   titleFilter: string;
-  onTitleChange: (v: string) => void;
+  onTitleChange: (value: string) => void;
   authorFilter?: string;
-  onAuthorChange: (v?: string) => void;
+  onAuthorChange: (value?: string) => void;
   users: User[];
   onNew: () => void;
-}> = ({ titleFilter, onTitleChange, authorFilter, onAuthorChange, users, onNew }) => {
+};
+
+export const Toolbar: FC<ToolbarProps> = ({
+  titleFilter,
+  onTitleChange,
+  authorFilter,
+  onAuthorChange,
+  users,
+  onNew,
+}) => {
   return (
     <div className='w-posts-admin__toolbar'>
-      <Input placeholder='Search title' value={titleFilter} onChange={(v) => onTitleChange(v)} />
+      <Input
+        placeholder='Search title'
+        value={titleFilter}
+        onChange={(value) => onTitleChange(value)}
+      />
       <Select
         options={[
           { label: 'All', value: '' },
-          ...users.map((u) => ({ label: u.name, value: String(u.id) })),
+          ...users.map((user) => ({ label: user.name, value: String(user.id) })),
         ]}
         value={authorFilter}
-        onChange={(v) => onAuthorChange(v || undefined)}
+        onChange={(value) => onAuthorChange(value || undefined)}
       />
       <Button label='New post' primary onClick={onNew} />
     </div>

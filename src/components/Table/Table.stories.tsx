@@ -27,7 +27,7 @@ const data = [
 
 export const Default: Story = {
   args: {
-    columns: columns as unknown as Column<unknown>[],
+    columns: columns as Column<unknown>[],
     data,
     striped: true,
     bordered: true,

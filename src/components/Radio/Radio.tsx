@@ -18,10 +18,10 @@ export const Radio: FC<RadioProps> = ({
   const [internalChecked, setInternalChecked] = useState<boolean>(!!defaultChecked);
 
   const isControlled = typeof checked === 'boolean';
-  const currentChecked = isControlled ? (checked as boolean) : internalChecked;
+  const currentChecked: boolean = isControlled ? Boolean(checked) : internalChecked;
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const next = e.target.checked;
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const next = event.target.checked;
     if (!isControlled) setInternalChecked(next);
     onChange && onChange(next);
   };

@@ -6,7 +6,9 @@ import './pages.scss';
 
 import { FC } from 'react';
 
-export const PostsPage: FC<{ userId?: number }> = ({ userId: propUserId }) => {
+export type PostsPageProps = { userId?: number };
+
+export const PostsPage: FC<PostsPageProps> = ({ userId: propUserId }) => {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const qUser = params.get('userId');

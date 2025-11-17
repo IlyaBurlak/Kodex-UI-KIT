@@ -24,6 +24,10 @@ export interface PostsState {
   selected: Post | null;
 }
 
+export type FetchPostsArgs = { params?: Record<string, unknown>; append?: boolean };
+export type EditPostArgs = { id: number; payload: Partial<Post> };
+export type EditPostResult = { id: number } & Partial<Post>;
+
 const initialState: PostsState = {
   items: [],
   loading: false,
@@ -41,7 +45,9 @@ const LOCAL_POSTS_UPDATES_KEY = 'kodex_posts_updates';
 const loadLocalPosts = (): Post[] => {
   try {
     const raw = localStorage.getItem(LOCAL_POSTS_KEY);
-    return raw ? (JSON.parse(raw) as Post[]) : [];
+    if (!raw) return [];
+    const parsed: Post[] = JSON.parse(raw);
+    return parsed;
   } catch {
     return [];
   }
@@ -56,7 +62,9 @@ const saveLocalPosts = (posts: Post[]) => {
 const loadPostUpdates = (): Record<number, Partial<Post>> => {
   try {
     const raw = localStorage.getItem(LOCAL_POSTS_UPDATES_KEY);
-    return raw ? (JSON.parse(raw) as Record<number, Partial<Post>>) : {};
+    if (!raw) return {};
+    const parsed: Record<number, Partial<Post>> = JSON.parse(raw);
+    return parsed;
   } catch {
     return {};
   }
@@ -76,18 +84,12 @@ const applyLocalUpdates = (posts: Post[]): Post[] => {
   });
 };
 
-export const fetchPosts = createAsyncThunk(
+export const fetchPosts = createAsyncThunk<Post[], FetchPostsArgs>(
   'posts/fetch',
-  async (
-    args: {
-      params?: Record<string, unknown>;
-      append?: boolean;
-    },
-    { rejectWithValue },
-  ) => {
+  async (args: FetchPostsArgs, { rejectWithValue }) => {
     try {
       const response = await getPosts(args.params);
-      let posts = response.data as Post[];
+      let posts: Post[] = response.data;
 
       posts = applyLocalUpdates(posts);
 
@@ -109,8 +111,8 @@ export const fetchPosts = createAsyncThunk(
         return true;
       });
 
-      const serverIds = new Set(posts.map((p) => p.id));
-      const uniqueLocalPosts = localPostsFiltered.filter((p) => !serverIds.has(p.id));
+      const serverIds = new Set(posts.map((post) => post.id));
+      const uniqueLocalPosts = localPostsFiltered.filter((post) => !serverIds.has(post.id));
 
       return [...uniqueLocalPosts, ...posts];
     } catch (error) {
@@ -124,7 +126,7 @@ export const fetchPost = createAsyncThunk(
   async (id: number, { rejectWithValue }) => {
     try {
       const response = await getPost(id);
-      let post = response.data as Post;
+      let post: Post = response.data;
 
       const updates = loadPostUpdates();
       const update = updates[id];
@@ -133,7 +135,7 @@ export const fetchPost = createAsyncThunk(
       }
 
       const localPosts = loadLocalPosts();
-      const localPost = localPosts.find((p) => p.id === id);
+      const localPost = localPosts.find((post) => post.id === id);
       if (localPost) {
         post = { ...post, ...localPost };
       }
@@ -150,8 +152,10 @@ export const addPost = createAsyncThunk(
   async (post: Partial<Omit<Post, 'id'>>, { rejectWithValue }) => {
     try {
       const newPost: Post = {
-        ...(post as Omit<Post, 'id'>),
         id: -Date.now(),
+        userId: post.userId ?? 0,
+        title: post.title ?? '',
+        body: post.body ?? '',
       };
 
       const localPosts = loadLocalPosts();
@@ -165,22 +169,22 @@ export const addPost = createAsyncThunk(
   },
 );
 
-export const editPost = createAsyncThunk(
+export const editPost = createAsyncThunk<EditPostResult, EditPostArgs>(
   'posts/edit',
-  async ({ id, payload }: { id: number; payload: Partial<Post> }, { rejectWithValue }) => {
+  async ({ id, payload }: EditPostArgs, { rejectWithValue }) => {
     try {
       const updates = loadPostUpdates();
       updates[id] = { ...updates[id], ...payload };
       savePostUpdates(updates);
 
       const localPosts = loadLocalPosts();
-      const localPostIndex = localPosts.findIndex((p) => p.id === id);
+      const localPostIndex = localPosts.findIndex((post) => post.id === id);
       if (localPostIndex !== -1) {
         localPosts[localPostIndex] = { ...localPosts[localPostIndex], ...payload };
         saveLocalPosts(localPosts);
       }
 
-      return { id, ...payload } as Post;
+      return { id, ...payload };
     } catch (error) {
       return handleAsyncError(error, rejectWithValue);
     }
@@ -213,13 +217,12 @@ const postsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchPosts.fulfilled, (state, action) => {
-        const metaArg = action.meta.arg as
-          | { params?: Record<string, unknown>; append?: boolean }
-          | undefined;
+        const metaArg: FetchPostsArgs | undefined = action.meta.arg;
         const append = Boolean(metaArg && metaArg.append);
         if (append) {
-          const existingIds = new Set(state.items.map((i) => i.id));
-          const toAdd = (action.payload as Post[]).filter((p) => !existingIds.has(p.id));
+          const existingIds = new Set(state.items.map((item) => item.id));
+          const payloadPosts: Post[] = action.payload;
+          const toAdd = payloadPosts.filter((post) => !existingIds.has(post.id));
           state.items.push(...toAdd);
         } else {
           state.items = action.payload;
@@ -234,10 +237,10 @@ const postsSlice = createSlice({
       .addCase(editPost.fulfilled, (state, action) => {
         const index = state.items.findIndex((post) => post.id === action.payload.id);
         if (index !== -1) {
-          state.items[index] = action.payload;
+          state.items[index] = { ...state.items[index], ...action.payload };
         }
         if (state.selected && state.selected.id === action.payload.id) {
-          state.selected = action.payload;
+          state.selected = { ...state.selected, ...action.payload };
         }
       })
       .addCase(removePost.fulfilled, (state, action) => {
@@ -252,7 +255,10 @@ const postsSlice = createSlice({
       })
       .addMatcher(isRejected, (state, action) => {
         state.loading = false;
-        state.error = (action.payload as string) || action.error.message || 'Operation failed';
+        state.error =
+          typeof action.payload === 'string'
+            ? action.payload
+            : action.error.message || 'Operation failed';
       })
       .addMatcher(isFulfilled, (state) => {
         state.loading = false;

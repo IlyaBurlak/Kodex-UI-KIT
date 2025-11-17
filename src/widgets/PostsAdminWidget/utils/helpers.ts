@@ -21,5 +21,5 @@ export const getModalTitle = (editingId: number): string =>
 
 export const getUserOptions = (users: User[]) => [
   { label: 'All', value: '' },
-  ...users.map((u) => ({ label: u.name, value: String(u.id) })),
+  ...users.map((user) => ({ label: user.name, value: String(user.id) })),
 ];

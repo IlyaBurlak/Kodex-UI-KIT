@@ -3,11 +3,17 @@ import { FC } from 'react';
 import type { Post } from '../types.ts';
 import { Button, Modal } from '../../../components';
 
-export const ConfirmDeleteModal: FC<{
+export type ConfirmDeleteModalProps = {
   confirmDelete: Post | null;
-  onConfirm: (p: Post) => void;
+  onConfirm: (post: Post) => void;
   onCancel: () => void;
-}> = ({ confirmDelete, onConfirm, onCancel }) => {
+};
+
+export const ConfirmDeleteModal: FC<ConfirmDeleteModalProps> = ({
+  confirmDelete,
+  onConfirm,
+  onCancel,
+}) => {
   return (
     <Modal isOpen={!!confirmDelete} title='Confirm delete' onClose={onCancel}>
       <div className='w-posts-admin__confirm'>

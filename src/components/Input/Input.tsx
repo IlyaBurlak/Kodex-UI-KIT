@@ -31,7 +31,7 @@ export const Input: FC<InputProps> = ({
       placeholder={placeholder}
       value={value}
       onBlur={onBlur}
-      onChange={(e) => onChange && onChange(e.target.value)}
+      onChange={(event) => onChange && onChange(event.target.value)}
       {...props}
     />
   );

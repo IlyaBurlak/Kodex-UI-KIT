@@ -4,7 +4,9 @@ import './pages.scss';
 
 import { FC } from 'react';
 
-export const UsersPage: FC<{ onViewPosts?: (userId: number) => void }> = ({ onViewPosts }) => {
+export type UsersPageProps = { onViewPosts?: (userId: number) => void };
+
+export const UsersPage: FC<UsersPageProps> = ({ onViewPosts }) => {
   return (
     <div className='page-content'>
       <h2>Users</h2>

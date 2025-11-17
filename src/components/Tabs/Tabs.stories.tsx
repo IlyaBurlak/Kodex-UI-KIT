@@ -29,7 +29,7 @@ export const Controlled: Story = {
     const ControlledDemo = () => {
       const [active, setActive] = useState<string>('b');
 
-      return <Tabs tabs={demoTabs} activeKey={active} onChange={(k) => setActive(k)} />;
+      return <Tabs tabs={demoTabs} activeKey={active} onChange={(key) => setActive(key)} />;
     };
 
     return <ControlledDemo />;

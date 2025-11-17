@@ -15,7 +15,7 @@ const MainLayout: FC = () => {
   return (
     <div className={`app-layout ${sidebarCollapsed ? 'app-layout--sidebar-collapsed' : ''}`}>
       <div className='app-layout__sidebar'>
-        <SidebarWidget onToggle={(v) => setSidebarCollapsed(Boolean(v))} />
+        <SidebarWidget onToggle={(nextCollapsed) => setSidebarCollapsed(Boolean(nextCollapsed))} />
       </div>
       <div className='app-layout__content'>
         <Outlet />

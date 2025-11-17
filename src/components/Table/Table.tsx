@@ -35,8 +35,8 @@ export function Table<T = Record<string, unknown>>(
   const getRowKey = (record: T, index: number) => {
     if (typeof rowKey === 'function') return rowKey(record);
     if (typeof rowKey === 'string' && record) {
-      const r = record as unknown as Record<string, unknown>;
-      if (r[rowKey] !== undefined) return r[rowKey] as string | number;
+      const recordObj = record as Record<string, unknown>;
+      if (recordObj[rowKey] !== undefined) return recordObj[rowKey] as string | number;
     }
     return index;
   };
@@ -59,14 +59,14 @@ export function Table<T = Record<string, unknown>>(
             >
               {columns.map((col, colIdx) => {
                 const val = col.dataIndex
-                  ? (row as unknown as Record<string, unknown>)[String(col.dataIndex)]
+                  ? (row as Record<string, unknown>)[String(col.dataIndex)]
                   : undefined;
                 return (
                   <td
                     key={col.key ?? `${String(col.dataIndex ?? '')}-${colIdx}`}
                     style={{ textAlign: col.align }}
                   >
-                    {col.render ? col.render(val, row, idx) : (val as unknown as ReactNode)}
+                    {col.render ? col.render(val, row, idx) : (val as ReactNode)}
                   </td>
                 );
               })}

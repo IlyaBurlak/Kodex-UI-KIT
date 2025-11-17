@@ -27,8 +27,8 @@ export const Modal: FC<ModalProps> = ({
   }, [isOpen]);
 
   useEffect(() => {
-    const handleKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && isOpen) {
+    const handleKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && isOpen) {
         onClose?.();
       }
     };
@@ -41,9 +41,9 @@ export const Modal: FC<ModalProps> = ({
     onClose?.();
   };
 
-  const handleBackdrop = (e: React.MouseEvent) => {
+  const handleBackdrop = (event: React.MouseEvent) => {
     if (!backdropClose) return;
-    if (e.target === e.currentTarget) close();
+    if (event.target === event.currentTarget) close();
   };
 
   const open = Boolean(isOpen);

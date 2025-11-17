@@ -10,7 +10,9 @@ import { useDebounce } from '../../hooks/useDebounce';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { fetchUsers, selectUsers } from '../../store/usersSlice';
 
-export const UsersWidget: FC<{ onViewPosts?: (userId: number) => void }> = ({ onViewPosts }) => {
+export type UsersWidgetProps = { onViewPosts?: (userId: number) => void };
+
+export const UsersWidget: FC<UsersWidgetProps> = ({ onViewPosts }) => {
   const dispatch = useAppDispatch();
   const users = useAppSelector(selectUsers);
   const [loading, setLoading] = useState(false);
@@ -39,10 +41,11 @@ export const UsersWidget: FC<{ onViewPosts?: (userId: number) => void }> = ({ on
 
   const filtered = useMemo(() => {
     if (!debouncedQuery) return users;
-    const q = debouncedQuery.toLowerCase();
+    const queryLower = debouncedQuery.toLowerCase();
     return users.filter(
-      (u: User) =>
-        (u.name ?? '').toLowerCase().includes(q) || (u.username ?? '').toLowerCase().includes(q),
+      (user: User) =>
+        (user.name ?? '').toLowerCase().includes(queryLower) ||
+        (user.username ?? '').toLowerCase().includes(queryLower),
     );
   }, [users, debouncedQuery]);
 
@@ -64,7 +67,11 @@ export const UsersWidget: FC<{ onViewPosts?: (userId: number) => void }> = ({ on
   return (
     <div className='w-users-widget'>
       <div className='w-users-widget__header'>
-        <Input placeholder='Search users...' value={query} onChange={(v: string) => setQuery(v)} />
+        <Input
+          placeholder='Search users...'
+          value={query}
+          onChange={(value: string) => setQuery(value)}
+        />
       </div>
 
       <div className='w-users-widget__body'>

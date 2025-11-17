@@ -6,14 +6,23 @@ import type { Post } from '../types.ts';
 import { Button, Table } from '../../../components';
 import { TableActions } from '../utils/TableActions.tsx';
 
-export const PostsTable: FC<{
+export type PostsTableProps = {
   posts: Post[];
   users: User[];
-  onEdit: (p: Post) => void;
-  onDelete: (p: Post) => void;
+  onEdit: (post: Post) => void;
+  onDelete: (post: Post) => void;
   loadMore: () => void;
   hasMore: boolean;
-}> = ({ posts, users, onEdit, onDelete, loadMore, hasMore }) => {
+};
+
+export const PostsTable: FC<PostsTableProps> = ({
+  posts,
+  users,
+  onEdit,
+  onDelete,
+  loadMore,
+  hasMore,
+}) => {
   const navigate = useNavigate();
 
   const columns = [
@@ -23,7 +32,8 @@ export const PostsTable: FC<{
       title: 'Author',
       dataIndex: 'userId',
       key: 'author',
-      render: (v: unknown) => users.find((u) => u.id === (v as number))?.name ?? (v as number),
+      render: (value: unknown) =>
+        users.find((user) => user.id === Number(value))?.name ?? Number(value),
     },
     { title: 'Body', dataIndex: 'body', key: 'body' },
     {

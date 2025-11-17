@@ -16,13 +16,13 @@ import { fetchPost, selectPostsLoading, selectSelectedPost } from '../../store/p
 
 import './postWidget.scss';
 
-export const PostWidget: FC<{ postId: number }> = ({ postId }) => {
+export type PostWidgetProps = { postId: number };
+export const PostWidget: FC<PostWidgetProps> = ({ postId }) => {
   const dispatch = useAppDispatch();
 
-  const post = useAppSelector(selectSelectedPost) as Post | null;
+  const post: Post | null = useAppSelector(selectSelectedPost);
   const postsLoading = useAppSelector(selectPostsLoading);
-
-  const comments = useAppSelector(selectComments) as CommentType[];
+  const comments: CommentType[] = useAppSelector(selectComments);
   const commentsLoading = useAppSelector(selectCommentsLoading);
 
   const [newComment, setNewComment] = useState('');
@@ -32,7 +32,7 @@ export const PostWidget: FC<{ postId: number }> = ({ postId }) => {
     if (!postId) return;
     if (!post || post.id !== postId) dispatch(fetchPost(postId));
     const hasCommentsForThisPost =
-      comments && comments.length > 0 && comments.every((c) => c.postId === postId);
+      comments && comments.length > 0 && comments.every((comment) => comment.postId === postId);
     if (!hasCommentsForThisPost) dispatch(fetchComments(postId));
   }, [dispatch, postId]);
 
@@ -49,13 +49,13 @@ export const PostWidget: FC<{ postId: number }> = ({ postId }) => {
     setNewComment('');
   };
 
-  const onSave = async (c: CommentType) => {
-    dispatch(updateLocalComment({ id: c.id, payload: c }));
+  const onSave = async (comment: CommentType) => {
+    dispatch(updateLocalComment({ id: comment.id, payload: comment }));
     setEditingComment(null);
   };
 
-  const onRemove = async (c: CommentType) => {
-    await dispatch(removeComment(c.id));
+  const onRemove = async (comment: CommentType) => {
+    await dispatch(removeComment(comment.id));
   };
 
   if (postsLoading || commentsLoading || !post) return <Loader />;
@@ -68,16 +68,20 @@ export const PostWidget: FC<{ postId: number }> = ({ postId }) => {
       <section>
         <h3>Comments</h3>
         <div className='post-comments__controls'>
-          <Input placeholder='New comment' value={newComment} onChange={(v) => setNewComment(v)} />
+          <Input
+            placeholder='New comment'
+            value={newComment}
+            onChange={(value) => setNewComment(value)}
+          />
           <Button label='Add' primary onClick={onAdd} />
         </div>
-        {comments.map((c: CommentType) => (
-          <div key={c.id} className='post-comment'>
-            <div className='post-comment__name'>{c.name}</div>
-            <div>{c.body}</div>
+        {comments.map((comment: CommentType) => (
+          <div key={comment.id} className='post-comment'>
+            <div className='post-comment__name'>{comment.name}</div>
+            <div>{comment.body}</div>
             <div className='post-comment__actions'>
-              <Button label='Edit' onClick={() => setEditingComment(c)} />
-              <Button label='Delete' variant='delete' onClick={() => onRemove(c)} />
+              <Button label='Edit' onClick={() => setEditingComment(comment)} />
+              <Button label='Delete' variant='delete' onClick={() => onRemove(comment)} />
             </div>
           </div>
         ))}
@@ -88,7 +92,7 @@ export const PostWidget: FC<{ postId: number }> = ({ postId }) => {
           <div className='comment-editor'>
             <Input
               value={editingComment.body}
-              onChange={(v) => setEditingComment({ ...editingComment, body: v })}
+              onChange={(value) => setEditingComment({ ...editingComment, body: value })}
             />
             <div className='comment-editor__actions'>
               <Button label='Save' primary onClick={() => onSave(editingComment)} />

@@ -18,6 +18,9 @@ export type Comment = {
   body: string;
 };
 
+export type EditCommentArgs = { id: number; payload: Partial<Comment> };
+export type EditCommentResult = { id: number } & Partial<Comment>;
+
 export interface CommentsState {
   items: Comment[];
   loading: boolean;
@@ -36,7 +39,9 @@ const LOCAL_COMMENTS_UPDATES_KEY = 'kodex_comments_updates';
 const loadLocalComments = (): Comment[] => {
   try {
     const raw = localStorage.getItem(LOCAL_COMMENTS_KEY);
-    return raw ? (JSON.parse(raw) as Comment[]) : [];
+    if (!raw) return [];
+    const parsed: Comment[] = JSON.parse(raw);
+    return parsed;
   } catch {
     return [];
   }
@@ -51,7 +56,9 @@ const saveLocalComments = (comments: Comment[]) => {
 const loadCommentUpdates = (): Record<number, Partial<Comment>> => {
   try {
     const raw = localStorage.getItem(LOCAL_COMMENTS_UPDATES_KEY);
-    return raw ? (JSON.parse(raw) as Record<number, Partial<Comment>>) : {};
+    if (!raw) return {};
+    const parsed: Record<number, Partial<Comment>> = JSON.parse(raw);
+    return parsed;
   } catch {
     return {};
   }
@@ -75,20 +82,22 @@ const handleAsyncError = (error: unknown, rejectWithValue: Function) => {
   return rejectWithValue(getErrorMessage(error));
 };
 
-export const fetchComments = createAsyncThunk(
+export const fetchComments = createAsyncThunk<Comment[], number>(
   'comments/fetch',
   async (postId: number, { rejectWithValue }) => {
     try {
       const response = await getComments({ postId });
-      let comments = response.data as Comment[];
+      let comments: Comment[] = response.data;
 
       comments = applyLocalUpdates(comments);
 
       const localComments = loadLocalComments();
       const localCommentsForPost = localComments.filter((comment) => comment.postId === postId);
 
-      const serverIds = new Set(comments.map((c) => c.id));
-      const uniqueLocalComments = localCommentsForPost.filter((c) => !serverIds.has(c.id));
+      const serverIds = new Set(comments.map((comment) => comment.id));
+      const uniqueLocalComments = localCommentsForPost.filter(
+        (comment) => !serverIds.has(comment.id),
+      );
 
       return [...uniqueLocalComments, ...comments];
     } catch (error) {
@@ -117,22 +126,22 @@ export const addComment = createAsyncThunk(
   },
 );
 
-export const editComment = createAsyncThunk(
+export const editComment = createAsyncThunk<EditCommentResult, EditCommentArgs>(
   'comments/edit',
-  async ({ id, payload }: { id: number; payload: Partial<Comment> }, { rejectWithValue }) => {
+  async ({ id, payload }: EditCommentArgs, { rejectWithValue }) => {
     try {
       const updates = loadCommentUpdates();
       updates[id] = { ...updates[id], ...payload };
       saveCommentUpdates(updates);
 
       const localComments = loadLocalComments();
-      const localCommentIndex = localComments.findIndex((c) => c.id === id);
+      const localCommentIndex = localComments.findIndex((comment) => comment.id === id);
       if (localCommentIndex !== -1) {
         localComments[localCommentIndex] = { ...localComments[localCommentIndex], ...payload };
         saveLocalComments(localComments);
       }
 
-      return { id, ...payload } as Comment;
+      return { id, ...payload };
     } catch (error) {
       return handleAsyncError(error, rejectWithValue);
     }
@@ -162,9 +171,9 @@ const commentsSlice = createSlice({
   name: 'comments',
   initialState,
   reducers: {
-    updateLocalComment: (state, action: { payload: { id: number; payload: Partial<Comment> } }) => {
+    updateLocalComment: (state, action: { payload: EditCommentArgs }) => {
       const { id, payload } = action.payload;
-      const comment = state.items.find((c) => c.id === id);
+      const comment = state.items.find((cItem) => cItem.id === id);
       if (comment) Object.assign(comment, payload);
     },
   },
@@ -177,7 +186,7 @@ const commentsSlice = createSlice({
         state.items.unshift(action.payload);
       })
       .addCase(editComment.fulfilled, (state, action) => {
-        const comment = state.items.find((c) => c.id === action.payload.id);
+        const comment = state.items.find((item) => item.id === action.payload.id);
         if (comment) Object.assign(comment, action.payload);
       })
       .addCase(removeComment.fulfilled, (state, action) => {
@@ -189,7 +198,10 @@ const commentsSlice = createSlice({
       })
       .addMatcher(isRejected, (state, action) => {
         state.loading = false;
-        state.error = (action.payload as string) || action.error.message || 'Operation failed';
+        state.error =
+          typeof action.payload === 'string'
+            ? action.payload
+            : action.error.message || 'Operation failed';
       })
       .addMatcher(isFulfilled, (state) => {
         state.loading = false;

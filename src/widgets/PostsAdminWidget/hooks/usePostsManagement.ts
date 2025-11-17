@@ -36,7 +36,7 @@ export const usePostsManagement = (initialAuthorId?: number) => {
           authorFilter,
           titleFilter,
         });
-        const data = (await dispatch(fetchPosts({ params, append: !reset })).unwrap()) as Post[];
+        const data: Post[] = await dispatch(fetchPosts({ params, append: !reset })).unwrap();
         setHasMore(data.length === LIMIT);
       } catch (err) {
         console.error('Failed to load posts', err);
@@ -56,7 +56,7 @@ export const usePostsManagement = (initialAuthorId?: number) => {
         authorFilter,
         titleFilter,
       });
-      const data = (await dispatch(fetchPosts({ params, append: true })).unwrap()) as Post[];
+      const data: Post[] = await dispatch(fetchPosts({ params, append: true })).unwrap();
       setHasMore(data.length === LIMIT);
     } catch (err) {
       console.error('Failed to load more posts', err);

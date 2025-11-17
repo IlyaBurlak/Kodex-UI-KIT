@@ -30,7 +30,7 @@ export const Checkbox: FC<CheckboxProps> = ({
         defaultChecked={defaultChecked}
         disabled={disabled}
         type='checkbox'
-        onChange={(e) => onChange && onChange(e.target.checked)}
+        onChange={(event) => onChange && onChange(event.target.checked)}
         {...props}
       />
       <span aria-hidden='true' className='ui-checkbox__box' />

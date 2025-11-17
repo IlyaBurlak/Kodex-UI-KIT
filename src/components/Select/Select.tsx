@@ -29,7 +29,7 @@ export const Select: FC<SelectProps> = ({
       defaultValue={defaultValue}
       disabled={disabled}
       value={value}
-      onChange={(e) => onChange && onChange(e.target.value)}
+      onChange={(event) => onChange && onChange(event.target.value)}
       {...props}
     >
       {placeholder ? (
@@ -38,9 +38,9 @@ export const Select: FC<SelectProps> = ({
         </option>
       ) : null}
 
-      {options.map((o) => (
-        <option key={o.value} disabled={o.disabled} value={o.value}>
-          {o.label}
+      {options.map((option) => (
+        <option key={option.value} disabled={option.disabled} value={option.value}>
+          {option.label}
         </option>
       ))}
     </select>

@@ -31,7 +31,7 @@ export const Switch: FC<SwitchProps> = ({
         disabled={disabled}
         role='switch'
         type='checkbox'
-        onChange={(e) => onChange && onChange(e.target.checked)}
+        onChange={(event) => onChange && onChange(event.target.checked)}
         {...props}
       />
       <span aria-hidden='true' className='ui-switch__track'>

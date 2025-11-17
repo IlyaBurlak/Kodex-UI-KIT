@@ -17,7 +17,7 @@ export const Sidebar: FC<SidebarProps> = ({
 }) => {
   const isControlled = typeof collapsedProp === 'boolean';
   const [internalCollapsed, setInternalCollapsed] = useState<boolean>(defaultCollapsed);
-  const collapsed = isControlled ? (collapsedProp as boolean) : internalCollapsed;
+  const collapsed: boolean = isControlled ? Boolean(collapsedProp) : internalCollapsed;
 
   const handleToggle = () => {
     const next = !collapsed;

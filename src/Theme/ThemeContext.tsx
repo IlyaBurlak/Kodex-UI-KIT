@@ -1,20 +1,21 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, FC, useContext, useEffect, useState } from 'react';
 
 export type Theme = 'light' | 'dark';
 
 type ThemeContextValue = {
   theme: Theme;
-  setTheme: (t: Theme) => void;
+  setTheme: (theme: Theme) => void;
   toggleTheme: (next?: boolean) => void;
 };
 
 const ThemeContext = createContext<ThemeContextValue | undefined>(undefined);
 
-export const ThemeProvider: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
+export type ThemeProviderProps = { children?: React.ReactNode };
+export const ThemeProvider: FC<ThemeProviderProps> = ({ children }) => {
   const [theme, setThemeState] = useState<Theme>(() => {
     try {
       const saved = localStorage.getItem('app-theme');
-      return (saved as Theme) ?? 'light';
+      return saved === 'dark' ? 'dark' : 'light';
     } catch (err) {
       console.error('Failed to read app-theme from localStorage', err);
       return 'light';
@@ -35,7 +36,7 @@ export const ThemeProvider: React.FC<{ children?: React.ReactNode }> = ({ childr
     }
   }, [theme]);
 
-  const setTheme = (t: Theme) => setThemeState(t);
+  const setTheme = (theme: Theme) => setThemeState(theme);
 
   const toggleTheme = (next?: boolean) => {
     if (typeof next === 'boolean') {
