@@ -4,7 +4,7 @@ import type { BaseProps } from '../shared/types';
 export interface Column<T = Record<string, unknown>> {
   key?: string;
   title: ReactNode;
-  dataIndex?: keyof T | string;
+  dataIndex?: keyof T;
   render?: (value: unknown, record: T, index: number) => ReactNode;
   align?: 'left' | 'center' | 'right';
   width?: string | number;

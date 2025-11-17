@@ -1,32 +1,32 @@
 import { FC, useEffect, useState } from 'react';
 
-import type { Comment as CommentType } from '../../store/commentsSlice';
-import type { Post } from '../../store/postsSlice';
 import { Button, Input, Loader, Modal } from '../../components';
 import {
-  addComment,
-  fetchComments,
-  removeComment,
   selectComments,
   selectCommentsLoading,
   updateLocalComment,
-} from '../../store/commentsSlice';
+} from '../../store/CommentsSlice/commentsSlice';
+import { addComment, fetchComments, removeComment } from '../../store/CommentsSlice/commentsThunks';
+import { Comment } from '../../store/CommentsSlice/commentsTypes';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { fetchPost, selectPostsLoading, selectSelectedPost } from '../../store/postsSlice';
+import { selectPostsLoading, selectSelectedPost } from '../../store/PostSlice/postsSlice';
+import { fetchPost } from '../../store/PostSlice/postsThunks';
+import { Post } from '../PostsAdminWidget/types';
 
 import './postWidget.scss';
 
 export type PostWidgetProps = { postId: number };
+
 export const PostWidget: FC<PostWidgetProps> = ({ postId }) => {
   const dispatch = useAppDispatch();
 
   const post: Post | null = useAppSelector(selectSelectedPost);
   const postsLoading = useAppSelector(selectPostsLoading);
-  const comments: CommentType[] = useAppSelector(selectComments);
+  const comments: Comment[] = useAppSelector(selectComments);
   const commentsLoading = useAppSelector(selectCommentsLoading);
 
   const [newComment, setNewComment] = useState('');
-  const [editingComment, setEditingComment] = useState<CommentType | null>(null);
+  const [editingComment, setEditingComment] = useState<Comment | null>(null);
 
   useEffect(() => {
     if (!postId) return;
@@ -34,11 +34,11 @@ export const PostWidget: FC<PostWidgetProps> = ({ postId }) => {
     const hasCommentsForThisPost =
       comments && comments.length > 0 && comments.every((comment) => comment.postId === postId);
     if (!hasCommentsForThisPost) dispatch(fetchComments(postId));
-  }, [dispatch, postId]);
+  }, [dispatch, postId, post, comments]);
 
   const onAdd = async () => {
     if (!newComment) return;
-    await dispatch(
+    dispatch(
       addComment({
         postId,
         body: newComment,
@@ -49,12 +49,12 @@ export const PostWidget: FC<PostWidgetProps> = ({ postId }) => {
     setNewComment('');
   };
 
-  const onSave = async (comment: CommentType) => {
+  const onSave = async (comment: Comment) => {
     dispatch(updateLocalComment({ id: comment.id, payload: comment }));
     setEditingComment(null);
   };
 
-  const onRemove = async (comment: CommentType) => {
+  const onRemove = async (comment: Comment) => {
     await dispatch(removeComment(comment.id));
   };
 
@@ -75,7 +75,7 @@ export const PostWidget: FC<PostWidgetProps> = ({ postId }) => {
           />
           <Button label='Add' primary onClick={onAdd} />
         </div>
-        {comments.map((comment: CommentType) => (
+        {comments.map((comment: Comment) => (
           <div key={comment.id} className='post-comment'>
             <div className='post-comment__name'>{comment.name}</div>
             <div>{comment.body}</div>

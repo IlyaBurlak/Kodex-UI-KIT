@@ -4,39 +4,27 @@ import './usersWidget.scss';
 
 import { useNavigate } from 'react-router-dom';
 
-import type { User } from '../../store/usersSlice';
+import type { Column } from '../../components/Table/Table.types';
 import { Button, Input, Loader, Table } from '../../components';
 import { useDebounce } from '../../hooks/useDebounce';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { fetchUsers, selectUsers } from '../../store/usersSlice';
+import { selectUsers, selectUsersLoading } from '../../store/UsersSlice/usersSlice';
+import { fetchUsers } from '../../store/UsersSlice/usersThunks';
+import { User } from '../../store/UsersSlice/usersTypes';
 
 export type UsersWidgetProps = { onViewPosts?: (userId: number) => void };
 
 export const UsersWidget: FC<UsersWidgetProps> = ({ onViewPosts }) => {
   const dispatch = useAppDispatch();
   const users = useAppSelector(selectUsers);
-  const [loading, setLoading] = useState(false);
+  const loading = useAppSelector(selectUsersLoading);
   const [query, setQuery] = useState('');
   const debouncedQuery = useDebounce(query, 400);
   const [selected, setSelected] = useState<User | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    let mounted = true;
-    const load = async () => {
-      setLoading(true);
-      try {
-        await dispatch(fetchUsers()).unwrap();
-      } catch (err) {
-        console.error('Failed to load users', err);
-      } finally {
-        if (mounted) setLoading(false);
-      }
-    };
-    load();
-    return () => {
-      mounted = false;
-    };
+    dispatch(fetchUsers());
   }, [dispatch]);
 
   const filtered = useMemo(() => {
@@ -49,7 +37,7 @@ export const UsersWidget: FC<UsersWidgetProps> = ({ onViewPosts }) => {
     );
   }, [users, debouncedQuery]);
 
-  const columns = [
+  const columns: Column<User>[] = [
     { title: 'ID', dataIndex: 'id' },
     { title: 'Name', dataIndex: 'name' },
     { title: 'Username', dataIndex: 'username' },
@@ -78,11 +66,11 @@ export const UsersWidget: FC<UsersWidgetProps> = ({ onViewPosts }) => {
         {loading ? (
           <Loader />
         ) : (
-          <Table
+          <Table<User>
             columns={columns}
             data={filtered}
             hover
-            onRowClick={(row) => setSelected(row as User)}
+            onRowClick={(row) => setSelected(row)}
           />
         )}
       </div>

@@ -1,4 +1,4 @@
-import { User } from '../../../store/usersSlice.ts';
+import { User } from '../../../store/UsersSlice/usersTypes.ts';
 
 export const buildFetchParams = (opts: {
   limit: number;

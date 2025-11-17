@@ -36,7 +36,8 @@ export function Table<T = Record<string, unknown>>(
     if (typeof rowKey === 'function') return rowKey(record);
     if (typeof rowKey === 'string' && record) {
       const recordObj = record as Record<string, unknown>;
-      if (recordObj[rowKey] !== undefined) return recordObj[rowKey] as string | number;
+      const value = recordObj[rowKey];
+      if (typeof value === 'string' || typeof value === 'number') return value;
     }
     return index;
   };
@@ -58,7 +59,7 @@ export function Table<T = Record<string, unknown>>(
               onClick={() => onRowClick && onRowClick(row, idx)}
             >
               {columns.map((col, colIdx) => {
-                const val = col.dataIndex
+                const val: unknown = col.dataIndex
                   ? (row as Record<string, unknown>)[String(col.dataIndex)]
                   : undefined;
                 return (

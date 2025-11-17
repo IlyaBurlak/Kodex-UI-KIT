@@ -1,8 +1,8 @@
 import { FC } from 'react';
 
-import type { User } from '../../../store/usersSlice.ts';
 import type { Post } from '../types.ts';
 import { Button, Input, Modal, Select } from '../../../components';
+import { User } from '../../../store/UsersSlice/usersTypes.ts';
 import { getModalTitle, getUserOptions } from '../utils/helpers.ts';
 
 export type PostFormModalProps = {

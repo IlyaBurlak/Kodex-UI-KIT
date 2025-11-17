@@ -1,49 +1,14 @@
-import {
-  createAsyncThunk,
-  createSlice,
-  isFulfilled,
-  isPending,
-  isRejected,
-} from '@reduxjs/toolkit';
+import { createSlice, isFulfilled, isPending, isRejected } from '@reduxjs/toolkit';
 
-import type { RootState } from './index';
-import { getUsers } from '../api';
-import { getErrorMessage } from './utils';
-
-export type User = {
-  id: number;
-  name: string;
-  username?: string;
-  email?: string;
-  phone?: string;
-  website?: string;
-  company?: { name?: string };
-};
-
-export interface UsersState {
-  items: User[];
-  loading: boolean;
-  error: string | null;
-}
+import type { RootState } from '../index';
+import { fetchUsers } from './usersThunks';
+import { UsersState } from './usersTypes';
 
 const initialState: UsersState = {
   items: [],
   loading: false,
   error: null,
 };
-
-const handleAsyncError = (error: unknown, rejectWithValue: Function) => {
-  return rejectWithValue(getErrorMessage(error));
-};
-
-export const fetchUsers = createAsyncThunk('users/fetch', async (_, { rejectWithValue }) => {
-  try {
-    const response = await getUsers();
-    return response.data;
-  } catch (error) {
-    return handleAsyncError(error, rejectWithValue);
-  }
-});
 
 const usersSlice = createSlice({
   name: 'users',
@@ -72,5 +37,6 @@ const usersSlice = createSlice({
 });
 
 export const selectUsers = (state: RootState) => state.users.items;
+export const selectUsersLoading = (state: RootState) => state.users.loading;
 
 export default usersSlice.reducer;

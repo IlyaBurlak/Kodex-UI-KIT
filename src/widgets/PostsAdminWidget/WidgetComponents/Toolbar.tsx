@@ -1,7 +1,7 @@
 import { FC } from 'react';
 
-import type { User } from '../../../store/usersSlice.ts';
 import { Button, Input, Select } from '../../../components';
+import { User } from '../../../store/UsersSlice/usersTypes.ts';
 
 export type ToolbarProps = {
   titleFilter: string;

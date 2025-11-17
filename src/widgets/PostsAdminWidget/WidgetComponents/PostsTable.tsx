@@ -1,9 +1,10 @@
 import { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import type { User } from '../../../store/usersSlice.ts';
+import type { Column } from '../../../components/Table/Table.types';
 import type { Post } from '../types.ts';
 import { Button, Table } from '../../../components';
+import { User } from '../../../store/UsersSlice/usersTypes.ts';
 import { TableActions } from '../utils/TableActions.tsx';
 
 export type PostsTableProps = {
@@ -25,7 +26,7 @@ export const PostsTable: FC<PostsTableProps> = ({
 }) => {
   const navigate = useNavigate();
 
-  const columns = [
+  const columns: Column<Post>[] = [
     { title: 'ID', dataIndex: 'id', key: 'id' },
     { title: 'Title', dataIndex: 'title', key: 'title' },
     {

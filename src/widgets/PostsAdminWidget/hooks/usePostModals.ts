@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { User } from '../../../store/usersSlice.ts';
+import { User } from '../../../store/UsersSlice/usersTypes.ts';
 import { Post } from '../types';
 
 export const usePostModals = (users: User[]) => {
