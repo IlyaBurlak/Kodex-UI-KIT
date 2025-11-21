@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import type { RootState } from '../index';
-import { getPost, getPosts } from '../../api';
+import { createPost, deletePost, getPost, getPosts, updatePost } from '../../api';
 import { getErrorMessage } from '../utils.ts';
 import {
   applyLocalUpdates,
@@ -106,6 +106,12 @@ export const addPost = createAsyncThunk(
       const localPosts = loadLocalPosts();
       saveLocalPosts([newPost, ...localPosts]);
 
+      try {
+        await createPost({ userId: newPost.userId, title: newPost.title, body: newPost.body });
+      } catch (e) {
+        console.warn('Remote createPost failed:', e);
+      }
+
       return newPost;
     } catch (error) {
       return handleAsyncError(error, rejectWithValue);
@@ -127,6 +133,12 @@ export const editPost = createAsyncThunk<EditPostResult, EditPostArgs>(
         saveLocalPosts(localPosts);
       }
 
+      try {
+        await updatePost(id, payload as Record<string, unknown>);
+      } catch (e) {
+        console.warn('Remote updatePost failed:', e);
+      }
+
       return { id, ...payload };
     } catch (error) {
       return handleAsyncError(error, rejectWithValue);
@@ -144,6 +156,12 @@ export const removePost = createAsyncThunk(
       const updates = { ...loadPostUpdates() };
       delete updates[id];
       savePostUpdates(updates);
+
+      try {
+        await deletePost(id);
+      } catch (e) {
+        console.warn('Remote deletePost failed:', e);
+      }
 
       return id;
     } catch (error) {
