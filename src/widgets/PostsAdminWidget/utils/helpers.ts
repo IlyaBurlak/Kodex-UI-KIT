@@ -23,3 +23,8 @@ export const getUserOptions = (users: User[]) => [
   { label: 'All', value: '' },
   ...users.map((user) => ({ label: user.name, value: String(user.id) })),
 ];
+
+const mapUsersToOptions = (users: User[]) => users.map((user) => ({ label: user.name, value: String(user.id) }));
+
+export const getUserSelectOptions = mapUsersToOptions;
+

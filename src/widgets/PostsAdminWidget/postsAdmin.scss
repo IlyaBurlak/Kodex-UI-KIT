@@ -20,6 +20,12 @@
   padding: 0.5rem 0;
 }
 
+.w-posts-admin__field-error {
+  color: $color-danger;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
 .w-posts-admin__content {
   max-height: 75vh;
   overflow-y: auto;
