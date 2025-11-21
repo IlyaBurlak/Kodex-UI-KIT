@@ -1,3 +1,5 @@
+@use '../../styles/variables' as *;
+
 .post-widget {
   .post-comments__controls {
     display: flex;
@@ -6,26 +8,26 @@
   }
 
   .post-comment {
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid $color-off-white;
     padding: 8px;
-  }
 
-  .post-comment__name {
-    font-weight: 600;
-  }
+    &__name {
+      font-weight: 600;
+    }
 
-  .post-comment__actions {
-    margin-top: 6px;
+    &__actions {
+      margin-top: 6px;
+    }
   }
 
   .comment-editor {
     display: flex;
     flex-direction: column;
     gap: 8px;
-  }
 
-  .comment-editor__actions {
-    display: flex;
-    gap: 8px;
+    &__actions {
+      display: flex;
+      gap: 8px;
+    }
   }
 }
