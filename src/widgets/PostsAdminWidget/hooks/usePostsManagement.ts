@@ -25,7 +25,8 @@ export const usePostsManagement = (initialAuthorId?: number) => {
 
   const [titleFilter, setTitleFilter] = useState('');
   const [authorFilter, setAuthorFilter] = useState(initialAuthorId ? String(initialAuthorId) : '');
-  const [hasMore, setHasMore] = useState(true); // Добавляем состояние для отслеживания наличия дополнительных постов
+  const [hasMore, setHasMore] = useState(true);
+  const [fetchedCount, setFetchedCount] = useState(0);
 
   useEffect(() => {
     dispatch(fetchUsers());
@@ -37,9 +38,10 @@ export const usePostsManagement = (initialAuthorId?: number) => {
 
   const loadPosts = useCallback(
     (append: boolean = false) => {
+      const limit = 20;
       const params: Record<string, unknown> = {
-        _start: append ? posts.length : 0,
-        _limit: 20,
+        _start: append ? fetchedCount : 0,
+        _limit: limit,
       };
 
       if (titleFilter) {
@@ -52,8 +54,14 @@ export const usePostsManagement = (initialAuthorId?: number) => {
 
       dispatch(fetchPosts({ params, append })).then((action) => {
         if (action.payload && Array.isArray(action.payload)) {
-          const returnedPostsCount = action.payload.length;
-          if (returnedPostsCount < 10) {
+          const payload = action.payload as Post[];
+          const serverReturnedCount = payload.filter((p) => Number(p.id) > 0).length;
+          if (append) {
+            setFetchedCount((prev) => prev + serverReturnedCount);
+          } else {
+            setFetchedCount(serverReturnedCount);
+          }
+          if (serverReturnedCount < limit) {
             setHasMore(false);
           } else {
             setHasMore(true);
@@ -61,7 +69,7 @@ export const usePostsManagement = (initialAuthorId?: number) => {
         }
       });
     },
-    [dispatch, titleFilter, authorFilter, posts.length],
+    [dispatch, titleFilter, authorFilter, fetchedCount],
   );
 
   const loadMorePosts = useCallback(() => {

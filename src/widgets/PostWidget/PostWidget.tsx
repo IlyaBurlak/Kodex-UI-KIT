@@ -15,12 +15,13 @@ import {
   selectSelectedPost,
 } from '../../store/PostSlice/postsSlice';
 import { fetchPost } from '../../store/PostSlice/postsThunks';
-import { Post } from '../PostsAdminWidget/types';
+import { ErrorDisplay } from '../ErrorWidget/ErrorDisplay';
 
 import './postWidget.scss';
 
 import type { RootState } from '../../store';
-import { ErrorDisplay } from '../ErrorWidget/ErrorDisplay.tsx';
+import { CommentForm } from './WidgetComponents/CommentForm.tsx';
+import { CommentItem } from './WidgetComponents/CommentItem.tsx';
 
 export type PostWidgetProps = { postId: number };
 
@@ -29,10 +30,10 @@ const selectCommentsError = (state: RootState) => state.comments?.error || null;
 export const PostWidget: FC<PostWidgetProps> = ({ postId }) => {
   const dispatch = useAppDispatch();
 
-  const post: Post | null = useAppSelector(selectSelectedPost);
+  const post = useAppSelector(selectSelectedPost);
   const postsLoading = useAppSelector(selectPostsLoading);
   const postsError = useAppSelector(selectPostsError);
-  const comments: Comment[] = useAppSelector(selectComments);
+  const comments = useAppSelector(selectComments);
   const commentsLoading = useAppSelector(selectCommentsLoading);
   const commentsError = useAppSelector(selectCommentsError);
 
@@ -52,7 +53,7 @@ export const PostWidget: FC<PostWidgetProps> = ({ postId }) => {
     dispatch(fetchComments(postId));
   };
 
-  const onAdd = async () => {
+  const handleAddComment = async () => {
     if (!newComment.trim()) return;
     dispatch(
       addComment({
@@ -65,7 +66,7 @@ export const PostWidget: FC<PostWidgetProps> = ({ postId }) => {
     setNewComment('');
   };
 
-  const onSave = async (comment: Comment) => {
+  const handleSaveComment = async (comment: Comment) => {
     if (!comment.body.trim()) return;
     dispatch(
       updateLocalComment({ id: comment.id, payload: { ...comment, body: comment.body.trim() } }),
@@ -73,12 +74,8 @@ export const PostWidget: FC<PostWidgetProps> = ({ postId }) => {
     setEditingComment(null);
   };
 
-  const onRemove = async (comment: Comment) => {
+  const handleRemoveComment = async (comment: Comment) => {
     await dispatch(removeComment(comment.id));
-  };
-
-  const handleNewCommentChange = (value: string) => {
-    setNewComment(value);
   };
 
   const handleEditingCommentChange = (value: string) => {
@@ -121,23 +118,19 @@ export const PostWidget: FC<PostWidgetProps> = ({ postId }) => {
 
       <section>
         <h3>Comments</h3>
-        <div className='post-comments__controls'>
-          <Input placeholder='New comment' value={newComment} onChange={handleNewCommentChange} />
-          <Button disabled={!newComment.trim()} label='Add' primary onClick={onAdd} />
-        </div>
+
+        <CommentForm value={newComment} onChange={setNewComment} onSubmit={handleAddComment} />
 
         {commentsLoading && comments.length === 0 ? (
           <Loader />
         ) : (
           comments.map((comment: Comment) => (
-            <div key={comment.id} className='post-comment'>
-              <div className='post-comment__name'>{comment.name}</div>
-              <div>{comment.body}</div>
-              <div className='post-comment__actions'>
-                <Button label='Edit' onClick={() => setEditingComment(comment)} />
-                <Button label='Delete' variant='delete' onClick={() => onRemove(comment)} />
-              </div>
-            </div>
+            <CommentItem
+              key={comment.id}
+              comment={comment}
+              onEdit={setEditingComment}
+              onRemove={handleRemoveComment}
+            />
           ))
         )}
       </section>
@@ -151,7 +144,7 @@ export const PostWidget: FC<PostWidgetProps> = ({ postId }) => {
                 disabled={!editingComment.body.trim()}
                 label='Save'
                 primary
-                onClick={() => onSave(editingComment)}
+                onClick={() => handleSaveComment(editingComment)}
               />
               <Button label='Cancel' onClick={() => setEditingComment(null)} />
             </div>
