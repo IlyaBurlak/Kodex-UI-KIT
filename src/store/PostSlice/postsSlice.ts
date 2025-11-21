@@ -123,5 +123,6 @@ export const selectPosts = (state: RootState) => state.posts.items;
 export const selectPostsLoading = (state: RootState) => state.posts.loading;
 export const selectPostsLoadingMore = (state: RootState) => Boolean(state.posts.loadingMore);
 export const selectSelectedPost = (state: RootState) => state.posts.selected;
+export const selectPostsError = (state: RootState) => state.posts.error;
 
 export default postsSlice.reducer;

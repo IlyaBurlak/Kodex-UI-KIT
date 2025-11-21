@@ -1,4 +1,4 @@
-import { CSSProperties, FC } from 'react';
+import { CSSProperties, FC, MouseEvent } from 'react';
 
 import './button.scss';
 
@@ -11,6 +11,8 @@ export const Button: FC<ButtonProps> = ({
   backgroundColor,
   label,
   className: userClassName,
+  disabled,
+  onClick,
   ...props
 }) => {
   const classes: string[] = ['ui-button', `ui-button--${size}`];
@@ -24,8 +26,24 @@ export const Button: FC<ButtonProps> = ({
 
   const style: CSSProperties | undefined = backgroundColor ? { backgroundColor } : undefined;
 
+  const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
+    if (disabled) {
+      e.preventDefault();
+      return;
+    }
+    if (typeof onClick === 'function') onClick();
+  };
+
   return (
-    <button className={className} style={style} type='button' {...props}>
+    <button
+      aria-disabled={disabled}
+      className={className}
+      disabled={disabled}
+      style={style}
+      type='button'
+      onClick={handleClick}
+      {...props}
+    >
       {label}
     </button>
   );

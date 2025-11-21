@@ -6,4 +6,5 @@ export interface ButtonProps extends BaseProps {
   backgroundColor?: string;
   label: string;
   onClick?: () => void;
+  disabled?: boolean;
 }

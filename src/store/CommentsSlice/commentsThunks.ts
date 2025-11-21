@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
+import type { RootState } from '../index';
 import { getComments } from '../../api';
 import { getErrorMessage } from '../utils.ts';
 import {
@@ -15,7 +16,7 @@ const handleAsyncError = (error: unknown, rejectWithValue: Function) => {
   return rejectWithValue(getErrorMessage(error));
 };
 
-export const fetchComments = createAsyncThunk<Comment[], number>(
+export const fetchComments = createAsyncThunk<Comment[], number, { state: RootState }>(
   'comments/fetch',
   async (postId: number, { rejectWithValue }) => {
     try {
@@ -30,6 +31,15 @@ export const fetchComments = createAsyncThunk<Comment[], number>(
     } catch (error) {
       return handleAsyncError(error, rejectWithValue);
     }
+  },
+  {
+    condition: (postId: number, { getState }) => {
+      const state = getState();
+      if (state.comments.loading) return false;
+      if (state.comments.items && state.comments.items.some((c) => c.postId === postId))
+        return false;
+      return true;
+    },
   },
 );
 

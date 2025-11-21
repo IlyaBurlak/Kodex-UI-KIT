@@ -8,9 +8,14 @@ import type { Column } from '../../components/Table/Table.types';
 import { Button, Input, Loader, Table } from '../../components';
 import { useDebounce } from '../../hooks/useDebounce';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { selectUsers, selectUsersLoading } from '../../store/UsersSlice/usersSlice';
+import {
+  selectUsers,
+  selectUsersError,
+  selectUsersLoading,
+} from '../../store/UsersSlice/usersSlice';
 import { fetchUsers } from '../../store/UsersSlice/usersThunks';
 import { User } from '../../store/UsersSlice/usersTypes';
+import { ErrorDisplay } from '../ErrorWidget/ErrorDisplay.tsx';
 
 export type UsersWidgetProps = { onViewPosts?: (userId: number) => void };
 
@@ -18,13 +23,14 @@ export const UsersWidget: FC<UsersWidgetProps> = ({ onViewPosts }) => {
   const dispatch = useAppDispatch();
   const users = useAppSelector(selectUsers);
   const loading = useAppSelector(selectUsersLoading);
+  const error = useAppSelector(selectUsersError);
   const [query, setQuery] = useState('');
   const debouncedQuery = useDebounce(query, 400);
   const [selected, setSelected] = useState<User | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(fetchUsers());
+    if (!users || users.length === 0) dispatch(fetchUsers());
   }, [dispatch]);
 
   const filtered = useMemo(() => {
@@ -52,6 +58,20 @@ export const UsersWidget: FC<UsersWidgetProps> = ({ onViewPosts }) => {
     },
   ];
 
+  if (loading && users.length === 0) {
+    return <Loader />;
+  }
+
+  if (error) {
+    return (
+      <ErrorDisplay
+        className='users-widget-error'
+        message={error}
+        title='Ошибка загрузки пользователей'
+        onRetry={() => dispatch(fetchUsers())}
+      />
+    );
+  }
   return (
     <div className='w-users-widget'>
       <div className='w-users-widget__header'>

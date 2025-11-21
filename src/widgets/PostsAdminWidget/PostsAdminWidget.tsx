@@ -1,6 +1,5 @@
 import { FC } from 'react';
 
-import { Loader } from '../../components';
 import { usePostModals } from './hooks/usePostModals';
 import { usePostsManagement } from './hooks/usePostsManagement';
 import { ConfirmDeleteModal } from './WidgetComponents/ConfirmDeleteModal.tsx';
@@ -10,6 +9,8 @@ import { Toolbar } from './WidgetComponents/Toolbar.tsx';
 
 import './postsAdmin.scss';
 
+import { Loader } from '../../components';
+import { ErrorDisplay } from '../ErrorWidget/ErrorDisplay.tsx';
 import { Post } from './types.ts';
 
 export type PostsAdminWidgetProps = { initialAuthorId?: number };
@@ -23,6 +24,8 @@ export const PostsAdminWidget: FC<PostsAdminWidgetProps> = ({ initialAuthorId })
     hasMore,
     titleFilter,
     authorFilter,
+    postsError,
+    usersError,
     setTitleFilter,
     setAuthorFilter,
     loadMorePosts,
@@ -52,15 +55,34 @@ export const PostsAdminWidget: FC<PostsAdminWidgetProps> = ({ initialAuthorId })
     closeDeleteModal();
   };
 
+  if (postsError || usersError) {
+    return (
+      <ErrorDisplay
+        className='posts-admin-error'
+        message={postsError || usersError}
+        title='Ошибка загрузки'
+        onRetry={() => window.location.reload()}
+      />
+    );
+  }
+
+  const handleTitleChange = (value?: string) => {
+    setTitleFilter(value || '');
+  };
+
+  const handleAuthorChange = (value?: string) => {
+    setAuthorFilter(value || '');
+  };
+
   return (
     <div className='w-posts-admin'>
       <Toolbar
         authorFilter={authorFilter}
         titleFilter={titleFilter}
         users={users}
-        onAuthorChange={setAuthorFilter}
+        onAuthorChange={handleAuthorChange}
         onNew={openCreateModal}
-        onTitleChange={setTitleFilter}
+        onTitleChange={handleTitleChange}
       />
 
       <div className='w-posts-admin__content'>
@@ -70,8 +92,8 @@ export const PostsAdminWidget: FC<PostsAdminWidgetProps> = ({ initialAuthorId })
           <PostsTable
             hasMore={hasMore}
             loadMore={loadMorePosts}
-            posts={posts}
             loadingMore={loadingMore}
+            posts={posts}
             users={users}
             onDelete={openDeleteModal}
             onEdit={openEditModal}

@@ -1,112 +1,103 @@
 import { useCallback, useEffect, useState } from 'react';
 
-import { useAppDispatch, useAppSelector } from '../../../store/hooks.ts';
-import { selectPosts, selectPostsLoading, selectPostsLoadingMore } from '../../../store/PostSlice/postsSlice.ts';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
+import {
+  selectPosts,
+  selectPostsError,
+  selectPostsLoading,
+  selectPostsLoadingMore,
+} from '../../../store/PostSlice/postsSlice.ts';
 import { addPost, editPost, fetchPosts, removePost } from '../../../store/PostSlice/postsThunks.ts';
-import { selectUsers, selectUsersLoading } from '../../../store/UsersSlice/usersSlice.ts'; // Добавляем селектор loading для users
+import { selectUsers, selectUsersError } from '../../../store/UsersSlice/usersSlice.ts';
 import { fetchUsers } from '../../../store/UsersSlice/usersThunks.ts';
-import { Post } from '../types';
-import { buildFetchParams, getInitialAuthorFilter } from '../utils/helpers.ts';
-
-const LIMIT = 20;
+import { Post } from '../types.ts';
 
 export const usePostsManagement = (initialAuthorId?: number) => {
   const dispatch = useAppDispatch();
+
   const posts = useAppSelector(selectPosts);
   const postsLoading = useAppSelector(selectPostsLoading);
   const postsLoadingMore = useAppSelector(selectPostsLoadingMore);
+  const postsError = useAppSelector(selectPostsError);
+
   const users = useAppSelector(selectUsers);
-  const usersLoading = useAppSelector(selectUsersLoading);
+  const usersError = useAppSelector(selectUsersError);
 
-  const [hasMore, setHasMore] = useState(true);
   const [titleFilter, setTitleFilter] = useState('');
-  const [authorFilter, setAuthorFilter] = useState(getInitialAuthorFilter(initialAuthorId));
-
-  const loading = postsLoading || usersLoading;
-
-  const loadPosts = useCallback(
-    async (reset = false) => {
-      const params = buildFetchParams({
-        limit: LIMIT,
-        start: reset ? 0 : posts.length,
-        authorFilter,
-        titleFilter,
-      });
-
-      try {
-        const resultAction = await dispatch(fetchPosts({ params, append: !reset }));
-        if (fetchPosts.fulfilled.match(resultAction)) {
-          const data = resultAction.payload;
-          setHasMore(data.length === LIMIT);
-        }
-      } catch (err) {
-        console.error('Failed to load posts', err);
-      }
-    },
-    [dispatch, posts.length, authorFilter, titleFilter],
-  );
-
-  const loadMorePosts = async () => {
-    const params = buildFetchParams({
-      limit: LIMIT,
-      start: posts.length,
-      authorFilter,
-      titleFilter,
-    });
-
-    try {
-      const resultAction = await dispatch(fetchPosts({ params, append: true }));
-      if (fetchPosts.fulfilled.match(resultAction)) {
-        const data = resultAction.payload;
-        setHasMore(data.length === LIMIT);
-      }
-    } catch (err) {
-      console.error('Failed to load more posts', err);
-    }
-  };
-
-  const savePost = async (payload: Partial<Post>, editing: Post | null) => {
-    if (!editing) return;
-
-    try {
-      if (editing.id && editing.id > 0) {
-        await dispatch(editPost({ id: editing.id, payload }));
-      } else {
-        await dispatch(addPost(payload));
-      }
-    } catch (err) {
-      console.error('Failed to save post', err);
-    }
-  };
-
-  const deletePost = async (post: Post) => {
-    try {
-      await dispatch(removePost(post.id));
-    } catch (err) {
-      console.error('Failed to delete post', err);
-    }
-  };
+  const [authorFilter, setAuthorFilter] = useState(initialAuthorId ? String(initialAuthorId) : '');
+  const [hasMore, setHasMore] = useState(true); // Добавляем состояние для отслеживания наличия дополнительных постов
 
   useEffect(() => {
     dispatch(fetchUsers());
   }, [dispatch]);
 
   useEffect(() => {
-    setAuthorFilter(getInitialAuthorFilter(initialAuthorId));
-  }, [initialAuthorId]);
-
-  useEffect(() => {
-    loadPosts(true);
+    loadPosts(false);
   }, [titleFilter, authorFilter]);
+
+  const loadPosts = useCallback(
+    (append: boolean = false) => {
+      const params: Record<string, unknown> = {
+        _start: append ? posts.length : 0,
+        _limit: 20,
+      };
+
+      if (titleFilter) {
+        params.title_like = titleFilter;
+      }
+
+      if (authorFilter) {
+        params.userId = authorFilter;
+      }
+
+      dispatch(fetchPosts({ params, append })).then((action) => {
+        if (action.payload && Array.isArray(action.payload)) {
+          const returnedPostsCount = action.payload.length;
+          if (returnedPostsCount < 10) {
+            setHasMore(false);
+          } else {
+            setHasMore(true);
+          }
+        }
+      });
+    },
+    [dispatch, titleFilter, authorFilter, posts.length],
+  );
+
+  const loadMorePosts = useCallback(() => {
+    if (!postsLoadingMore && hasMore) {
+      loadPosts(true);
+    }
+  }, [loadPosts, postsLoadingMore, hasMore]);
+
+  const savePost = useCallback(
+    async (payload: Partial<Post>, editing?: Post | null) => {
+      if (editing && editing.id !== 0) {
+        await dispatch(editPost({ id: editing.id, payload }));
+      } else {
+        await dispatch(addPost(payload));
+      }
+    },
+    [dispatch],
+  );
+
+  const deletePost = useCallback(
+    async (post: Post) => {
+      await dispatch(removePost(post.id));
+    },
+    [dispatch],
+  );
 
   return {
     posts,
     users,
-    loading,
+    loading: postsLoading && !postsLoadingMore,
     loadingMore: postsLoadingMore,
     hasMore,
     titleFilter,
     authorFilter,
+    postsError,
+    usersError,
     setTitleFilter,
     setAuthorFilter,
     loadMorePosts,

@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
+import type { RootState } from '../index';
 import { getPost, getPosts } from '../../api';
 import { getErrorMessage } from '../utils.ts';
 import {
@@ -15,7 +16,7 @@ const handleAsyncError = (error: unknown, rejectWithValue: Function) => {
   return rejectWithValue(getErrorMessage(error));
 };
 
-export const fetchPosts = createAsyncThunk<Post[], FetchPostsArgs>(
+export const fetchPosts = createAsyncThunk<Post[], FetchPostsArgs, { state: RootState }>(
   'posts/fetch',
   async (args: FetchPostsArgs, { rejectWithValue }) => {
     try {
@@ -47,9 +48,17 @@ export const fetchPosts = createAsyncThunk<Post[], FetchPostsArgs>(
       return handleAsyncError(error, rejectWithValue);
     }
   },
+  {
+    condition: (args: FetchPostsArgs, { getState }) => {
+      const state = getState();
+      if (state.posts.loading || state.posts.loadingMore) return false;
+      if (args?.params && args.params.start === 0 && state.posts.items.length > 0) return false;
+      return true;
+    },
+  },
 );
 
-export const fetchPost = createAsyncThunk(
+export const fetchPost = createAsyncThunk<Post, number, { state: RootState }>(
   'posts/fetchOne',
   async (id: number, { rejectWithValue }) => {
     try {
@@ -72,6 +81,14 @@ export const fetchPost = createAsyncThunk(
     } catch (error) {
       return handleAsyncError(error, rejectWithValue);
     }
+  },
+  {
+    condition: (id: number, { getState }) => {
+      const state = getState();
+      if (state.posts.loading) return false;
+      if (state.posts.selected && state.posts.selected.id === id) return false;
+      return true;
+    },
   },
 );
 

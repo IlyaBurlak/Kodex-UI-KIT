@@ -4,7 +4,7 @@ import type { Post } from '../types.ts';
 import { Button, Input, Modal, Select } from '../../../components';
 import { User } from '../../../store/UsersSlice/usersTypes.ts';
 import { getModalTitle, getUserSelectOptions } from '../utils/helpers.ts';
-import {PostValidationErrors, validatePost} from '../utils/validation';
+import { PostValidationErrors, validatePost } from '../utils/validation';
 
 export type PostFormModalProps = {
   isOpen: boolean;
