@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 
 import { useAppDispatch, useAppSelector } from '../../../store/hooks.ts';
-import { selectPosts, selectPostsLoading } from '../../../store/PostSlice/postsSlice.ts';
+import { selectPosts, selectPostsLoading, selectPostsLoadingMore } from '../../../store/PostSlice/postsSlice.ts';
 import { addPost, editPost, fetchPosts, removePost } from '../../../store/PostSlice/postsThunks.ts';
 import { selectUsers, selectUsersLoading } from '../../../store/UsersSlice/usersSlice.ts'; // Добавляем селектор loading для users
 import { fetchUsers } from '../../../store/UsersSlice/usersThunks.ts';
@@ -14,6 +14,7 @@ export const usePostsManagement = (initialAuthorId?: number) => {
   const dispatch = useAppDispatch();
   const posts = useAppSelector(selectPosts);
   const postsLoading = useAppSelector(selectPostsLoading);
+  const postsLoadingMore = useAppSelector(selectPostsLoadingMore);
   const users = useAppSelector(selectUsers);
   const usersLoading = useAppSelector(selectUsersLoading);
 
@@ -102,6 +103,7 @@ export const usePostsManagement = (initialAuthorId?: number) => {
     posts,
     users,
     loading,
+    loadingMore: postsLoadingMore,
     hasMore,
     titleFilter,
     authorFilter,

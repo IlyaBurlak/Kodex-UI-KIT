@@ -1,4 +1,4 @@
-import { createSlice, isFulfilled, isPending, isRejected } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
 import type { RootState } from '../index';
 import { fetchUsers } from './usersThunks';
@@ -16,22 +16,20 @@ const usersSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchUsers.fulfilled, (state, action) => {
-        state.items = action.payload;
-      })
-      .addMatcher(isPending, (state) => {
+      .addCase(fetchUsers.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addMatcher(isRejected, (state, action) => {
+      .addCase(fetchUsers.fulfilled, (state, action) => {
+        state.items = action.payload;
+        state.loading = false;
+      })
+      .addCase(fetchUsers.rejected, (state, action) => {
         state.loading = false;
         state.error =
           typeof action.payload === 'string'
             ? action.payload
             : action.error.message || 'Failed to load users';
-      })
-      .addMatcher(isFulfilled, (state) => {
-        state.loading = false;
       });
   },
 });

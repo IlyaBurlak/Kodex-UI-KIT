@@ -1,3 +1,5 @@
+@use '../../styles/variables' as *;
+
 .w-posts-admin {
   display: block;
 }
@@ -10,6 +12,12 @@
 
 .w-posts-admin__pager {
   margin-top: 1rem;
+}
+
+.w-posts-admin__loading-more {
+  text-align: center;
+  color: $color-primary;
+  padding: 0.5rem 0;
 }
 
 .w-posts-admin__content {

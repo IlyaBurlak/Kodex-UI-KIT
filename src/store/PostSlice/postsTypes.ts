@@ -8,6 +8,7 @@ export type Post = {
 export interface PostsState {
   items: Post[];
   loading: boolean;
+  loadingMore?: boolean;
   error: string | null;
   selected: Post | null;
 }

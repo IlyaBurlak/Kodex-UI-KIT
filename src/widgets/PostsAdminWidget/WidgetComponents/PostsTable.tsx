@@ -14,6 +14,7 @@ export type PostsTableProps = {
   onDelete: (post: Post) => void;
   loadMore: () => void;
   hasMore: boolean;
+  loadingMore?: boolean;
 };
 
 export const PostsTable: FC<PostsTableProps> = ({
@@ -23,6 +24,7 @@ export const PostsTable: FC<PostsTableProps> = ({
   onDelete,
   loadMore,
   hasMore,
+  loadingMore,
 }) => {
   const navigate = useNavigate();
 
@@ -57,7 +59,11 @@ export const PostsTable: FC<PostsTableProps> = ({
       <Table columns={columns} data={posts} hover />
       {(hasMore || posts.length >= 20) && (
         <div className='w-posts-admin__pager'>
-          <Button label='Load more' onClick={loadMore} />
+          {loadingMore ? (
+            <div className='w-posts-admin__loading-more'>Loading more...</div>
+          ) : (
+            <Button label='Load more' onClick={loadMore} />
+          )}
         </div>
       )}
     </>

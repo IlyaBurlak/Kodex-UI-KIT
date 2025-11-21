@@ -19,6 +19,7 @@ export const PostsAdminWidget: FC<PostsAdminWidgetProps> = ({ initialAuthorId })
     posts,
     users,
     loading,
+    loadingMore,
     hasMore,
     titleFilter,
     authorFilter,
@@ -70,6 +71,7 @@ export const PostsAdminWidget: FC<PostsAdminWidgetProps> = ({ initialAuthorId })
             hasMore={hasMore}
             loadMore={loadMorePosts}
             posts={posts}
+            loadingMore={loadingMore}
             users={users}
             onDelete={openDeleteModal}
             onEdit={openEditModal}
