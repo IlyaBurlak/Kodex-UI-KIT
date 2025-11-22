@@ -36,6 +36,6 @@ const usersSlice = createSlice({
 
 export const selectUsers = (state: RootState) => state.users.items;
 export const selectUsersLoading = (state: RootState) => state.users.loading;
-export const selectUsersError = (state: RootState) => state.users.error; // Добавлен селектор ошибок
+export const selectUsersError = (state: RootState) => state.users.error;
 
 export default usersSlice.reducer;

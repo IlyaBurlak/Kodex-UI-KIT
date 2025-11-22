@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
-import type { SidebarOption } from '../../components/Sidebar/Sidebar.types';
-import type { SwitchProps } from '../../components/Switch/Switch.types';
+import type { SwitchProps } from '../../components';
+import type { SidebarOption } from '../../components/Sidebar';
 
 export type SidebarWidgetProps = {
   title?: string;

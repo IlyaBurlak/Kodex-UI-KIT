@@ -16,7 +16,11 @@ const handleAsyncError = (error: unknown, rejectWithValue: Function) => {
   return rejectWithValue(getErrorMessage(error));
 };
 
-export const fetchComments = createAsyncThunk<Comment[], number, { state: RootState }>(
+export const fetchComments = createAsyncThunk<
+  { postId: number; comments: Comment[] },
+  number,
+  { state: RootState }
+>(
   'comments/fetch',
   async (postId: number, { rejectWithValue }) => {
     try {
@@ -24,10 +28,10 @@ export const fetchComments = createAsyncThunk<Comment[], number, { state: RootSt
       let comments = applyLocalUpdates(response.data);
 
       const localComments = loadLocalComments();
-      const localCommentsForPost = localComments.filter((c) => c.postId === postId);
-      const serverIds = new Set(comments.map((c) => c.id));
+      const localCommentsForPost = localComments.filter((localItem) => localItem.postId === postId);
+      const serverIds = new Set(comments.map((serverItem) => serverItem.id));
 
-      return [...localCommentsForPost.filter((c) => !serverIds.has(c.id)), ...comments];
+      return { postId, comments: [...localCommentsForPost.filter((localItem) => !serverIds.has(localItem.id)), ...comments] };
     } catch (error) {
       return handleAsyncError(error, rejectWithValue);
     }
@@ -36,8 +40,8 @@ export const fetchComments = createAsyncThunk<Comment[], number, { state: RootSt
     condition: (postId: number, { getState }) => {
       const state = getState();
       if (state.comments.loading) return false;
-      if (state.comments.items && state.comments.items.some((c) => c.postId === postId))
-        return false;
+      if (state.comments.items && state.comments.items.some((item) => item.postId === postId)) return false;
+      if (state.comments.fetchedPosts && state.comments.fetchedPosts[postId]) return false;
       return true;
     },
   },
@@ -68,7 +72,7 @@ export const editComment = createAsyncThunk<EditCommentResult, EditCommentArgs>(
       saveCommentUpdates(updates);
 
       const localComments = loadLocalComments();
-      const index = localComments.findIndex((c) => c.id === id);
+      const index = localComments.findIndex((localItem) => localItem.id === id);
       if (index !== -1) {
         localComments[index] = { ...localComments[index], ...payload };
         saveLocalComments(localComments);
@@ -85,7 +89,7 @@ export const removeComment = createAsyncThunk(
   'comments/remove',
   async (id: number, { rejectWithValue }) => {
     try {
-      const localComments = loadLocalComments().filter((c) => c.id !== id);
+      const localComments = loadLocalComments().filter((localItem) => localItem.id !== id);
       saveLocalComments(localComments);
 
       const updates = { ...loadCommentUpdates() };

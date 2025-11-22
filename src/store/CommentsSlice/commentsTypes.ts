@@ -13,4 +13,5 @@ export interface CommentsState {
   items: Comment[];
   loading: boolean;
   error: string | null;
+  fetchedPosts: Record<number, boolean>;
 }

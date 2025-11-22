@@ -30,4 +30,10 @@
       gap: 8px;
     }
   }
+
+  &__empty-comments {
+    color: $color-primary;
+    font-style: italic;
+    padding: 12px 8px;
+  }
 }

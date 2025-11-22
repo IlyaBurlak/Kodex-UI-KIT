@@ -8,6 +8,7 @@ const initialState: CommentsState = {
   items: [],
   loading: false,
   error: null,
+  fetchedPosts: {},
 };
 
 const commentsSlice = createSlice({
@@ -16,24 +17,28 @@ const commentsSlice = createSlice({
   reducers: {
     updateLocalComment: (state, action) => {
       const { id, payload } = action.payload;
-      const comment = state.items.find((c) => c.id === id);
-      if (comment) Object.assign(comment, payload);
+      const existing = state.items.find((item) => item.id === id);
+      if (existing) Object.assign(existing, payload);
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(fetchComments.fulfilled, (state, action) => {
-        state.items = action.payload;
+        state.items = action.payload.comments;
+        const fetchedPostId = action.payload.postId;
+        if (typeof fetchedPostId === 'number') state.fetchedPosts[fetchedPostId] = true;
       })
       .addCase(addComment.fulfilled, (state, action) => {
         state.items.unshift(action.payload);
+        const addedPostId = action.payload.postId;
+        if (typeof addedPostId === 'number') state.fetchedPosts[addedPostId] = true;
       })
       .addCase(editComment.fulfilled, (state, action) => {
-        const comment = state.items.find((c) => c.id === action.payload.id);
+        const comment = state.items.find((item) => item.id === action.payload.id);
         if (comment) Object.assign(comment, action.payload);
       })
       .addCase(removeComment.fulfilled, (state, action) => {
-        state.items = state.items.filter((c) => c.id !== action.payload);
+        state.items = state.items.filter((item) => item.id !== action.payload);
       })
       .addMatcher(isPending, (state) => {
         state.loading = true;

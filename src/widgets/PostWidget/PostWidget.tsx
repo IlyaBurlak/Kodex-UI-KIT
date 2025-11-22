@@ -34,6 +34,7 @@ export const PostWidget: FC<PostWidgetProps> = ({ postId }) => {
   const postsLoading = useAppSelector(selectPostsLoading);
   const postsError = useAppSelector(selectPostsError);
   const comments = useAppSelector(selectComments);
+  const postComments = comments.filter((commentItem: Comment) => commentItem.postId === postId);
   const commentsLoading = useAppSelector(selectCommentsLoading);
   const commentsError = useAppSelector(selectCommentsError);
 
@@ -44,7 +45,7 @@ export const PostWidget: FC<PostWidgetProps> = ({ postId }) => {
     if (!postId) return;
     if (!post || post.id !== postId) dispatch(fetchPost(postId));
     const hasCommentsForThisPost =
-      comments && comments.length > 0 && comments.every((comment) => comment.postId === postId);
+      comments && comments.some((comment) => comment.postId === postId);
     if (!hasCommentsForThisPost) dispatch(fetchComments(postId));
   }, [dispatch, postId, post, comments]);
 
@@ -84,7 +85,7 @@ export const PostWidget: FC<PostWidgetProps> = ({ postId }) => {
     }
   };
 
-  if ((postsLoading && !post) || (commentsLoading && comments.length === 0)) {
+  if ((postsLoading && !post) || (commentsLoading && postComments.length === 0)) {
     return <Loader />;
   }
 
@@ -121,10 +122,12 @@ export const PostWidget: FC<PostWidgetProps> = ({ postId }) => {
 
         <CommentForm value={newComment} onChange={setNewComment} onSubmit={handleAddComment} />
 
-        {commentsLoading && comments.length === 0 ? (
+        {commentsLoading && postComments.length === 0 ? (
           <Loader />
+        ) : postComments.length === 0 ? (
+          <div className='post-widget__empty-comments'>No comments</div>
         ) : (
-          comments.map((comment: Comment) => (
+          postComments.map((comment: Comment) => (
             <CommentItem
               key={comment.id}
               comment={comment}
