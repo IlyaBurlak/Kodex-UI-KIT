@@ -10,10 +10,10 @@ export const Button: FC<ButtonProps> = ({
   size = 'medium',
   variant = 'default',
   backgroundColor,
-  label,
   className: userClassName,
-  disabled,
+  children,
   onClick,
+  type = 'button',
   ...props
 }) => {
   const className = classNames(
@@ -23,7 +23,7 @@ export const Button: FC<ButtonProps> = ({
       [`ui-button--${variant}`]: variant && variant !== 'default',
       'ui-button--primary': variant === 'default' && primary,
       'ui-button--secondary': variant === 'default' && !primary,
-      'ui-button--disabled': disabled,
+      'ui-button--disabled': props.disabled,
     },
     userClassName,
   );
@@ -31,24 +31,16 @@ export const Button: FC<ButtonProps> = ({
   const style: CSSProperties | undefined = backgroundColor ? { backgroundColor } : undefined;
 
   const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
-    if (disabled) {
+    if (props.disabled) {
       e.preventDefault();
       return;
     }
-    if (typeof onClick === 'function') onClick();
+    if (typeof onClick === 'function') onClick(e);
   };
 
   return (
-    <button
-      aria-disabled={disabled}
-      className={className}
-      disabled={disabled}
-      style={style}
-      type='button'
-      onClick={handleClick}
-      {...props}
-    >
-      {label}
+    <button {...props} className={className} style={style} type={type} onClick={handleClick}>
+      {children}
     </button>
   );
 };

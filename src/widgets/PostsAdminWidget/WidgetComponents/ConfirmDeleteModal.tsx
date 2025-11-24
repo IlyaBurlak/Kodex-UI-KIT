@@ -19,12 +19,10 @@ export const ConfirmDeleteModal: FC<ConfirmDeleteModalProps> = ({
       <div className='w-posts-admin__confirm'>
         <p>Delete post #{confirmDelete?.id}?</p>
         <div>
-          <Button
-            label='Delete'
-            variant='delete'
-            onClick={() => confirmDelete && onConfirm(confirmDelete)}
-          />
-          <Button label='Cancel' onClick={onCancel} />
+          <Button variant='delete' onClick={() => confirmDelete && onConfirm(confirmDelete)}>
+            Delete
+          </Button>
+          <Button onClick={onCancel}>Cancel</Button>
         </div>
       </div>
     </Modal>

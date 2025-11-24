@@ -12,8 +12,12 @@ export type TableActionsProps = {
 
 export const TableActions: FC<TableActionsProps> = ({ record, onView, onEdit, onDelete }) => (
   <div className='posts-actions'>
-    <Button label='View' primary onClick={onView} />
-    <Button label='Edit' onClick={() => onEdit(record)} />
-    <Button label='Delete' variant='delete' onClick={() => onDelete(record)} />
+    <Button primary onClick={onView}>
+      View
+    </Button>
+    <Button onClick={() => onEdit(record)}>Edit</Button>
+    <Button variant='delete' onClick={() => onDelete(record)}>
+      Delete
+    </Button>
   </div>
 );

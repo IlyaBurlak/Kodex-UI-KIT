@@ -26,12 +26,9 @@ export const ErrorDisplay: FC<ErrorDisplayProps> = ({
       <h3 className='error-display__title'>{title}</h3>
       <p className='error-display__message'>{message}</p>
       {showRetryButton && onRetry && (
-        <Button
-          className='error-display__button'
-          label={retryButtonLabel}
-          primary
-          onClick={onRetry}
-        />
+        <Button className='error-display__button' primary onClick={onRetry}>
+          {retryButtonLabel}
+        </Button>
       )}
     </div>
   );

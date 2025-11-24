@@ -62,7 +62,7 @@ export const PostsTable: FC<PostsTableProps> = ({
           {loadingMore ? (
             <div className='w-posts-admin__loading-more'>Loading more...</div>
           ) : (
-            <Button label='Load more' onClick={loadMore} />
+            <Button onClick={loadMore}>Load more</Button>
           )}
         </div>
       )}

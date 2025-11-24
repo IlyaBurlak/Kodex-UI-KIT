@@ -2,8 +2,8 @@ import './table.scss';
 
 import { classNames } from '@shared/classNames';
 
-import type { ReactNode, TableHTMLAttributes } from 'react';
 import type { TableProps } from '@/components';
+import type { ReactNode, TableHTMLAttributes } from 'react';
 
 export function Table<T = Record<string, unknown>>(
   props: TableProps<T> & TableHTMLAttributes<HTMLTableElement>,

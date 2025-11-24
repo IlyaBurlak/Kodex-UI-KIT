@@ -17,34 +17,34 @@ type Story = StoryObj<typeof meta>;
 export const Primary: Story = {
   args: {
     primary: true,
-    label: 'Primary Button',
+    children: 'Primary Button',
     onClick: () => console.log('clicked'),
   },
 };
 
 export const Secondary: Story = {
   args: {
-    label: 'Secondary Button',
+    children: 'Secondary Button',
   },
 };
 
 export const Large: Story = {
   args: {
     size: 'large',
-    label: 'Large Button',
+    children: 'Large Button',
   },
 };
 
 export const Small: Story = {
   args: {
     size: 'small',
-    label: 'Small Button',
+    children: 'Small Button',
   },
 };
 
 export const Delete: Story = {
   args: {
-    label: 'Delete',
+    children: 'Delete',
     variant: 'delete',
   },
 };

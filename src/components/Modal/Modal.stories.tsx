@@ -32,11 +32,11 @@ export const Default: Story = {
 
       return (
         <div>
-          <Button label='Open modal' onClick={() => setOpen(true)} />
+          <Button onClick={() => setOpen(true)}>Open modal</Button>
           <Modal {...args} isOpen={open} onClose={() => setOpen(false)}>
             <div style={{ maxWidth: 600 }}>
               <p>This is a basic modal. Click outside or press ESC to close.</p>
-              <Button label='Close' onClick={() => setOpen(false)} />
+              <Button onClick={() => setOpen(false)}>Close</Button>
             </div>
           </Modal>
         </div>

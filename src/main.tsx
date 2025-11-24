@@ -7,7 +7,7 @@ import { ThemeProvider } from './Theme/ThemeContext';
 
 import './styles/theme.scss';
 
-import { store } from './store';
+import { store } from '@store';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

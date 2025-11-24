@@ -144,11 +144,12 @@ export const PostWidget: FC<PostWidgetProps> = ({ postId }) => {
             <div className='comment-editor__actions'>
               <Button
                 disabled={!editingComment.body.trim()}
-                label='Save'
                 primary
                 onClick={() => handleSaveComment(editingComment)}
-              />
-              <Button label='Cancel' onClick={() => setEditingComment(null)} />
+              >
+                Save
+              </Button>
+              <Button onClick={() => setEditingComment(null)}>Cancel</Button>
             </div>
           </div>
         )}

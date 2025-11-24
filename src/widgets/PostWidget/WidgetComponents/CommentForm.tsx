@@ -18,6 +18,8 @@ export const CommentForm: FC<CommentFormProps> = ({
 }) => (
   <div className='post-comments__controls'>
     <Input placeholder={placeholder} value={value} onChange={onChange} />
-    <Button disabled={!value.trim()} label={buttonLabel} primary onClick={onSubmit} />
+    <Button disabled={!value.trim()} primary onClick={onSubmit}>
+      {buttonLabel}
+    </Button>
   </div>
 );

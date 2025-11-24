@@ -34,7 +34,9 @@ export const Toolbar: FC<ToolbarProps> = ({
         value={authorFilter}
         onChange={(value) => onAuthorChange(value || undefined)}
       />
-      <Button label='New post' primary onClick={onNew} />
+      <Button primary onClick={onNew}>
+        New post
+      </Button>
     </div>
   );
 };

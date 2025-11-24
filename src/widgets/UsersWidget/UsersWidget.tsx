@@ -101,7 +101,7 @@ export const UsersWidget: FC<UsersWidgetProps> = ({ onViewPosts }) => {
 
       {selected && (
         <aside className='w-users-widget__panel'>
-          <Button label='Close' onClick={() => setSelected(null)} />
+          <Button onClick={() => setSelected(null)}>Close</Button>
           <h3>{selected.name}</h3>
           <p>
             <strong>Username:</strong> {selected.username}
@@ -119,7 +119,9 @@ export const UsersWidget: FC<UsersWidgetProps> = ({ onViewPosts }) => {
             <strong>Company:</strong> {selected.company?.name}
           </p>
           <div className='w-users-widget__toolbar'>
-            <Button label='Посмотреть посты' primary onClick={handleViewPosts} />
+            <Button primary onClick={handleViewPosts}>
+              Посмотреть посты
+            </Button>
           </div>
         </aside>
       )}

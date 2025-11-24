@@ -70,8 +70,10 @@ export const PostFormModal: FC<PostFormModalProps> = ({
         {errors.body && <div className='w-posts-admin__field-error'>{errors.body}</div>}
 
         <div className='w-posts-admin__form-actions'>
-          <Button label='Save' primary onClick={handleSave} />
-          <Button label='Cancel' onClick={onClose} />
+          <Button primary onClick={handleSave}>
+            Save
+          </Button>
+          <Button onClick={onClose}>Cancel</Button>
         </div>
       </div>
     </Modal>
