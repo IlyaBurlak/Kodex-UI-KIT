@@ -2,7 +2,8 @@ import { FC, useEffect, useState } from 'react';
 
 import './tabs.scss';
 
-import { TabsProps } from './Tabs.types.ts';
+import { TabsProps } from './Tabs.types';
+import { Tab } from './Tab';
 
 export const Tabs: FC<TabsProps> = ({
   tabs = [],
@@ -40,30 +41,9 @@ export const Tabs: FC<TabsProps> = ({
   return (
     <div className={className} {...props}>
       <div className='ui-tabs__nav' role='tablist'>
-        {tabs.map((tab) => {
-          const tabClass = [
-            'ui-tabs__tab',
-            tab.key === active && 'ui-tabs__tab--active',
-            tab.disabled && 'ui-tabs__tab--disabled',
-          ]
-            .filter(Boolean)
-            .join(' ');
-
-          return (
-            <button
-              key={tab.key}
-              aria-controls={`panel-${tab.key}`}
-              aria-selected={tab.key === active}
-              className={tabClass}
-              disabled={tab.disabled}
-              role='tab'
-              type='button'
-              onClick={() => handleSelect(tab.key, tab.disabled)}
-            >
-              {tab.label}
-            </button>
-          );
-        })}
+        {tabs.map((tab) => (
+          <Tab key={tab.key} active={tab.key === active} tab={tab} onSelect={handleSelect} />
+        ))}
       </div>
       <div className='ui-tabs__panel' id={`panel-${activeTab?.key}`}>
         {activeTab?.content ?? null}
