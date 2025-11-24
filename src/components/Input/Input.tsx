@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { ChangeEvent, FC } from 'react';
 
 import './input.scss';
 
@@ -7,33 +7,29 @@ import { classNames } from '@shared/classNames';
 import type { InputProps } from '@/components';
 
 export const Input: FC<InputProps> = ({
-  value,
-  defaultValue,
-  placeholder,
-  onChange,
-  onBlur,
-  disabled = false,
   size = 'medium',
   primary = false,
   className,
+  onChange,
   ...props
 }) => {
   const classList = [
     'ui-input',
     `ui-input--${size}`,
     primary ? 'ui-input--primary' : 'ui-input--secondary',
-    disabled ? 'ui-input--disabled' : '',
+    props.disabled ? 'ui-input--disabled' : '',
   ].filter(Boolean);
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    if (props.disabled) return;
+    if (onChange) onChange(event);
+  };
 
   return (
     <input
       className={classNames(...classList, className)}
-      defaultValue={defaultValue}
-      disabled={disabled}
-      placeholder={placeholder}
-      value={value}
-      onBlur={onBlur}
-      onChange={(event) => onChange && onChange(event.target.value)}
+      type='text'
+      onChange={handleChange}
       {...props}
     />
   );

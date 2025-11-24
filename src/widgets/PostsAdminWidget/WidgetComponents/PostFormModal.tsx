@@ -2,7 +2,7 @@ import { Button, Input, Modal, Select } from '@components';
 import { User } from '@store/UsersSlice/usersTypes';
 import { getModalTitle, getUserSelectOptions } from '@widgets/PostsAdminWidget/utils/helpers';
 import { PostValidationErrors, validatePost } from '@widgets/PostsAdminWidget/utils/validation';
-import { FC, useState } from 'react';
+import { ChangeEvent, FC, useState } from 'react';
 
 import type { Post } from '@widgets/PostsAdminWidget/types';
 
@@ -36,7 +36,8 @@ export const PostFormModal: FC<PostFormModalProps> = ({
     onSave(editing);
   };
 
-  const handleTitleChange = (value: string) => {
+  const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const value = event.currentTarget.value;
     setEditing({ ...editing, title: value });
     setErrors((prev) => ({ ...prev, title: undefined }));
   };
@@ -45,7 +46,8 @@ export const PostFormModal: FC<PostFormModalProps> = ({
     setEditing({ ...editing, userId: Number(value) });
   };
 
-  const handleBodyChange = (value: string) => {
+  const handleBodyChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const value = event.currentTarget.value;
     setEditing({ ...editing, body: value });
     setErrors((prev) => ({ ...prev, body: undefined }));
   };

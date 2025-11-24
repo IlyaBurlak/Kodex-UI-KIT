@@ -30,12 +30,12 @@ export const Button: FC<ButtonProps> = ({
 
   const style: CSSProperties | undefined = backgroundColor ? { backgroundColor } : undefined;
 
-  const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
+  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
     if (props.disabled) {
-      e.preventDefault();
+      event.preventDefault();
       return;
     }
-    if (typeof onClick === 'function') onClick(e);
+    if (typeof onClick === 'function') onClick(event);
   };
 
   return (

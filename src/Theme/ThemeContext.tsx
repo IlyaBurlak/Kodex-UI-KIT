@@ -1,4 +1,4 @@
-import { FC, createContext, useContext, useEffect, useState } from 'react';
+import { createContext, FC, ReactNode, useContext, useEffect, useState } from 'react';
 
 export type Theme = 'light' | 'dark';
 
@@ -10,7 +10,7 @@ type ThemeContextValue = {
 
 const ThemeContext = createContext<ThemeContextValue | undefined>(undefined);
 
-export type ThemeProviderProps = { children?: React.ReactNode };
+export type ThemeProviderProps = { children?: ReactNode };
 export const ThemeProvider: FC<ThemeProviderProps> = ({ children }) => {
   const [theme, setThemeState] = useState<Theme>(() => {
     try {

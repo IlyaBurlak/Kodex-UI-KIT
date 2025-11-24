@@ -82,7 +82,7 @@ export const UsersWidget: FC<UsersWidgetProps> = ({ onViewPosts }) => {
         <Input
           placeholder='Search users...'
           value={query}
-          onChange={(value: string) => setQuery(value)}
+          onChange={(event) => setQuery(event.currentTarget.value)}
         />
       </div>
 

@@ -2,7 +2,7 @@ import { getUsers } from '@api';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { getErrorMessage } from '@store/utils';
 
-import type { RootState } from '@store/index';
+import type { RootState } from '@store';
 import { User } from './usersTypes';
 
 const handleAsyncError = (error: unknown, rejectWithValue: Function) => {

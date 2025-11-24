@@ -24,7 +24,7 @@ export const Toolbar: FC<ToolbarProps> = ({
       <Input
         placeholder='Search title'
         value={titleFilter}
-        onChange={(value) => onTitleChange(value)}
+        onChange={(event) => onTitleChange(event.currentTarget.value)}
       />
       <Select
         options={[

@@ -17,7 +17,11 @@ export const CommentForm: FC<CommentFormProps> = ({
   buttonLabel = 'Add',
 }) => (
   <div className='post-comments__controls'>
-    <Input placeholder={placeholder} value={value} onChange={onChange} />
+    <Input
+      placeholder={placeholder}
+      value={value}
+      onChange={(event) => onChange(event.currentTarget.value)}
+    />
     <Button disabled={!value.trim()} primary onClick={onSubmit}>
       {buttonLabel}
     </Button>

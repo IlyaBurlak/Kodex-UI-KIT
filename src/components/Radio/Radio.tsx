@@ -1,6 +1,6 @@
 import { FC, useState } from 'react';
 
-import type { RadioProps } from './Radio.types';
+import type { RadioProps } from '@/components';
 
 import './radio.scss';
 

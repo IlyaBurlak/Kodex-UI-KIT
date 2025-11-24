@@ -140,7 +140,10 @@ export const PostWidget: FC<PostWidgetProps> = ({ postId }) => {
       <Modal isOpen={!!editingComment} title='Edit comment' onClose={() => setEditingComment(null)}>
         {editingComment && (
           <div className='comment-editor'>
-            <Input value={editingComment.body} onChange={handleEditingCommentChange} />
+            <Input
+              value={editingComment.body}
+              onChange={(event) => handleEditingCommentChange(event.currentTarget.value)}
+            />
             <div className='comment-editor__actions'>
               <Button
                 disabled={!editingComment.body.trim()}
