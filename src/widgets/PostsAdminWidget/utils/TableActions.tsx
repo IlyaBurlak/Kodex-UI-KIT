@@ -1,7 +1,7 @@
+import { Button } from '@components';
 import { FC } from 'react';
 
-import type { Post } from '../types.ts';
-import { Button } from '../../../components';
+import type { Post } from '@widgets/PostsAdminWidget/types';
 
 export type TableActionsProps = {
   record: Post;

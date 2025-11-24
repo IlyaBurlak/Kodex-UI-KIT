@@ -1,8 +1,8 @@
+import { createPost, deletePost, getPost, getPosts, updatePost } from '@api';
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { getErrorMessage } from '@store/utils';
 
-import type { RootState } from '../index';
-import { createPost, deletePost, getPost, getPosts, updatePost } from '../../api';
-import { getErrorMessage } from '../utils.ts';
+import type { RootState } from '@store';
 import {
   applyLocalUpdates,
   loadLocalPosts,

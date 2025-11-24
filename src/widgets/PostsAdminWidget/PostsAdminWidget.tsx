@@ -2,15 +2,16 @@ import { FC } from 'react';
 
 import { usePostModals } from './hooks/usePostModals';
 import { usePostsManagement } from './hooks/usePostsManagement';
-import { ConfirmDeleteModal } from './WidgetComponents/ConfirmDeleteModal.tsx';
-import { PostFormModal } from './WidgetComponents/PostFormModal.tsx';
-import { PostsTable } from './WidgetComponents/PostsTable.tsx';
-import { Toolbar } from './WidgetComponents/Toolbar.tsx';
+import { ConfirmDeleteModal } from './WidgetComponents/ConfirmDeleteModal';
+import { PostFormModal } from './WidgetComponents/PostFormModal';
+import { PostsTable } from './WidgetComponents/PostsTable';
+import { Toolbar } from './WidgetComponents/Toolbar';
 
 import './postsAdmin.scss';
 
-import { Loader } from '../../components';
-import { ErrorDisplay } from '../ErrorWidget/ErrorDisplay.tsx';
+import { Loader } from '@components';
+import { ErrorDisplay } from '@widgets/ErrorWidget/ErrorDisplay';
+
 import { Post } from './types.ts';
 
 export type PostsAdminWidgetProps = { initialAuthorId?: number };

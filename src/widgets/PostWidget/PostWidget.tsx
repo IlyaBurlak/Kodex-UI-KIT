@@ -1,27 +1,26 @@
-import { FC, useEffect, useState } from 'react';
-
-import { Button, Input, Loader, Modal } from '../../components';
+import { Button, Input, Loader, Modal } from '@components';
 import {
   selectComments,
   selectCommentsLoading,
   updateLocalComment,
-} from '../../store/CommentsSlice/commentsSlice';
-import { addComment, fetchComments, removeComment } from '../../store/CommentsSlice/commentsThunks';
-import { Comment } from '../../store/CommentsSlice/commentsTypes';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
+} from '@store/CommentsSlice/commentsSlice';
+import { addComment, fetchComments, removeComment } from '@store/CommentsSlice/commentsThunks';
+import { Comment } from '@store/CommentsSlice/commentsTypes';
+import { useAppDispatch, useAppSelector } from '@store/hooks';
 import {
   selectPostsError,
   selectPostsLoading,
   selectSelectedPost,
-} from '../../store/PostSlice/postsSlice';
-import { fetchPost } from '../../store/PostSlice/postsThunks';
-import { ErrorDisplay } from '../ErrorWidget/ErrorDisplay';
+} from '@store/PostSlice/postsSlice';
+import { fetchPost } from '@store/PostSlice/postsThunks';
+import { ErrorDisplay } from '@widgets/ErrorWidget/ErrorDisplay';
+import { FC, useEffect, useState } from 'react';
 
 import './postWidget.scss';
 
-import type { RootState } from '../../store';
-import { CommentForm } from './WidgetComponents/CommentForm.tsx';
-import { CommentItem } from './WidgetComponents/CommentItem.tsx';
+import type { RootState } from '@store';
+import { CommentForm } from './WidgetComponents/CommentForm';
+import { CommentItem } from './WidgetComponents/CommentItem';
 
 export type PostWidgetProps = { postId: number };
 

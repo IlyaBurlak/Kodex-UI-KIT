@@ -1,7 +1,7 @@
+import { Button, Modal } from '@components';
 import { FC } from 'react';
 
-import type { Post } from '../types.ts';
-import { Button, Modal } from '../../../components';
+import type { Post } from '@widgets/PostsAdminWidget/types';
 
 export type ConfirmDeleteModalProps = {
   confirmDelete: Post | null;

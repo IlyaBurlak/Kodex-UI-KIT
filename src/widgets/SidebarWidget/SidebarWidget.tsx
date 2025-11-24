@@ -2,12 +2,12 @@ import { FC, useMemo } from 'react';
 
 import './sidebarWidget.scss';
 
+import { Sidebar, Switch, useTheme } from '@components';
 import { FiMenu, FiSettings, FiUser } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 
-import type { SidebarOption } from '../../components/Sidebar';
-import type { SidebarWidgetProps } from './SidebarWidget.types';
-import { Sidebar, Switch, useTheme } from '../../components';
+import type { SidebarOption } from '@components/Sidebar';
+import type { SidebarWidgetProps } from '@widgets/SidebarWidget/SidebarWidget.types';
 
 export const SidebarWidget: FC<SidebarWidgetProps> = ({
   title,

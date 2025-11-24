@@ -11,6 +11,16 @@ module.exports = {
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx'],
+    modules: [path.resolve(__dirname, 'src'), 'node_modules'],
+    alias: {
+      '@': path.resolve(__dirname, 'src'),
+      '@components': path.resolve(__dirname, 'src/components'),
+      '@widgets': path.resolve(__dirname, 'src/widgets'),
+      '@store': path.resolve(__dirname, 'src/store'),
+      '@hooks': path.resolve(__dirname, 'src/hooks'),
+      '@api': path.resolve(__dirname, 'src/api'),
+      '@styles': path.resolve(__dirname, 'src/styles'),
+    },
   },
   module: {
     rules: [

@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import type { RootState } from '../index';
+import type { RootState } from '@store/index';
 import { fetchUsers } from './usersThunks';
 import { UsersState } from './usersTypes';
 

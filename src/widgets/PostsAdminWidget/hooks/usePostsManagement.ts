@@ -1,16 +1,15 @@
-import { useCallback, useEffect, useState } from 'react';
-
-import { useAppDispatch, useAppSelector } from '../../../store/hooks';
+import { useAppDispatch, useAppSelector } from '@store/hooks';
 import {
   selectPosts,
   selectPostsError,
   selectPostsLoading,
   selectPostsLoadingMore,
-} from '../../../store/PostSlice/postsSlice.ts';
-import { addPost, editPost, fetchPosts, removePost } from '../../../store/PostSlice/postsThunks.ts';
-import { selectUsers, selectUsersError } from '../../../store/UsersSlice/usersSlice.ts';
-import { fetchUsers } from '../../../store/UsersSlice/usersThunks.ts';
-import { Post } from '../types.ts';
+} from '@store/PostSlice/postsSlice';
+import { addPost, editPost, fetchPosts, removePost } from '@store/PostSlice/postsThunks';
+import { selectUsers, selectUsersError } from '@store/UsersSlice/usersSlice';
+import { fetchUsers } from '@store/UsersSlice/usersThunks';
+import { Post } from '@widgets/PostsAdminWidget/types';
+import { useCallback, useEffect, useState } from 'react';
 
 export const usePostsManagement = (initialAuthorId?: number) => {
   const dispatch = useAppDispatch();

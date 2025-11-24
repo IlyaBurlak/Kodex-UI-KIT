@@ -1,7 +1,6 @@
+import { PostWidget } from '@widgets/PostWidget/PostWidget';
 import { FC } from 'react';
 import { useParams } from 'react-router-dom';
-
-import { PostWidget } from '../widgets/PostWidget/PostWidget.tsx';
 
 import './pages.scss';
 

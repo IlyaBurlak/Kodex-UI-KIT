@@ -1,7 +1,6 @@
+import { Button } from '@components';
+import { Comment } from '@store/CommentsSlice/commentsTypes';
 import { FC } from 'react';
-
-import { Button } from '../../../components';
-import { Comment } from '../../../store/CommentsSlice/commentsTypes.ts';
 
 interface CommentItemProps {
   comment: Comment;

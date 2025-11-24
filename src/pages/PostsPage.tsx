@@ -1,6 +1,5 @@
+import { PostsAdminWidget } from '@widgets/PostsAdminWidget/PostsAdminWidget';
 import { useLocation } from 'react-router-dom';
-
-import { PostsAdminWidget } from '../widgets/PostsAdminWidget/PostsAdminWidget';
 
 import './pages.scss';
 

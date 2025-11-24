@@ -1,10 +1,10 @@
+import { Button, Input, Modal, Select } from '@components';
+import { User } from '@store/UsersSlice/usersTypes';
+import { getModalTitle, getUserSelectOptions } from '@widgets/PostsAdminWidget/utils/helpers';
+import { PostValidationErrors, validatePost } from '@widgets/PostsAdminWidget/utils/validation';
 import { FC, useState } from 'react';
 
-import type { Post } from '../types.ts';
-import { Button, Input, Modal, Select } from '../../../components';
-import { User } from '../../../store/UsersSlice/usersTypes.ts';
-import { getModalTitle, getUserSelectOptions } from '../utils/helpers.ts';
-import { PostValidationErrors, validatePost } from '../utils/validation';
+import type { Post } from '@widgets/PostsAdminWidget/types';
 
 export type PostFormModalProps = {
   isOpen: boolean;

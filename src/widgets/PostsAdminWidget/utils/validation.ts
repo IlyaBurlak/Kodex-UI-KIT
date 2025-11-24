@@ -1,4 +1,4 @@
-import type { Post } from '../types';
+import type { Post } from '@widgets/PostsAdminWidget/types';
 
 export type PostValidationErrors = {
   title?: string;

@@ -1,11 +1,10 @@
+import { SidebarWidget } from '@widgets/SidebarWidget';
 import { FC, useState } from 'react';
 import { BrowserRouter, Navigate, Outlet, Route, Routes } from 'react-router-dom';
 
-import { SidebarWidget } from './widgets/SidebarWidget/SidebarWidget';
-
 import './styles/layout.scss';
 
-import { PostPage } from './pages/PostPage.tsx';
+import { PostPage } from './pages/PostPage';
 import { PostsPage } from './pages/PostsPage';
 import { UsersPage } from './pages/UsersPage';
 

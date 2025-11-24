@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import type { Post } from '../store/PostSlice/postsTypes';
+import type { Post } from '@store/PostSlice/postsTypes';
 
 const api = axios.create({
   baseURL: 'https://jsonplaceholder.typicode.com',

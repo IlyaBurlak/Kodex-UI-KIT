@@ -2,7 +2,7 @@ import { FC, ReactNode } from 'react';
 
 import './ErrorDisplay.scss';
 
-import { Button } from '../../components';
+import { Button } from '@components';
 
 export type ErrorDisplayProps = {
   title: string;

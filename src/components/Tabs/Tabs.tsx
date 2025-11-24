@@ -71,5 +71,3 @@ export const Tabs: FC<TabsProps> = ({
     </div>
   );
 };
-
-export { Tabs as default };

@@ -1,4 +1,4 @@
-import { User } from '../../../store/UsersSlice/usersTypes.ts';
+import { User } from '@store/UsersSlice/usersTypes';
 
 export const getModalTitle = (editingId: number): string =>
   editingId ? 'Edit post' : 'Create post';

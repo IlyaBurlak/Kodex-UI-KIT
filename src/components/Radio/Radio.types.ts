@@ -1,4 +1,4 @@
-import type { BaseProps } from '../shared/types';
+import type { BaseProps } from '@components/shared/types';
 
 export interface RadioProps extends BaseProps {
   checked?: boolean;

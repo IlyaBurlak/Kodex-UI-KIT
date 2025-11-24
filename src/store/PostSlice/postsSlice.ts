@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { RootState } from '@store';
 
-import { RootState } from '../index.ts';
 import { addPost, editPost, fetchPost, fetchPosts, removePost } from './postsThunks';
 import { PostsState } from './postsTypes';
 

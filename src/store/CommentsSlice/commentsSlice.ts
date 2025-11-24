@@ -1,6 +1,6 @@
+import { RootState } from '@/store';
 import { createSlice, isFulfilled, isPending, isRejected } from '@reduxjs/toolkit';
 
-import { RootState } from '../index.ts';
 import { addComment, editComment, fetchComments, removeComment } from './commentsThunks';
 import { CommentsState } from './commentsTypes';
 

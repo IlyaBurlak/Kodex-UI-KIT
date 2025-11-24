@@ -5,7 +5,22 @@
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
-    "baseUrl": ".",
+    "baseUrl": "src",
+    "paths": {
+      "@/*": ["*"],
+      "@components": ["components/index"],
+      "@components/*": ["components/*"],
+      "@widgets": ["widgets/index"],
+      "@widgets/*": ["widgets/*"],
+      "@store": ["store/index"],
+      "@store/*": ["store/*"],
+      "@hooks": ["hooks/index"],
+      "@hooks/*": ["hooks/*"],
+      "@api": ["api/index"],
+      "@api/*": ["api/*"],
+      "@styles": ["styles/index"],
+      "@styles/*": ["styles/*"]
+    },
 
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,

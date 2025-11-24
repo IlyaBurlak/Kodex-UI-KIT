@@ -1,7 +1,6 @@
+import { User } from '@store/UsersSlice/usersTypes';
+import { Post } from '@widgets/PostsAdminWidget/types';
 import { useState } from 'react';
-
-import { User } from '../../../store/UsersSlice/usersTypes.ts';
-import { Post } from '../types';
 
 export const usePostModals = (users: User[]) => {
   const [isModalOpen, setModalOpen] = useState(false);

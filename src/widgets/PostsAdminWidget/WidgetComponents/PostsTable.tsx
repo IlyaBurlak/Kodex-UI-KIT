@@ -1,11 +1,11 @@
+import { Button, Table } from '@components';
+import { User } from '@store/UsersSlice/usersTypes';
+import { TableActions } from '@widgets/PostsAdminWidget/utils/TableActions';
 import { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import type { Column } from '../../../components/Table/Table.types';
-import type { Post } from '../types.ts';
-import { Button, Table } from '../../../components';
-import { User } from '../../../store/UsersSlice/usersTypes.ts';
-import { TableActions } from '../utils/TableActions.tsx';
+import type { Column } from '@components/Table/Table.types';
+import type { Post } from '@widgets/PostsAdminWidget/types';
 
 export type PostsTableProps = {
   posts: Post[];

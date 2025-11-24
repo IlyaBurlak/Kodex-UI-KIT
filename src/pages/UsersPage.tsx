@@ -1,4 +1,4 @@
-import { UsersWidget } from '../widgets/UsersWidget/UsersWidget';
+import { UsersWidget } from '@widgets/UsersWidget/UsersWidget';
 
 import './pages.scss';
 

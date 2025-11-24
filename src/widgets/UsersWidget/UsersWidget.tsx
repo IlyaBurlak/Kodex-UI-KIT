@@ -2,20 +2,16 @@ import { FC, useEffect, useMemo, useState } from 'react';
 
 import './usersWidget.scss';
 
+import { Button, Input, Loader, Table } from '@components';
+import { useDebounce } from '@hooks/useDebounce';
+import { useAppDispatch, useAppSelector } from '@store/hooks';
+import { selectUsers, selectUsersError, selectUsersLoading } from '@store/UsersSlice/usersSlice';
+import { fetchUsers } from '@store/UsersSlice/usersThunks';
+import { User } from '@store/UsersSlice/usersTypes';
+import { ErrorDisplay } from '@widgets/ErrorWidget/ErrorDisplay';
 import { useNavigate } from 'react-router-dom';
 
-import type { Column } from '../../components/Table/Table.types';
-import { Button, Input, Loader, Table } from '../../components';
-import { useDebounce } from '../../hooks/useDebounce';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import {
-  selectUsers,
-  selectUsersError,
-  selectUsersLoading,
-} from '../../store/UsersSlice/usersSlice';
-import { fetchUsers } from '../../store/UsersSlice/usersThunks';
-import { User } from '../../store/UsersSlice/usersTypes';
-import { ErrorDisplay } from '../ErrorWidget/ErrorDisplay.tsx';
+import type { Column } from '@components/Table/Table.types';
 
 export type UsersWidgetProps = { onViewPosts?: (userId: number) => void };
 
@@ -89,7 +85,7 @@ export const UsersWidget: FC<UsersWidgetProps> = ({ onViewPosts }) => {
             columns={columns}
             data={filtered}
             hover
-            onRowClick={(row) => setSelected(row)}
+            onRowClick={(row: User) => setSelected(row)}
           />
         )}
       </div>

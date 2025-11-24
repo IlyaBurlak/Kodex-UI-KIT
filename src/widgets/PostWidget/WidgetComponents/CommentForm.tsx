@@ -1,6 +1,5 @@
+import { Button, Input } from '@components';
 import { FC } from 'react';
-
-import { Button, Input } from '../../../components';
 
 interface CommentFormProps {
   value: string;

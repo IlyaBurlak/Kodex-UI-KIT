@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "webpack serve --config webpack.config.cjs --mode development",
-    "build": "webpack --config webpack.config.cjs --mode production && tsc -p tsconfig.build.json && npm run build:css",
+    "build": "webpack --config webpack.config.cjs --mode production && tsc -p tsconfig.json",
     "lint": "eslint . --fix",
     "stylelint": "stylelint \"src/**/*.scss\" --fix",
     "lint:style": "npm run stylelint",
@@ -31,6 +31,8 @@
     "@typescript-eslint/parser": "^8.46.2",
     "css-loader": "^6.8.1",
     "eslint": "^9.36.0",
+    "eslint-import-resolver-typescript": "^4.4.4",
+    "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^5.2.0",

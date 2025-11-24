@@ -22,6 +22,25 @@ export default [
         ecmaFeatures: { jsx: true },
       },
     },
+    settings: {
+      'import/resolver': {
+        node: {
+          moduleDirectory: ['node_modules', 'src'],
+        },
+        alias: {
+          map: [
+            ['@', './src'],
+            ['@components', './src/components'],
+            ['@widgets', './src/widgets'],
+            ['@store', './src/store'],
+            ['@hooks', './src/hooks'],
+            ['@api', './src/api'],
+            ['@styles', './src/styles'],
+          ],
+          extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
+        },
+      },
+    },
     rules: {
       '@typescript-eslint/no-unused-vars': [
         'warn',
