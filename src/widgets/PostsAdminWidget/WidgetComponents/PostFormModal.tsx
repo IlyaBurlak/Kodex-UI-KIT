@@ -36,16 +36,27 @@ export const PostFormModal: FC<PostFormModalProps> = ({
     onSave(editing);
   };
 
+  const handleTitleChange = (value: string) => {
+    setEditing({ ...editing, title: value });
+    setErrors((prev) => ({ ...prev, title: undefined }));
+  };
+
+  const handleUserChange = (value: string) => {
+    setEditing({ ...editing, userId: Number(value) });
+  };
+
+  const handleBodyChange = (value: string) => {
+    setEditing({ ...editing, body: value });
+    setErrors((prev) => ({ ...prev, body: undefined }));
+  };
+
   return (
     <Modal isOpen={isOpen} title={getModalTitle(editing.id)} onClose={onClose}>
       <div className='w-posts-admin__form'>
         <label>Title</label>
         <Input
           value={editing.title}
-          onChange={(value) => {
-            setEditing({ ...editing, title: value });
-            setErrors((prev) => ({ ...prev, title: undefined }));
-          }}
+          onChange={handleTitleChange}
         />
         {errors.title && <div className='w-posts-admin__field-error'>{errors.title}</div>}
 
@@ -53,17 +64,14 @@ export const PostFormModal: FC<PostFormModalProps> = ({
         <Select
           options={getUserSelectOptions(users)}
           value={String(editing.userId)}
-          onChange={(value) => setEditing({ ...editing, userId: Number(value) })}
+          onChange={handleUserChange}
         />
         {errors.user && <div className='w-posts-admin__field-error'>{errors.user}</div>}
 
         <label>Body</label>
         <Input
           value={editing.body}
-          onChange={(value) => {
-            setEditing({ ...editing, body: value });
-            setErrors((prev) => ({ ...prev, body: undefined }));
-          }}
+          onChange={handleBodyChange}
         />
         {errors.body && <div className='w-posts-admin__field-error'>{errors.body}</div>}
 
