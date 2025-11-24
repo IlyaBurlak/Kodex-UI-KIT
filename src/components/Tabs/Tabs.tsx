@@ -2,8 +2,8 @@ import { FC, useEffect, useState } from 'react';
 
 import './tabs.scss';
 
-import { TabsProps } from './Tabs.types';
 import { Tab } from './Tab';
+import { TabsProps } from './Tabs.types';
 
 export const Tabs: FC<TabsProps> = ({
   tabs = [],

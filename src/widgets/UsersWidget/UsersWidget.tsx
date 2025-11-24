@@ -2,20 +2,16 @@ import { FC, useEffect, useMemo, useState } from 'react';
 
 import './usersWidget.scss';
 
-import { useNavigate } from 'react-router-dom';
-
-import type { Column } from '@components/Table/Table.types';
 import { Button, Input, Loader, Table } from '@components';
 import { useDebounce } from '@hooks/useDebounce';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
-import {
-  selectUsers,
-  selectUsersError,
-  selectUsersLoading,
-} from '@store/UsersSlice/usersSlice';
+import { selectUsers, selectUsersError, selectUsersLoading } from '@store/UsersSlice/usersSlice';
 import { fetchUsers } from '@store/UsersSlice/usersThunks';
 import { User } from '@store/UsersSlice/usersTypes';
 import { ErrorDisplay } from '@widgets/ErrorWidget/ErrorDisplay';
+import { useNavigate } from 'react-router-dom';
+
+import type { Column } from '@components/Table/Table.types';
 
 export type UsersWidgetProps = { onViewPosts?: (userId: number) => void };
 
@@ -28,7 +24,7 @@ export const UsersWidget: FC<UsersWidgetProps> = ({ onViewPosts }) => {
   const debouncedQuery = useDebounce(query, 400);
   const [selected, setSelected] = useState<User | null>(null);
   const navigate = useNavigate();
-    
+
   const handleViewPosts = () => {
     if (!selected) return;
     if (onViewPosts) {
@@ -123,11 +119,7 @@ export const UsersWidget: FC<UsersWidgetProps> = ({ onViewPosts }) => {
             <strong>Company:</strong> {selected.company?.name}
           </p>
           <div className='w-users-widget__toolbar'>
-            <Button
-              label='Посмотреть посты'
-              primary
-              onClick={handleViewPosts}
-            />
+            <Button label='Посмотреть посты' primary onClick={handleViewPosts} />
           </div>
         </aside>
       )}

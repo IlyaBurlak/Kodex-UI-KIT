@@ -54,10 +54,7 @@ export const PostFormModal: FC<PostFormModalProps> = ({
     <Modal isOpen={isOpen} title={getModalTitle(editing.id)} onClose={onClose}>
       <div className='w-posts-admin__form'>
         <label>Title</label>
-        <Input
-          value={editing.title}
-          onChange={handleTitleChange}
-        />
+        <Input value={editing.title} onChange={handleTitleChange} />
         {errors.title && <div className='w-posts-admin__field-error'>{errors.title}</div>}
 
         <label>Author</label>
@@ -69,10 +66,7 @@ export const PostFormModal: FC<PostFormModalProps> = ({
         {errors.user && <div className='w-posts-admin__field-error'>{errors.user}</div>}
 
         <label>Body</label>
-        <Input
-          value={editing.body}
-          onChange={handleBodyChange}
-        />
+        <Input value={editing.body} onChange={handleBodyChange} />
         {errors.body && <div className='w-posts-admin__field-error'>{errors.body}</div>}
 
         <div className='w-posts-admin__form-actions'>

@@ -1,7 +1,7 @@
+import { SidebarWidget } from '@widgets/SidebarWidget';
 import { FC, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 
-import { SidebarWidget } from '@widgets/SidebarWidget';
 import '@styles/layout.scss';
 
 export const MainLayout: FC = () => {

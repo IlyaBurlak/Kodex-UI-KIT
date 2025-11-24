@@ -1,9 +1,10 @@
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import MainLayout from '@widgets/Layout/MainLayout';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
 import { PostPage } from './pages/PostPage';
 import { PostsPage } from './pages/PostsPage';
 import { UsersPage } from './pages/UsersPage';
+
 export const App = () => {
   return (
     <BrowserRouter>
