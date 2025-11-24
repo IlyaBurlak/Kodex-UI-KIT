@@ -2,7 +2,9 @@ import { FC, useEffect } from 'react';
 
 import './modal.scss';
 
-import { ModalProps } from './Modal.types.ts';
+import { classNames } from '@shared/classNames';
+
+import { ModalProps } from '@/components';
 
 export const Modal: FC<ModalProps> = ({
   isOpen,
@@ -48,8 +50,7 @@ export const Modal: FC<ModalProps> = ({
 
   const open = Boolean(isOpen);
 
-  const baseClass = ['ui-modal', `ui-modal--${size}`].join(' ');
-  const className = [baseClass, userClassName].filter(Boolean).join(' ');
+  const className = classNames('ui-modal', `ui-modal--${size}`, userClassName);
 
   if (!open) return null;
 

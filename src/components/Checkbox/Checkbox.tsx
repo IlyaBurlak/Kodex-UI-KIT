@@ -2,7 +2,9 @@ import { FC } from 'react';
 
 import './checkbox.scss';
 
-import type { CheckboxProps } from './Checkbox.types';
+import { classNames } from '@shared/classNames';
+
+import type { CheckboxProps } from '@/components';
 
 export const Checkbox: FC<CheckboxProps> = ({
   checked,
@@ -23,7 +25,7 @@ export const Checkbox: FC<CheckboxProps> = ({
   ].filter(Boolean);
 
   return (
-    <label className={[...classList, className].filter(Boolean).join(' ')}>
+    <label className={classNames(...classList, className)}>
       <input
         checked={checked}
         className='ui-checkbox__input'

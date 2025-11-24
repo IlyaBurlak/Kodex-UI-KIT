@@ -1,3 +1,4 @@
+import { classNames } from '@shared/classNames';
 import { FC } from 'react';
 
 import type { TabItem } from './Tabs.types';
@@ -9,13 +10,11 @@ type Props = {
 };
 
 export const Tab: FC<Props> = ({ tab, active = false, onSelect }) => {
-  const tabClass = [
+  const tabClass = classNames(
     'ui-tabs__tab',
     tab.key === (active ? tab.key : undefined) && 'ui-tabs__tab--active',
     tab.disabled && 'ui-tabs__tab--disabled',
-  ]
-    .filter(Boolean)
-    .join(' ');
+  );
 
   return (
     <button

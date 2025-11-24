@@ -19,21 +19,23 @@
       "@api": ["api/index"],
       "@api/*": ["api/*"],
       "@styles": ["styles/index"],
-      "@styles/*": ["styles/*"]
+      "@styles/*": ["styles/*"],
+      "@shared/*": ["components/shared/*", "shared/*"]
     },
-
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "types": ["jest", "node"],
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true
   },
-  "include": ["src"],
-  "exclude": ["**/*.stories.*", ".storybook", "**/__tests__/**"]
+  "include": ["src", "shared", "**/*.test.ts", "**/*.test.tsx"],
+  "exclude": ["**/*.stories.*", ".storybook", "dist", "node_modules"]
 }

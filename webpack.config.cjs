@@ -20,13 +20,14 @@ module.exports = {
       '@hooks': path.resolve(__dirname, 'src/hooks'),
       '@api': path.resolve(__dirname, 'src/api'),
       '@styles': path.resolve(__dirname, 'src/styles'),
+      '@shared': path.resolve(__dirname, 'src/components/shared'),
     },
   },
   module: {
     rules: [
       {
         test: /\.tsx?$/,
-        exclude: [/node_modules/, /\.stories\.(t|j)sx?$/],
+        exclude: [/node_modules/, /\.stories\.(t|j)sx?$/, /\.test\.(t|j)sx?$/],
         use: {
           loader: 'ts-loader',
           options: {

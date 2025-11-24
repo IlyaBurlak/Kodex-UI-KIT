@@ -2,7 +2,9 @@ import { FC } from 'react';
 
 import './input.scss';
 
-import type { InputProps } from './Input.types';
+import { classNames } from '@shared/classNames';
+
+import type { InputProps } from '@/components';
 
 export const Input: FC<InputProps> = ({
   value,
@@ -25,7 +27,7 @@ export const Input: FC<InputProps> = ({
 
   return (
     <input
-      className={[...classList, className].filter(Boolean).join(' ')}
+      className={classNames(...classList, className)}
       defaultValue={defaultValue}
       disabled={disabled}
       placeholder={placeholder}

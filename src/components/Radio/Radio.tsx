@@ -4,6 +4,8 @@ import type { RadioProps } from './Radio.types';
 
 import './radio.scss';
 
+import { classNames } from '@shared/classNames';
+
 export const Radio: FC<RadioProps> = ({
   checked,
   defaultChecked,
@@ -26,15 +28,13 @@ export const Radio: FC<RadioProps> = ({
     onChange && onChange(next);
   };
 
-  const classList = [
+  const classList = classNames(
     'ui-radio',
     `ui-radio--${size}`,
     primary ? 'ui-radio--primary' : 'ui-radio--secondary',
-    disabled ? 'ui-radio--disabled' : '',
+    disabled && 'ui-radio--disabled',
     className,
-  ]
-    .filter(Boolean)
-    .join(' ');
+  );
 
   return (
     <label className={classList}>

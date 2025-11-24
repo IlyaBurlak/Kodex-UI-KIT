@@ -2,6 +2,8 @@ import { FC, useEffect, useState } from 'react';
 
 import './tabs.scss';
 
+import { classNames } from '@shared/classNames';
+
 import { Tab } from './Tab';
 import { TabsProps } from './Tabs.types';
 
@@ -28,7 +30,7 @@ export const Tabs: FC<TabsProps> = ({
 
   const active = activeKey ?? internalActive;
 
-  const className = ['ui-tabs', `ui-tabs--${size}`, userClassName].filter(Boolean).join(' ');
+  const className = classNames('ui-tabs', `ui-tabs--${size}`, userClassName);
 
   const activeTab = tabs.find((tab) => tab.key === active);
 

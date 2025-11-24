@@ -2,7 +2,9 @@ import { FC } from 'react';
 
 import './select.scss';
 
-import type { SelectProps } from './Select.types';
+import { classNames } from '@shared/classNames';
+
+import type { SelectProps } from '@/components';
 
 export const Select: FC<SelectProps> = ({
   value,
@@ -25,7 +27,7 @@ export const Select: FC<SelectProps> = ({
 
   return (
     <select
-      className={[...classList, className].filter(Boolean).join(' ')}
+      className={classNames(...classList, className)}
       defaultValue={defaultValue}
       disabled={disabled}
       value={value}

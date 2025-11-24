@@ -2,7 +2,9 @@ import { FC } from 'react';
 
 import './switch.scss';
 
-import type { SwitchProps } from './Switch.types';
+import { classNames } from '@shared/classNames';
+
+import type { SwitchProps } from '@/components';
 
 export const Switch: FC<SwitchProps> = ({
   checked,
@@ -23,7 +25,7 @@ export const Switch: FC<SwitchProps> = ({
   ].filter(Boolean);
 
   return (
-    <label className={[...classList, className].filter(Boolean).join(' ')}>
+    <label className={classNames(...classList, className)}>
       <input
         checked={checked}
         className='ui-switch__input'

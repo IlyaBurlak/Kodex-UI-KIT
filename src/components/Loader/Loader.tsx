@@ -2,10 +2,10 @@ import { FC } from 'react';
 
 import './loader.scss';
 
+import { classNames } from '@shared/classNames';
+
 import type { LoaderProps } from './Loader.types';
 
 export const Loader: FC<LoaderProps> = ({ size = 'medium', className }) => {
-  return (
-    <div className={[`ui-loader`, `ui-loader--${size}`, className].filter(Boolean).join(' ')} />
-  );
+  return <div className={classNames('ui-loader', `ui-loader--${size}`, className)} />;
 };

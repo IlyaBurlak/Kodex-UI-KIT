@@ -1,7 +1,9 @@
 import './table.scss';
 
+import { classNames } from '@shared/classNames';
+
 import type { ReactNode, TableHTMLAttributes } from 'react';
-import type { TableProps } from './Table.types';
+import type { TableProps } from '@/components';
 
 export function Table<T = Record<string, unknown>>(
   props: TableProps<T> & TableHTMLAttributes<HTMLTableElement>,
@@ -20,17 +22,14 @@ export function Table<T = Record<string, unknown>>(
     ...rest
   } = props;
 
-  const baseClass = [
+  const classList = classNames(
     'ui-table',
     `ui-table--${size}`,
-    striped ? 'ui-table--striped' : '',
-    bordered ? 'ui-table--bordered' : '',
-    hover ? 'ui-table--hover' : '',
-  ]
-    .filter(Boolean)
-    .join(' ');
-
-  const classList = [baseClass, className].filter(Boolean).join(' ');
+    striped && 'ui-table--striped',
+    bordered && 'ui-table--bordered',
+    hover && 'ui-table--hover',
+    className,
+  );
 
   const getRowKey = (record: T, index: number) => {
     if (typeof rowKey === 'function') return rowKey(record);

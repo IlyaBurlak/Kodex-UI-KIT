@@ -2,7 +2,8 @@ import { CSSProperties, FC, MouseEvent } from 'react';
 
 import './button.scss';
 
-import { ButtonProps } from './Button.types.ts';
+import { ButtonProps } from '@/components';
+import { classNames } from '@shared/classNames';
 
 export const Button: FC<ButtonProps> = ({
   primary = false,
@@ -15,14 +16,17 @@ export const Button: FC<ButtonProps> = ({
   onClick,
   ...props
 }) => {
-  const classes: string[] = ['ui-button', `ui-button--${size}`];
-  if (variant && variant !== 'default') {
-    classes.push(`ui-button--${variant}`);
-  } else {
-    classes.push(primary ? 'ui-button--primary' : 'ui-button--secondary');
-  }
-
-  const className = [classes.join(' '), userClassName].filter(Boolean).join(' ');
+  const className = classNames(
+    'ui-button',
+    `ui-button--${size}`,
+    {
+      [`ui-button--${variant}`]: variant && variant !== 'default',
+      'ui-button--primary': variant === 'default' && primary,
+      'ui-button--secondary': variant === 'default' && !primary,
+      'ui-button--disabled': disabled,
+    },
+    userClassName,
+  );
 
   const style: CSSProperties | undefined = backgroundColor ? { backgroundColor } : undefined;
 
