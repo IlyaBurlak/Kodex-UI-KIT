@@ -134,7 +134,7 @@ export const editPost = createAsyncThunk<EditPostResult, EditPostArgs>(
       }
 
       try {
-        await updatePost(id, payload as Record<string, unknown>);
+        await updatePost(id, payload);
       } catch (e) {
         console.warn('Remote updatePost failed:', e);
       }

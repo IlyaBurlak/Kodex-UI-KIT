@@ -31,7 +31,13 @@ export const fetchComments = createAsyncThunk<
       const localCommentsForPost = localComments.filter((localItem) => localItem.postId === postId);
       const serverIds = new Set(comments.map((serverItem) => serverItem.id));
 
-      return { postId, comments: [...localCommentsForPost.filter((localItem) => !serverIds.has(localItem.id)), ...comments] };
+      return {
+        postId,
+        comments: [
+          ...localCommentsForPost.filter((localItem) => !serverIds.has(localItem.id)),
+          ...comments,
+        ],
+      };
     } catch (error) {
       return handleAsyncError(error, rejectWithValue);
     }
@@ -40,7 +46,8 @@ export const fetchComments = createAsyncThunk<
     condition: (postId: number, { getState }) => {
       const state = getState();
       if (state.comments.loading) return false;
-      if (state.comments.items && state.comments.items.some((item) => item.postId === postId)) return false;
+      if (state.comments.items && state.comments.items.some((item) => item.postId === postId))
+        return false;
       if (state.comments.fetchedPosts && state.comments.fetchedPosts[postId]) return false;
       return true;
     },

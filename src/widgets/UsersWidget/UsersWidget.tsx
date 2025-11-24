@@ -51,9 +51,8 @@ export const UsersWidget: FC<UsersWidgetProps> = ({ onViewPosts }) => {
     {
       title: 'Company',
       dataIndex: 'company',
-      render: (value: unknown) => {
-        const comp = value as User['company'] | undefined;
-        return comp?.name ?? '-';
+      render: (_value: unknown, row: User) => {
+        return row.company?.name ?? '-';
       },
     },
   ];

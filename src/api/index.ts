@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+import type { Post } from '../store/PostSlice/postsTypes';
+
 const api = axios.create({
   baseURL: 'https://jsonplaceholder.typicode.com',
   timeout: 10000,
@@ -20,7 +22,7 @@ export const getUsers = () => api.get('/users');
 export const getPosts = (params?: Record<string, unknown>) => api.get('/posts', { params });
 export const getPost = (id: number) => api.get(`/posts/${id}`);
 export const getComments = (params?: Record<string, unknown>) => api.get('/comments', { params });
-export const createPost = (payload: Record<string, unknown>) => api.post('/posts', payload);
-export const updatePost = (id: number, payload: Record<string, unknown>) =>
-  api.put(`/posts/${id}`, payload);
+export const createPost = (payload: Omit<Post, 'id'>) => api.post('/posts', payload);
+export const updatePost = (id: number, payload: Partial<Omit<Post, 'id'>>) =>
+  api.patch(`/posts/${id}`, payload);
 export const deletePost = (id: number) => api.delete(`/posts/${id}`);
