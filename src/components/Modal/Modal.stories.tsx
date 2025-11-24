@@ -1,8 +1,8 @@
-import { Button } from '@components/Button/Button';
 import { useState } from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react';
 import { Modal } from './Modal';
+import { Button } from '../Button';
 
 const meta = {
   title: 'Overlay/Modal',
@@ -26,7 +26,7 @@ export const Default: Story = {
     backdropClose: true,
     closeLabel: 'Close modal',
   },
-  render: (args) => {
+  render: (args: Story['args']) => {
     const Demo = () => {
       const [open, setOpen] = useState(false);
 
