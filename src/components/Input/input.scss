@@ -1,0 +1,47 @@
+@use '@styles/variables' as *;
+
+.ui-input {
+  background: white;
+  border: 1px solid rgb(0 0 0 / 12%);
+  border-radius: 0.375rem;
+  font-family: $font-family;
+  outline: none;
+  padding: $space-md $space-lg;
+  transition:
+    box-shadow 0.12s ease,
+    transform 0.08s ease;
+
+  &:focus {
+    border-color: $color-primary;
+    box-shadow: 0 0 0 0.25rem rgb(0 103 255 / 6%);
+  }
+
+  &--small {
+    font-size: 0.875rem;
+    padding: $space-xs $space-sm;
+  }
+
+  &--medium {
+    font-size: 1rem;
+    padding: $space-md $space-lg;
+  }
+
+  &--large {
+    font-size: 1.125rem;
+    padding: 0.75rem 1rem;
+  }
+
+  &--disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+
+  &--primary {
+    background: $color-off-white;
+    color: $color-primary;
+  }
+
+  &--secondary {
+    border-color: $color-gray;
+  }
+}

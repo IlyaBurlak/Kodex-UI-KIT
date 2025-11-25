@@ -1,0 +1,111 @@
+import { getComments } from '@api';
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import { getErrorMessage } from '@store/utils';
+
+import type { RootState } from '@store';
+import {
+  applyLocalUpdates,
+  loadCommentUpdates,
+  loadLocalComments,
+  saveCommentUpdates,
+  saveLocalComments,
+} from './commentsStorage';
+import { Comment, EditCommentArgs, EditCommentResult } from './commentsTypes';
+
+const handleAsyncError = (error: unknown, rejectWithValue: Function) => {
+  return rejectWithValue(getErrorMessage(error));
+};
+
+export const fetchComments = createAsyncThunk<
+  { postId: number; comments: Comment[] },
+  number,
+  { state: RootState }
+>(
+  'comments/fetch',
+  async (postId: number, { rejectWithValue }) => {
+    try {
+      const response = await getComments({ postId });
+      let comments = applyLocalUpdates(response.data);
+
+      const localComments = loadLocalComments();
+      const localCommentsForPost = localComments.filter((localItem) => localItem.postId === postId);
+      const serverIds = new Set(comments.map((serverItem) => serverItem.id));
+
+      return {
+        postId,
+        comments: [
+          ...localCommentsForPost.filter((localItem) => !serverIds.has(localItem.id)),
+          ...comments,
+        ],
+      };
+    } catch (error) {
+      return handleAsyncError(error, rejectWithValue);
+    }
+  },
+  {
+    condition: (postId: number, { getState }) => {
+      const state = getState();
+      if (state.comments.loading) return false;
+      if (state.comments.items && state.comments.items.some((item) => item.postId === postId))
+        return false;
+      if (state.comments.fetchedPosts && state.comments.fetchedPosts[postId]) return false;
+      return true;
+    },
+  },
+);
+
+export const addComment = createAsyncThunk(
+  'comments/add',
+  async (comment: Omit<Comment, 'id'>, { rejectWithValue }) => {
+    try {
+      const newComment: Comment = { ...comment, id: -Date.now() };
+      const localComments = loadLocalComments();
+      saveLocalComments([newComment, ...localComments]);
+      return newComment;
+    } catch (error) {
+      return handleAsyncError(error, rejectWithValue);
+    }
+  },
+);
+
+export const editComment = createAsyncThunk<EditCommentResult, EditCommentArgs>(
+  'comments/edit',
+  async ({ id, payload }, { rejectWithValue }) => {
+    try {
+      const updates = {
+        ...loadCommentUpdates(),
+        [id]: { ...loadCommentUpdates()[id], ...payload },
+      };
+      saveCommentUpdates(updates);
+
+      const localComments = loadLocalComments();
+      const index = localComments.findIndex((localItem) => localItem.id === id);
+      if (index !== -1) {
+        localComments[index] = { ...localComments[index], ...payload };
+        saveLocalComments(localComments);
+      }
+
+      return { id, ...payload };
+    } catch (error) {
+      return handleAsyncError(error, rejectWithValue);
+    }
+  },
+);
+
+export const removeComment = createAsyncThunk(
+  'comments/remove',
+  async (id: number, { rejectWithValue }) => {
+    try {
+      const localComments = loadLocalComments().filter((localItem) => localItem.id !== id);
+      saveLocalComments(localComments);
+
+      const updates = { ...loadCommentUpdates() };
+      delete updates[id];
+      saveCommentUpdates(updates);
+
+      return id;
+    } catch (error) {
+      return handleAsyncError(error, rejectWithValue);
+    }
+  },
+);

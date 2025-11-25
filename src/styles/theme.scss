@@ -1,0 +1,47 @@
+:root {
+  --color-surface: #f9f9f9;
+  --color-text: #232323;
+  --color-primary: #0067ff;
+  --color-border: rgb(0 0 0 / 6%);
+  --ui-border-weak: rgb(0 0 0 / 4%);
+  --ui-hover: rgb(0 0 0 / 4%);
+  --ui-checked-bg: rgb(0 0 0 / 6%);
+  --font-family: 'Outfit', sans-serif;
+}
+
+.theme-dark {
+  --color-surface: #111418;
+  --color-text: #e7ebee;
+  --color-primary: #3790ff;
+  --color-border: rgb(255 255 255 / 6%);
+  --ui-border-weak: rgb(255 255 255 / 4%);
+  --ui-hover: rgb(255 255 255 / 4%);
+  --ui-checked-bg: rgb(255 255 255 / 6%);
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  font-family: var(--font-family), serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+}
+
+.color-primary {
+  color: var(--color-primary) !important;
+}
+
+.color-gray {
+  color: var(--color-text) !important;
+}
+
+.bg-light-gray,
+.bg-off-white {
+  background-color: var(--color-surface) !important;
+}

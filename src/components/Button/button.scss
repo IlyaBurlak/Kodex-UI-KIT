@@ -1,0 +1,65 @@
+@use '@styles/variables' as *;
+
+.ui-button {
+  background-color: $color-primary;
+  border: none;
+  border-radius: 0.5rem;
+  color: white;
+  cursor: pointer;
+  display: inline-block;
+  font-family: $font-family;
+  padding: $space-md $space-lg;
+  transition:
+    transform 0.08s ease,
+    box-shadow 0.08s ease;
+
+  &--primary {
+    background-color: $color-primary;
+  }
+
+  &--secondary {
+    background-color: $color-gray;
+  }
+
+  &--delete {
+    background-color: $color-danger;
+
+    &:hover {
+      filter: brightness(0.92);
+    }
+  }
+
+  &--small {
+    font-size: 0.875rem;
+    padding: $space-xs $space-sm;
+  }
+
+  &--medium {
+    font-size: 1rem;
+    padding: $space-md $space-lg;
+  }
+
+  &--large {
+    font-size: 1.125rem;
+    padding: 0.875rem 1.25rem;
+  }
+
+  &:active {
+    transform: translateY(0.0625rem);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    filter: none;
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  &:disabled:hover {
+    transform: none;
+  }
+
+  & + & {
+    margin-left: $space-sm;
+  }
+}

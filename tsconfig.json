@@ -1,0 +1,41 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+    "baseUrl": "src",
+    "paths": {
+      "@/*": ["*"],
+      "@components": ["components/index"],
+      "@components/*": ["components/*"],
+      "@widgets": ["widgets/index"],
+      "@widgets/*": ["widgets/*"],
+      "@store": ["store/index"],
+      "@store/*": ["store/*"],
+      "@hooks": ["hooks/index"],
+      "@hooks/*": ["hooks/*"],
+      "@api": ["api/index"],
+      "@api/*": ["api/*"],
+      "@styles": ["styles/index"],
+      "@styles/*": ["styles/*"],
+      "@shared/*": ["components/shared/*", "shared/*"]
+    },
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "types": ["jest", "node"],
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true
+  },
+  "include": ["src", "shared", "**/*.test.ts", "**/*.test.tsx"],
+  "exclude": ["**/*.stories.*", ".storybook", "dist", "node_modules"]
+}

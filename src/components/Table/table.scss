@@ -1,0 +1,60 @@
+@use '@styles/variables' as *;
+
+.ui-table {
+  background: var(--color-surface);
+  border-collapse: collapse;
+  color: var(--color-text);
+  font-family: var(--font-family, #{$font-family});
+  width: 100%;
+
+  th,
+  td {
+    border-bottom: 1px solid var(--color-border);
+    padding: $space-sm $space-md;
+    text-align: left;
+    vertical-align: middle;
+  }
+
+  thead th {
+    background: var(--ui-checked-bg);
+    color: var(--color-text);
+    font-weight: 600;
+  }
+
+  &--small th,
+  &--small td {
+    font-size: 0.875rem;
+    padding: $space-xs $space-sm;
+  }
+
+  &--medium th,
+  &--medium td {
+    font-size: 1rem;
+  }
+
+  &--large th,
+  &--large td {
+    font-size: 1.125rem;
+    padding: 0.75rem 1rem;
+  }
+
+  &--striped tbody tr:nth-child(odd) td {
+    background: var(--ui-hover);
+  }
+
+  &--bordered th,
+  &--bordered td {
+    border: 1px solid var(--color-border);
+  }
+
+  &--hover tbody tr:hover td {
+    background: var(--ui-hover);
+  }
+
+  &__empty {
+    color: var(--color-text);
+    opacity: 0.8;
+    padding: $space-md;
+    text-align: center;
+  }
+}

@@ -1,0 +1,62 @@
+@charset 'utf-8';
+
+$font-family: 'Outfit', sans-serif;
+$font-weight-light: 300;
+$font-weight-regular: 400;
+$font-weight-medium: 500;
+$font-weight-semi-bold: 600;
+$font-size-xxl: 5.625rem;
+$font-size-xl: 4.375rem;
+$font-size-lg: 3.125rem;
+$color-dark: #232323;
+$color-primary: #0067ff;
+$color-danger: #d9534f;
+$color-gray: #6e7174;
+$color-gray-dark: #4f5153;
+$color-light-gray: #e7ebee;
+$color-off-white: #f9f9f9;
+$space-xs: 0.375rem;
+$space-sm: 0.625rem;
+$space-md: 1rem;
+$space-lg: 1.25rem;
+
+%heading {
+  color: $color-dark;
+  font-family: $font-family;
+  font-weight: $font-weight-semi-bold;
+  text-transform: uppercase;
+}
+
+%body-text {
+  color: $color-dark;
+  font-family: $font-family;
+  font-weight: $font-weight-regular;
+}
+
+.text-xxl {
+  font-size: $font-size-xxl;
+}
+
+.text-xl {
+  font-size: $font-size-xl;
+}
+
+.text-lg {
+  font-size: $font-size-lg;
+}
+
+.color-primary {
+  color: $color-primary;
+}
+
+.color-gray {
+  color: $color-gray;
+}
+
+.bg-light-gray {
+  background-color: $color-light-gray;
+}
+
+.bg-off-white {
+  background-color: $color-off-white;
+}

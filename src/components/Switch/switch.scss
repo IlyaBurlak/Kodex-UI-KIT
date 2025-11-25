@@ -1,0 +1,101 @@
+@use '@styles/variables' as *;
+
+.ui-switch {
+  align-items: center;
+  cursor: pointer;
+  display: inline-flex;
+  font-family: $font-family;
+  gap: $space-sm;
+  user-select: none;
+
+  &__input {
+    height: 0;
+    opacity: 0;
+    position: absolute;
+    width: 0;
+  }
+
+  &__track {
+    align-items: center;
+    background: $color-light-gray;
+    border-radius: 999px;
+    display: inline-flex;
+    height: 1.25rem;
+    padding: 0.125rem;
+    position: relative;
+    transition: background-color 160ms ease;
+    width: 2.25rem;
+  }
+
+  &__thumb {
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 1px 2px rgba($color-dark, 0.12);
+    height: 1rem;
+    left: 0.125rem;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    transition:
+      left 180ms cubic-bezier(0.2, 0.9, 0.2, 1),
+      background-color 160ms ease;
+    width: 1rem;
+  }
+
+  &__input:checked + &__track {
+    background: $color-primary;
+  }
+
+  &__input:checked + &__track &__thumb {
+    left: calc(100% - 0.125rem - 1rem);
+  }
+
+  &--small {
+    &__track {
+      height: 1rem;
+      width: 1.75rem;
+    }
+
+    &__thumb {
+      height: 0.75rem;
+      width: 0.75rem;
+    }
+
+    &__input:checked + &__track &__thumb {
+      left: calc(100% - 0.125rem - 0.75rem);
+    }
+  }
+
+  &--large {
+    &__track {
+      height: 1.5rem;
+      width: 2.75rem;
+    }
+
+    &__thumb {
+      height: 1.125rem;
+      width: 1.125rem;
+    }
+
+    &__input:checked + &__track &__thumb {
+      left: calc(100% - 0.125rem - 1.125rem);
+    }
+  }
+
+  &--disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+
+  &--primary {
+    &__track {
+      border-color: $color-primary;
+    }
+  }
+
+  &--secondary {
+    &__track {
+      border-color: $color-gray;
+    }
+  }
+}

@@ -1,0 +1,35 @@
+@use '@styles/variables' as *;
+
+.w-sidebar-widget {
+  display: block;
+
+  &__header {
+    align-items: center;
+    border-bottom: 1px solid rgb(0 0 0 / 5%);
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 12px;
+
+    &-left {
+      align-items: center;
+      display: flex;
+      gap: 8px;
+    }
+
+    &-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    &-actions {
+      display: flex;
+      gap: 8px;
+    }
+  }
+
+  .ui-sidebar__option-icon > .ui-switch {
+    transform: scale(0.92);
+    transform-origin: center;
+  }
+}
