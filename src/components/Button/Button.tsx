@@ -3,7 +3,7 @@ import { CSSProperties, FC, MouseEvent } from 'react';
 import './button.scss';
 
 import { ButtonProps } from '@/components';
-import { classNames } from '@shared/classNames';
+import { classNames } from '@/shared/classNames';
 
 export const Button: FC<ButtonProps> = ({
   primary = false,
@@ -16,14 +16,14 @@ export const Button: FC<ButtonProps> = ({
   type = 'button',
   ...props
 }) => {
-  const className = classNames(
-    'ui-button',
-    `ui-button--${size}`,
+  const classes = classNames(
     {
-      [`ui-button--${variant}`]: variant && variant !== 'default',
+      'ui-button': true,
+      [`ui-button--${size}`]: true,
+      [`ui-button--${variant}`]: !!(variant && variant !== 'default'),
       'ui-button--primary': variant === 'default' && primary,
       'ui-button--secondary': variant === 'default' && !primary,
-      'ui-button--disabled': props.disabled,
+      'ui-button--disabled': !!props.disabled,
     },
     userClassName,
   );
@@ -39,7 +39,7 @@ export const Button: FC<ButtonProps> = ({
   };
 
   return (
-    <button {...props} className={className} style={style} type={type} onClick={handleClick}>
+    <button {...props} className={classes} style={style} type={type} onClick={handleClick}>
       {children}
     </button>
   );

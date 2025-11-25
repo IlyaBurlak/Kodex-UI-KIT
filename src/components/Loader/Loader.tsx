@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 import './loader.scss';
 
-import { classNames } from '@shared/classNames';
+import { classNames } from '@/shared/classNames';
 
 import type { LoaderProps } from '@/components';
 

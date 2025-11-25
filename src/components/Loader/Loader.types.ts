@@ -1,3 +1,3 @@
-import type { BaseProps } from '@components/shared/types';
+import type { BaseProps } from '@/shared/types';
 
 export interface LoaderProps extends BaseProps {}

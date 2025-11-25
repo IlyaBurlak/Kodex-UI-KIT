@@ -1,4 +1,4 @@
-import { classNames } from './index';
+import { classNames } from './index.ts';
 
 describe('classNames', () => {
   it('Обрабатывает строковые аргументы', () => {

@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 import './select.scss';
 
-import { classNames } from '@shared/classNames';
+import { classNames } from '@/shared/classNames';
 
 import type { SelectProps } from '@/components';
 
@@ -18,16 +18,20 @@ export const Select: FC<SelectProps> = ({
   placeholder,
   ...props
 }) => {
-  const classList = [
-    'ui-select',
-    `ui-select--${size}`,
-    primary ? 'ui-select--primary' : 'ui-select--secondary',
-    disabled ? 'ui-select--disabled' : '',
-  ].filter(Boolean);
+  const classes = classNames(
+    {
+      'ui-select': true,
+      [`ui-select--${size}`]: true,
+      'ui-select--disabled': disabled,
+      'ui-select--primary': primary,
+      'ui-select--secondary': !primary,
+    },
+    className,
+  );
 
   return (
     <select
-      className={classNames(...classList, className)}
+      className={classes}
       defaultValue={defaultValue}
       disabled={disabled}
       value={value}

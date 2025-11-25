@@ -4,11 +4,18 @@ import { Outlet } from 'react-router-dom';
 
 import '@styles/layout.scss';
 
+import { classNames } from '@/shared/classNames';
+
 export const MainLayout: FC = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   return (
-    <div className={`app-layout ${sidebarCollapsed ? 'app-layout--sidebar-collapsed' : ''}`}>
+    <div
+      className={classNames({
+        'app-layout': true,
+        'app-layout--sidebar-collapsed': !!sidebarCollapsed,
+      })}
+    >
       <div className='app-layout__sidebar'>
         <SidebarWidget onToggle={(nextCollapsed) => setSidebarCollapsed(Boolean(nextCollapsed))} />
       </div>

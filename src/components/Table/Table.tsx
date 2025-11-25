@@ -1,6 +1,6 @@
 import './table.scss';
 
-import { classNames } from '@shared/classNames';
+import { classNames } from '@/shared/classNames';
 
 import type { TableProps } from '@/components';
 import type { ReactNode, TableHTMLAttributes } from 'react';
@@ -22,12 +22,14 @@ export function Table<T = Record<string, unknown>>(
     ...rest
   } = props;
 
-  const classList = classNames(
-    'ui-table',
-    `ui-table--${size}`,
-    striped && 'ui-table--striped',
-    bordered && 'ui-table--bordered',
-    hover && 'ui-table--hover',
+  const classes = classNames(
+    {
+      'ui-table': true,
+      [`ui-table--${size}`]: true,
+      'ui-table--striped': !!striped,
+      'ui-table--bordered': !!bordered,
+      'ui-table--hover': !!hover,
+    },
     className,
   );
 
@@ -42,7 +44,7 @@ export function Table<T = Record<string, unknown>>(
   };
 
   return (
-    <table className={classList} {...rest}>
+    <table className={classes} {...rest}>
       <thead>
         <tr>
           {columns.map((col, colIdx) => (

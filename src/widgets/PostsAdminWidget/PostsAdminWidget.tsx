@@ -12,7 +12,7 @@ import './postsAdmin.scss';
 import { Loader } from '@components';
 import { ErrorDisplay } from '@widgets/ErrorWidget/ErrorDisplay';
 
-import { Post } from './types.ts';
+import { Post } from './types';
 
 export type PostsAdminWidgetProps = { initialAuthorId?: number };
 

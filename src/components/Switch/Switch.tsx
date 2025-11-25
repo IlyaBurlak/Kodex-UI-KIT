@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 import './switch.scss';
 
-import { classNames } from '@shared/classNames';
+import { classNames } from '@/shared/classNames';
 
 import type { SwitchProps } from '@/components';
 
@@ -17,15 +17,19 @@ export const Switch: FC<SwitchProps> = ({
   primary = false,
   ...props
 }) => {
-  const classList = [
-    'ui-switch',
-    `ui-switch--${size}`,
-    primary ? 'ui-switch--primary' : 'ui-switch--secondary',
-    disabled ? 'ui-switch--disabled' : '',
-  ].filter(Boolean);
+  const classes = classNames(
+    {
+      'ui-switch': true,
+      [`ui-switch--${size}`]: true,
+      'ui-switch--disabled': disabled,
+      'ui-switch--primary': primary,
+      'ui-switch--secondary': !primary,
+    },
+    className,
+  );
 
   return (
-    <label className={classNames(...classList, className)}>
+    <label className={classes}>
       <input
         checked={checked}
         className='ui-switch__input'

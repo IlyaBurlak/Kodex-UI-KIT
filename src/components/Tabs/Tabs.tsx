@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from 'react';
 
 import './tabs.scss';
 
-import { classNames } from '@shared/classNames';
+import { classNames } from '@/shared/classNames';
 
 import { Tab } from './Tab';
 import { TabsProps } from './Tabs.types';

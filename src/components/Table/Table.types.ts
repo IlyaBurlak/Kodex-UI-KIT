@@ -1,4 +1,4 @@
-import type { BaseProps } from '@components/shared/types';
+import type { BaseProps } from '@/shared/types';
 import type { ReactNode } from 'react';
 
 export interface Column<T = Record<string, unknown>> {

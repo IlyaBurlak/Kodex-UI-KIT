@@ -1,6 +1,6 @@
 import { InputHTMLAttributes } from 'react';
 
-import type { BaseProps } from '@components/shared/types';
+import type { BaseProps } from '@/shared/types';
 
 export interface InputProps
   extends BaseProps,

@@ -3,7 +3,7 @@ import { FC, useEffect } from 'react';
 import './modal.scss';
 
 import { ModalProps } from '@/components';
-import { classNames } from '@shared/classNames';
+import { classNames } from '@/shared/classNames';
 
 export const Modal: FC<ModalProps> = ({
   isOpen,
